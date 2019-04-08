@@ -1,0 +1,9 @@
+#And the accepted values are:
+
+#memoryRequest: 1
+#memoryBurst: 2
+#cpuRequest: 250
+#cpuBurst: 750
+#user: services@sfxworks.net
+#storage: 24
+#playerName: sfxworks 

@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  server-deployment:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-04-08T02:04:15.80494-04:00
+    description: MCSH Main Deployment
+    digest: 9a332b1d626c0b9040278256e08c399e99d86905b9d4b2b195e74e7f14dc4bfe
+    name: server-deployment
+    urls:
+    - https://mcserverhosting-net.github.io/charts/server-deployment-1.tgz
+    version: "1"
+generated: 2019-04-08T02:04:15.8038863-04:00

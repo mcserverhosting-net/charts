@@ -1,0 +1,12 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{ .Release.Name }}-binding
+subjects:
+- kind: User
+  name: {{ .Values.user }}
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: {{ .Release.Name }}-manager
+  apiGroup: ""

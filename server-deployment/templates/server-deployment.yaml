@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-server
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-server
+  replicas: 1
+  template:
+    metadata:
+      name: {{ .Release.Name }}-server
+      labels:
+        app: {{ .Release.Name }}-server
+    spec:
+      nodeSelector:
+        core: i7
+      containers:
+      - name: ssh
+        env:
+        - name: ROOT_PASSWORD
+          value: {{ randAlphaNum 10 }}
+        image: docker.io/mobilecommercelab/sshd-password
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 22
+          name: ssh
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /root/minecraft
+          name: minecraft-volume
+      - name: mc-server
+        image: docker.io/itzg/minecraft-server
+        tty: true
+        stdin: true
+        env:
+        - name: EULA
+          value: "TRUE"
+        - name: ICON
+          value: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7
+        - name: ENABLE_RCON
+          value: "TRUE"
+        - name: RCON_PASSWORD
+          value: {{ randAlphaNum 32 }}
+        - name: MAX_PLAYERS
+          value: "2019"
+        - name: SERVER_NAME
+          value: {{ .Release.Name }}
+        - name: MOTD
+          value: "MCServerHosting.net Server ID: {{ .Release.Name }}"
+        - name: INIT_MEMORY
+          value: {{ .Values.memoryRequest }}G
+        - name: MAX_MEMORY
+          value: {{ .Values.memoryBurst }}G
+        - name: TYPE
+          value: FORGE
+        - name: MODPACK
+          value: https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar
+        resources:
+          limits:
+            cpu:  {{ .Values.cpuBurst }}m
+            memory: {{ .Values.memoryBurst }}Gi
+          requests:
+            cpu:  500m
+            memory:  {{ .Values.memoryRequest }}Gi
+        ports:
+        - containerPort: 25565
+          name: minecraft
+        - containerPort: 25570
+          name: rcon
+        volumeMounts:
+        - name: minecraft-volume
+          mountPath: /data
+      volumes:
+      - name: minecraft-volume
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pv-claim
+      restartPolicy: Always
