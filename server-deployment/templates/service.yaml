@@ -13,9 +13,9 @@ spec:
     protocol: TCP
     targetPort: 25565
   - name: rcon
-    port: 25570
+    port: 25575
     protocol: TCP
-    targetPort: 25570
+    targetPort: 25575
   - name: extra
     port: 25567
     targetPort: 25567
