@@ -1,0 +1,25 @@
+kind: Restic
+apiVersion: stash.appscode.com/v1alpha1
+metadata:
+  name: s3-restic
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-server
+  fileGroups:
+  - path: /data
+    retentionPolicyName: 'keep-last-60'
+  backend:
+    s3:
+      endpoint: '{{ .Values.S3_ENDPOINT }}'
+      bucket: stash
+      prefix: user/{{ .Release.Namespace }}
+    storageSecretName: s3-secret
+  schedule: '@midnight'
+  volumeMounts:
+  - mountPath: /data
+    name: minecraft-volume
+  retentionPolicies:
+  - name: 'keep-last-60'
+    keepLast: 60
+    prune: true
