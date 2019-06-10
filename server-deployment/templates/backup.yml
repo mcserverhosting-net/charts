@@ -1,25 +1,35 @@
-kind: Restic
+apiVersion: v1
+data:
+  AWS_ACCESS_KEY_ID: {{ .Values.AWS_ACCESS_KEY_ID | quote }}
+  AWS_SECRET_ACCESS_KEY: {{ .Values.AWS_SECRET_ACCESS_KEY | quote }}
+  RESTIC_PASSWORD: {{ randAlphaNum 20 | b64enc | quote }}
+kind: Secret
+metadata:
+  name: s3-secret
+type: Opaque
+---
 apiVersion: stash.appscode.com/v1alpha1
+kind: Restic
 metadata:
   name: s3-restic
 spec:
+  backend:
+    s3:
+      bucket: stash
+      endpoint: {{ .Values.S3_ENDPOINT }}
+      prefix: main
+    storageSecretName: s3-secret
+  fileGroups:
+  - path: /data
+    retentionPolicyName: keep-last-120
+  retentionPolicies:
+  - keepLast: 120
+    name: keep-last-120
+    prune: true
+  schedule: '0 */12 * * *'
   selector:
     matchLabels:
       app: {{ .Release.Name }}-server
-  fileGroups:
-  - path: /data
-    retentionPolicyName: 'keep-last-60'
-  backend:
-    s3:
-      endpoint: '{{ .Values.S3_ENDPOINT }}'
-      bucket: stash
-      prefix: user/{{ .Release.Namespace }}
-    storageSecretName: s3-secret
-  schedule: '@midnight'
   volumeMounts:
   - mountPath: /data
     name: minecraft-volume
-  retentionPolicies:
-  - name: 'keep-last-60'
-    keepLast: 60
-    prune: true
