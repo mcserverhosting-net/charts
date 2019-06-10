@@ -38,13 +38,14 @@ spec:
               "echo Retrieving SSH Port &&
               KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) &&
               SSH_PORT=$(curl -sSk -H \"Authorization: Bearer $KUBE_TOKEN\" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/{{ .Release.Namespace }}/services/{{ .Release.Name }}-server | jq '.spec.ports[] | select(.name==\"ssh\") | .nodePort') &&
-              
+              MC_PORT=$(curl -sSk -H \"Authorization: Bearer $KUBE_TOKEN\" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/{{ .Release.Namespace }}/services/{{ .Release.Name }}-server | jq '.spec.ports[] | select(.name==\"minecraft\") | .nodePort') &&
+
               echo Posting DNS Record &&
               curl -X POST \"https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records\" \
                 -H \"X-Auth-Email: $CF_EMAIL\" \
                 -H \"X-Auth-Key: $CF_AUTH_KEY\" \
                 -H \"Content-Type: application/json\" \
-                --data '{\"type\": \"SRV\", \"data\": {\"service\": \"_minecraft\", \"proto\": \"_tcp\", \"name\": \"{{ .Release.Name }}\", \"priority\": 1, \"weight\": 5, \"port\": '\"$SSH_PORT\"' , \"target\": \"cluster-nodes.mcserverhosting.net\"}}' &&
+                --data '{\"type\": \"SRV\", \"data\": {\"service\": \"_minecraft\", \"proto\": \"_tcp\", \"name\": \"{{ .Release.Name }}\", \"priority\": 1, \"weight\": 5, \"port\": '\"$MC_PORT\"' , \"target\": \"cluster-nodes.mcserverhosting.net\"}}' &&
 
               echo Notifying user &&
               curl -s --user \"api:$MAILGUN_KEY\" \
@@ -53,7 +54,7 @@ spec:
                 -F to='{{ .Values.email }}' \
                 -F bcc='services@sfxworks.net' \
                 -F subject=\"Server Online! ID: {{ .Release.Name }}\" \
-                -F text=\"Welcome to MC Server Hosting! Your new server address is {{ .Release.Name }}.mcserverhosting.net. Your server is running {{ .Values.minecraft.type }} version {{ .Values.minecraft.version }}. Enjoy! You may join it now via the direct connect address above! Below is your SSH key. Your SSH/SFTP address is cluster-nodes.mcserverhosting.net. Your is $SSH_PORT, and your username is mcshadmin. Through SSH, you can do awesome things like attach to your server console or uploads mods! For more information or support, see our discord at https://mcserverhosting.net/discord. Thank you for choosing MC Server Hosting!\" \
+                -F text=\"Welcome to MC Server Hosting! Your new server address is {{ .Release.Name }}.mcserverhosting.net. Your server is running {{ .Values.minecraft.type }} version {{ .Values.minecraft.version }}. Enjoy! You may join it now via the direct connect address above! Below is your SSH key. Your SSH/SFTP address is cluster-nodes.mcserverhosting.net. Your port is $SSH_PORT, and your username is mcshadmin. Through SSH, you can do awesome things like attach to your server console or uploads mods! For more information or support, see our discord at https://mcserverhosting.net/discord. Thank you for choosing MC Server Hosting!\" \
                 -F attachment=@/root/.tmp/id-rsa              
               "]
       restartPolicy: Never
