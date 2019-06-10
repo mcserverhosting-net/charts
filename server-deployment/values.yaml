@@ -1,9 +1,65 @@
-#And the accepted values are:
 
-#memoryRequest: 1
-#memoryBurst: 2
-#cpuRequest: 250
-#cpuBurst: 750
-#user: services@sfxworks.net
-#storage: 24
-#playerName: sfxworks 
+#Backup targets
+AWS_ACCESS_KEY_ID: 
+AWS_SECRET_ACCESS_KEY: 
+S3_ENDPOINT: 
+
+#Mailgun
+MAILGUN_KEY: 
+
+#Cloudflare
+cloudflare:
+  zoneid: 
+  email: 
+  apikey: 
+
+
+#General Data
+memoryBurst: 2
+email: sfxworks@gmail.com
+storage: 12
+minecraft:
+  version: LATEST
+  type: VANILLA #Options VANILLA, BUKKIT, FORGE, PAPER, FTB, CURSEFORGE and SPIGOT
+  forge: 
+    version: 14.23.5.2768
+  config:
+    icon: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7
+    ops: sfxworks
+    #whitelist: sfxworks
+    eula: true
+  properties: 
+    motd: "Your new MCServerHosting server!"
+    mode: survival
+    #seed: mcsh
+    #pvp: true
+    #view: 10
+    #npcs: true
+    #animals: true
+    #tick: 60000
+    #height: 256
+    #snooper: false
+    #hardcore: false
+    #force: false
+    #command: false
+    #achievements: true
+    #nether: true
+    #world: 10000
+    players: 2019
+    #query: true
+    #rcon: true
+    #difficulty: easy
+    #flight: true
+    #level:
+      #name: world
+      #type: default
+
+
+#BUKKIT_DOWNLOAD_URL
+#SPIGOT_DOWNLOAD_URL
+
+#FTB_SERVER_MOD
+#CF_SERVER_MOD
+#WORLD=http://www.example.com/worlds/MySave.zip
+#MODPACK=http://www.example.com/mods/modpack.zip ...
+#REMOVE_OLD_MODS="TRUE" -e MODPACK=http://www.example.com/mods/modpack.zip ...

@@ -6,18 +6,17 @@ metadata:
     type:  {{ .Release.Name }}-server
 spec:
   type: NodePort
-  externalTrafficPolicy: Local
   ports:
   - name: minecraft
     port: 25565
     protocol: TCP
-    targetPort: 25565
   - name: rcon
-    port: 25570
+    port: 25575
     protocol: TCP
-    targetPort: 25570
   - name: extra
     port: 25567
-    targetPort: 25567
+  - name: ssh
+    port: 22
+    protocol: TCP
   selector:
     app:  {{ .Release.Name }}-server
