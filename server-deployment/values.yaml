@@ -1,17 +1,26 @@
 
 #Backup targets
-AWS_ACCESS_KEY_ID: 
-AWS_SECRET_ACCESS_KEY: 
-S3_ENDPOINT: swift.example.net
+AWS_ACCESS_KEY_ID: =
+AWS_SECRET_ACCESS_KEY: =
+S3_ENDPOINT: 
+
+#Mailgun
+MAILGUN_KEY: 
+
+#Cloudflare
+cloudflare:
+  zoneid: 
+  email: 
+  apikey: 
+
 
 #General Data
-memoryRequest: 1
 memoryBurst: 2
-user: services@sfxworks.net
-storage: 10
+email: sfxworks@gmail.com
+storage: 12
 minecraft:
   version: LATEST
-  type: Vanilla #Other options are BUKKIT, FORGE, PAPER, FTB, CURSEFORGE and SPIGOT
+  type: VANILLA #Options VANILLA, BUKKIT, FORGE, PAPER, FTB, CURSEFORGE and SPIGOT
   forge: 
     version: 14.23.5.2768
   config:
@@ -20,8 +29,8 @@ minecraft:
     #whitelist: sfxworks
     eula: true
   properties: 
-    motd: "MCSH MC-B Test Server"
-    mode: adventure
+    motd: "Your new MCServerHosting server!"
+    mode: survival
     #seed: mcsh
     #pvp: true
     #view: 10
@@ -36,8 +45,7 @@ minecraft:
     #achievements: true
     #nether: true
     #world: 10000
-    rconPassword: DfKFjd7HmprTKjNbWLkpDwa7
-    players: 30
+    players: 2019
     #query: true
     #rcon: true
     #difficulty: easy
@@ -45,8 +53,6 @@ minecraft:
     #level:
       #name: world
       #type: default
-
-
 
 
 #BUKKIT_DOWNLOAD_URL

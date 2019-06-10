@@ -13,26 +13,81 @@ spec:
       labels:
         app: {{ .Release.Name }}-server
     spec:
+      serviceAccountName: mcsh-sa
       nodeSelector:
         core: i7
+      initContainers:
+      - name: generate-publickey
+        image: harbor.sfxworks.net/library/mcshlet@sha256:fd7f9ccc11b3cdc0ee99ea254fd19ad3520cb4ce45fbec3416a0b1e8d01f17f0
+        imagePullPolicy: IfNotPresent
+        command: ['/bin/sh']
+        args: ['-c', 'ssh-keygen -y -f /root/.tmp/id-rsa > /home/mcshadmin/.ssh/authorized_keys &&
+              chown 1000:1000 /home/mcshadmin/.ssh/authorized_keys ']
+        volumeMounts:
+        - mountPath: /root/.tmp
+          name: tmp
+        - mountPath: /home/mcshadmin/.ssh
+          name: ssh
       containers:
       - name: ssh
+        readinessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 20
+          periodSeconds: 20
+        livenessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 60
+          periodSeconds: 20
+        securityContext:
+          fsGroup: 1000
+        image: harbor.sfxworks.net/library/mcshlet@sha256:fd7f9ccc11b3cdc0ee99ea254fd19ad3520cb4ce45fbec3416a0b1e8d01f17f0
+        resources:
+          limits:
+            memory: 100Mi
+            cpu: 50m
+          requests:
+            memory: 25Mi
+            cpu: 10m
+        imagePullPolicy: IfNotPresent
         env:
-        - name: ROOT_PASSWORD
-          value: {{ randAlphaNum 20 }}
-        image: docker.io/mobilecommercelab/sshd-password
-        imagePullPolicy: Always
+        - name: PASSWORD
+          value: {{ randAlphaNum 48 | quote}}
         ports:
         - containerPort: 22
           name: ssh
           protocol: TCP
         volumeMounts:
-        - mountPath: /data
+        - mountPath: /home/mcshadmin/minecraft
           name: minecraft-volume
+        - mountPath: /home/mcshadmin/.ssh
+          name: ssh
       - name: mc-server
-        image: docker.io/itzg/minecraft-server
+        readinessProbe:
+          exec:
+            command:
+            - mcstatus
+            - localhost
+            - status
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command:
+            - mcstatus
+            - localhost
+            - status
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          failureThreshold: 5
+        image: docker.io/itzg/minecraft-server@sha256:c7dde76b3c6ac4cf66ddedd80eae8aea39d5bb70ae4092bc952e43298e97e9e8
         tty: true
         stdin: true
+        securityContext:
+          runAsUser: 1000
+          fsGroup: 1000
+        imagePullPolicy: IfNotPresent
         env:
         - name: EULA
           value: "{{ .Values.minecraft.config.eula }}"
@@ -41,33 +96,30 @@ spec:
         - name: ENABLE_RCON
           value: "true"
         - name: RCON_PASSWORD
-          value: {{ .Values.minecraft.properties.rconPassword }}
+          value:  {{ randAlphaNum 20 | quote }}
         - name: MAX_PLAYERS
-          value: "{{ .Values.minecraft.properties.players }}"
+          value: {{ default "2019" .Values.minecraft.properties.players | quote}}
         - name: SERVER_NAME
           value: {{ .Release.Name }}
         - name: MOTD
-          value: {{ .Values.minecraft.properties.motd }}
-        - name: INIT_MEMORY
-          value: {{ .Values.memoryRequest }}G
+          value: {{ default "Welcome to your MCSH server!" .Values.minecraft.properties.motd }}
         - name: MAX_MEMORY
           value: {{ .Values.memoryBurst }}G
         - name: TYPE
           value: {{ .Values.minecraft.type }}
         - name: VERSION
-          value: {{ .Values.minecraft.version }}
+          value: {{ .Values.minecraft.version | quote }}
         - name: MODE
           value: {{ .Values.minecraft.properties.mode }}
         - name: OPS
-          value: {{ .Values.minecraft.config.ops }}
-        {{if eq .Values.minecraft.version "FORGE"}}
-        - name: FORGEVERSION
-          value: {{ .Values.minecraft.forge.version }}
-        {{end}}
+          value: {{ default "sfxworks" .Values.minecraft.config.ops }}
+        - name: BUKKIT_DOWNLOAD_URL
+          value: https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.14.2-R0.1-SNAPSHOT.jar
         resources:
           limits:
             memory: {{ .Values.memoryBurst }}Gi
           requests:
+            memory: 1Gi
             cpu: 250m
         ports:
         - containerPort: 25565
@@ -81,4 +133,10 @@ spec:
       - name: minecraft-volume
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-pv-claim
+      - name: ssh
+        emptyDir: {}
+      - name: tmp
+        secret:
+          secretName: ssh
+          defaultMode: 256
       restartPolicy: Always
