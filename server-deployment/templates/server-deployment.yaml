@@ -13,6 +13,7 @@ spec:
       labels:
         app: {{ .Release.Name }}-server
     spec:
+      terminationGracePeriodSeconds: 60
       serviceAccountName: mcsh-sa
       nodeSelector:
         core: i7
@@ -29,6 +30,44 @@ spec:
         - mountPath: /home/mcshadmin/.ssh
           name: ssh
       containers:
+      - name: backup
+        volumeMounts:
+        - mountPath: /home/mcshadmin/minecraft
+          name: minecraft-volume
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: restic
+              key: access
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: restic
+              key: secret
+        - name: S3_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: restic
+              key: endpoint
+        - name: RESTIC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: restic
+              key: password
+        image: docker.io/restic/restic
+        command: ['/bin/sh']
+        args: ['-c',
+              "while true;
+              do 
+                sleep 2m;
+                restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} --exclude=\"*.zip\" --verbose backup /home/mcshadmin/minecraft;
+                restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} forget --keep-last 120 --prune;
+                echo LATEST SNAPSHOT DATA BELOW;
+                restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} snapshots;
+                sleep 12h;
+              done
+              "]
       - name: ssh
         readinessProbe:
           tcpSocket:
@@ -63,6 +102,23 @@ spec:
           name: minecraft-volume
         - mountPath: /home/mcshadmin/.ssh
           name: ssh
+      - name: tunnel
+        image: harbor.sfxworks.net/library/mcsh-cloudflared@sha256:f9189018b79cbe00932ad515497587140a50cbc35f496ae9667f47389c5cc01c
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: HOSTSUB
+          value: {{ .Release.Name }}-ssh
+        resources:
+          limits:
+            cpu: 10m
+            memory: 20Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+        volumeMounts:
+        - mountPath: /etc/cloudflared
+          name: tunnel-secret
+          readOnly: true
       - name: mc-server
         readinessProbe:
           exec:
@@ -84,9 +140,6 @@ spec:
         image: docker.io/itzg/minecraft-server@sha256:c7dde76b3c6ac4cf66ddedd80eae8aea39d5bb70ae4092bc952e43298e97e9e8
         tty: true
         stdin: true
-        securityContext:
-          runAsUser: 1000
-          fsGroup: 1000
         imagePullPolicy: IfNotPresent
         env:
         - name: EULA
@@ -114,7 +167,15 @@ spec:
         - name: OPS
           value: {{ default "sfxworks" .Values.minecraft.config.ops }}
         - name: BUKKIT_DOWNLOAD_URL
-          value: https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.14.2-R0.1-SNAPSHOT.jar
+          value: https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.8-R0.1-SNAPSHOT-latest.jar
+        - name: SPIGOT_DOWNLOAD_URL
+          value: https://cdn.getbukkit.org/spigot/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar #TODO make dict of all these
+        - name: FORGEVERSION
+          value: {{ .Values.minecraft.forge.version | quote }}
+        - name: UID
+          value: "1000"
+        #- name: MODS
+        #  value: https://repo.spongepowered.org/maven/org/spongepowered/spongeforge/1.12.2-2825-7.1.6/spongeforge-1.12.2-2825-7.1.6.jar
         resources:
           limits:
             memory: {{ .Values.memoryBurst }}Gi
@@ -129,17 +190,18 @@ spec:
         volumeMounts:
         - name: minecraft-volume
           mountPath: /data
+      restartPolicy: Always
       volumes:
-      - name: minecraft-volume
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-pv-claim
       - name: ssh
         emptyDir: {}
+      - name: tunnel-secret
+        secret:
+          secretName: cloudflared
       - name: tmp
         secret:
           secretName: ssh
           defaultMode: 256
-      restartPolicy: Always  volumeClaimTemplates:
+  volumeClaimTemplates:
   - metadata:
       name: minecraft-volume
     spec:
