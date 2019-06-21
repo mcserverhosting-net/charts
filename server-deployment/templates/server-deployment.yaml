@@ -79,8 +79,6 @@ spec:
             port: 22
           initialDelaySeconds: 60
           periodSeconds: 20
-        securityContext:
-          fsGroup: 1000
         image: harbor.sfxworks.net/library/mcshlet@sha256:fd7f9ccc11b3cdc0ee99ea254fd19ad3520cb4ce45fbec3416a0b1e8d01f17f0
         resources:
           limits:
