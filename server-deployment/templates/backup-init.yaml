@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backup-init
+spec:
+  template:
+    spec:
+      containers:
+      - name: backup-init
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: restic
+              key: access
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: restic
+              key: secret
+        - name: S3_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: restic
+              key: endpoint
+        - name: RESTIC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: restic
+              key: password
+        image: docker.io/restic/restic
+        command: ['/bin/sh']
+        args: ['-c',
+              "restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} init"]
+      restartPolicy: Never
+  backoffLimit: 4
