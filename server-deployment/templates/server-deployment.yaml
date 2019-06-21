@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}-server
 spec:
@@ -139,4 +139,12 @@ spec:
         secret:
           secretName: ssh
           defaultMode: 256
-      restartPolicy: Always
+      restartPolicy: Always  volumeClaimTemplates:
+  - metadata:
+      name: minecraft-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "rook-ceph-block"
+      resources:
+        requests:
+          storage: {{ .Values.storage }}Gi
