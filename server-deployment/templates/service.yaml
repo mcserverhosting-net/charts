@@ -13,10 +13,5 @@ spec:
   - name: rcon
     port: 25575
     protocol: TCP
-  - name: extra
-    port: 25567
-  - name: ssh
-    port: 22
-    protocol: TCP
   selector:
     app:  {{ .Release.Name }}-server

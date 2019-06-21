@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflared
+type: Opaque
+data:
+  cert.pem: {{ .Values.cloudflare.cert | b64enc }}
