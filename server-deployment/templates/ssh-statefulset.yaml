@@ -29,12 +29,12 @@ spec:
         image: harbor-west.sfxworks.net:30003/library/mm
         imagePullPolicy: Always
         command: ['/bin/sh']
-        args: ['-c', 'ssh-keygen -y -f /root/.tmp/id-rsa > /home/mcshadmin/.ssh/authorized_keys &&
-              chown 1000:1000 /home/mcshadmin/.ssh/authorized_keys ']
+        args: ['-c', 'ssh-keygen -y -f /root/.tmp/id-rsa > /etc/authorized_keys/mcshadmin &&
+              chown 1000:1000 /etc/authorized_keys/mcshadmin ']
         volumeMounts:
         - mountPath: /root/.tmp
           name: tmp
-        - mountPath: /home/mcshadmin/.ssh
+        - mountPath: /etc/authorized_keys
           name: ssh
       containers:
       - name: ssh
@@ -49,7 +49,24 @@ spec:
             port: 22
           initialDelaySeconds: 60
           periodSeconds: 20
-        image: harbor-west.sfxworks.net:30003/library/mm
+        image: docker.io/panubo/sshd
+        env:
+        - name: SSH_USERS 
+          value: mcshadmin:1000:1000
+        - name: MOTD 
+          value: |          
+                  ███╗   ███╗ ██████╗███████╗██╗  ██╗
+                  ████╗ ████║██╔════╝██╔════╝██║  ██║
+                  ██╔████╔██║██║     ███████╗███████║
+                  ██║╚██╔╝██║██║     ╚════██║██╔══██║
+                  ██║ ╚═╝ ██║╚██████╗███████║██║  ██║
+                  ╚═╝     ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝
+                  Welcome to your MCSH server console
+                  Enjoy the v3.0 cluster deployment!
+                  Your server is in the minecraft folder
+                  Questions? mcserverhosting.net/discord
+        - name: GATEWAY_PORTS
+          value: "true"
         resources:
           limits:
             memory: 100Mi
@@ -65,7 +82,8 @@ spec:
         volumeMounts:
         - mountPath: /home/mcshadmin/minecraft
           name: minecraft-volume
-        - mountPath: /home/mcshadmin/.ssh
+          subPath: {{ .Release.Name }}
+        - mountPath: /etc/authorized_keys
           name: ssh
       restartPolicy: Always
       volumes:

@@ -79,8 +79,8 @@ spec:
           value: {{ .Values.minecraft.forge.version | quote }}
         - name: UID
           value: "1000"
-        #- name: MODS
-        #  value: https://repo.spongepowered.org/maven/org/spongepowered/spongeforge/1.12.2-2825-7.1.6/spongeforge-1.12.2-2825-7.1.6.jar
+        - name: MODS
+          value: https://repo.spongepowered.org/maven/org/spongepowered/spongeforge/1.12.2-2825-7.1.6/spongeforge-1.12.2-2825-7.1.6.jar
         resources:
           limits:
             memory: {{ .Values.memoryBurst }}Gi
@@ -95,6 +95,7 @@ spec:
         volumeMounts:
         - name: minecraft-volume
           mountPath: /data
+          subPath: {{ .Release.Name }}
       restartPolicy: Always
       volumes:
       - name: minecraft-volume
