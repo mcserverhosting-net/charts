@@ -2,121 +2,31 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}-server
+  labels:
+    app: {{ .Release.Name }}-server
 spec:
+  metadata:
+  labels:
+    app: {{ .Release.Name }}-server
   selector:
     matchLabels:
       app: {{ .Release.Name }}-server
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       name: {{ .Release.Name }}-server
       labels:
         app: {{ .Release.Name }}-server
     spec:
-      terminationGracePeriodSeconds: 60
-      serviceAccountName: mcsh-sa
+      metadata:
+        labels:
+          app: {{ .Release.Name }}-server
+        annotations:
+          io.kubernetes.cri.untrusted-workload: "true"
+      terminationGracePeriodSeconds: 30
       nodeSelector:
         core: i7
-      initContainers:
-      - name: generate-publickey
-        image: harbor.sfxworks.net/library/mcshlet@sha256:fd7f9ccc11b3cdc0ee99ea254fd19ad3520cb4ce45fbec3416a0b1e8d01f17f0
-        imagePullPolicy: IfNotPresent
-        command: ['/bin/sh']
-        args: ['-c', 'ssh-keygen -y -f /root/.tmp/id-rsa > /home/mcshadmin/.ssh/authorized_keys &&
-              chown 1000:1000 /home/mcshadmin/.ssh/authorized_keys ']
-        volumeMounts:
-        - mountPath: /root/.tmp
-          name: tmp
-        - mountPath: /home/mcshadmin/.ssh
-          name: ssh
       containers:
-      - name: backup
-        volumeMounts:
-        - mountPath: /home/mcshadmin/minecraft
-          name: minecraft-volume
-        env:
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              name: restic
-              key: access
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: restic
-              key: secret
-        - name: S3_ENDPOINT
-          valueFrom:
-            secretKeyRef:
-              name: restic
-              key: endpoint
-        - name: RESTIC_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: restic
-              key: password
-        image: docker.io/restic/restic
-        command: ['/bin/sh']
-        args: ['-c',
-              "while true;
-              do 
-                sleep 2m;
-                restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} --exclude=\"*.zip\" --verbose backup /home/mcshadmin/minecraft;
-                restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} forget --keep-last 120 --prune;
-                echo LATEST SNAPSHOT DATA BELOW;
-                restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} snapshots;
-                sleep 12h;
-              done
-              "]
-      - name: ssh
-        readinessProbe:
-          tcpSocket:
-            port: 22
-          initialDelaySeconds: 20
-          periodSeconds: 20
-        livenessProbe:
-          tcpSocket:
-            port: 22
-          initialDelaySeconds: 60
-          periodSeconds: 20
-        image: harbor.sfxworks.net/library/mcshlet@sha256:fd7f9ccc11b3cdc0ee99ea254fd19ad3520cb4ce45fbec3416a0b1e8d01f17f0
-        resources:
-          limits:
-            memory: 100Mi
-            cpu: 50m
-          requests:
-            memory: 25Mi
-            cpu: 10m
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: PASSWORD
-          value: {{ randAlphaNum 48 | quote}}
-        ports:
-        - containerPort: 22
-          name: ssh
-          protocol: TCP
-        volumeMounts:
-        - mountPath: /home/mcshadmin/minecraft
-          name: minecraft-volume
-        - mountPath: /home/mcshadmin/.ssh
-          name: ssh
-      - name: tunnel
-        image: harbor.sfxworks.net/library/mcsh-cloudflared@sha256:f9189018b79cbe00932ad515497587140a50cbc35f496ae9667f47389c5cc01c
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: HOSTSUB
-          value: {{ .Release.Name }}-ssh
-        resources:
-          limits:
-            cpu: 10m
-            memory: 20Mi
-          requests:
-            cpu: 10m
-            memory: 20Mi
-        volumeMounts:
-        - mountPath: /etc/cloudflared
-          name: tunnel-secret
-          readOnly: true
       - name: mc-server
         readinessProbe:
           exec:
@@ -125,7 +35,8 @@ spec:
             - localhost
             - status
           initialDelaySeconds: 15
-          periodSeconds: 10
+          periodSeconds: 4
+          failureThreshold: 30
         livenessProbe:
           exec:
             command:
@@ -135,13 +46,13 @@ spec:
           initialDelaySeconds: 120
           periodSeconds: 10
           failureThreshold: 5
-        image: docker.io/itzg/minecraft-server@sha256:c7dde76b3c6ac4cf66ddedd80eae8aea39d5bb70ae4092bc952e43298e97e9e8
+        image: docker.io/itzg/minecraft-server@sha256:2311d6ff128df8081f3ab663ea262fda7f53f96a13b251f4d2486fa1921ad342
         tty: true
         stdin: true
         imagePullPolicy: IfNotPresent
         env:
         - name: EULA
-          value: "{{ .Values.minecraft.config.eula }}"
+          value: {{ default "true" .Values.minecraft.config.eula | quote }}
         - name: ICON
           value: {{ .Values.minecraft.config.icon }}
         - name: ENABLE_RCON
@@ -164,10 +75,6 @@ spec:
           value: {{ .Values.minecraft.properties.mode }}
         - name: OPS
           value: {{ default "sfxworks" .Values.minecraft.config.ops }}
-        - name: BUKKIT_DOWNLOAD_URL
-          value: https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.8-R0.1-SNAPSHOT-latest.jar
-        - name: SPIGOT_DOWNLOAD_URL
-          value: https://cdn.getbukkit.org/spigot/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar #TODO make dict of all these
         - name: FORGEVERSION
           value: {{ .Values.minecraft.forge.version | quote }}
         - name: UID
@@ -179,7 +86,7 @@ spec:
             memory: {{ .Values.memoryBurst }}Gi
           requests:
             memory: 1Gi
-            cpu: 250m
+            cpu: 100m
         ports:
         - containerPort: 25565
           name: minecraft
@@ -190,21 +97,6 @@ spec:
           mountPath: /data
       restartPolicy: Always
       volumes:
-      - name: ssh
-        emptyDir: {}
-      - name: tunnel-secret
-        secret:
-          secretName: cloudflared
-      - name: tmp
-        secret:
-          secretName: ssh
-          defaultMode: 256
-  volumeClaimTemplates:
-  - metadata:
-      name: minecraft-volume
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "rook-ceph-block"
-      resources:
-        requests:
-          storage: {{ .Values.storage }}Gi
+      - name: minecraft-volume
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pv-claim

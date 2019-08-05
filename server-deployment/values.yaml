@@ -1,37 +1,20 @@
 
 #Backup targets
 backup:
-  AWS_ACCESS_KEY_ID: 
-  AWS_SECRET_ACCESS_KEY: 
-  S3_ENDPOINT: 
 
 #Mailgun
-MAILGUN_KEY: 
 
 #Cloudflare
 cloudflare:
-  zoneid: 
-  email: 
-  apikey: 
-  cert: |-
-    -----BEGIN PRIVATE KEY-----
-    
-    -----END PRIVATE KEY-----
-    -----BEGIN CERTIFICATE-----
-    
-    -----END CERTIFICATE-----
-    -----BEGIN ARGO TUNNEL TOKEN-----
-    
-    -----END ARGO TUNNEL TOKEN-----
 #General Data
 memoryBurst: 2
-email: 
-storage: 24
+email: sfxworks@gmail.com
+storage: 12
 minecraft:
-  version: 1.8
-  type: BUKKIT #Options VANILLA, BUKKIT, FORGE, PAPER, FTB, CURSEFORGE and SPIGOT
+  version: LATEST
+  type: PAPER #Options VANILLA, BUKKIT, FORGE, PAPER, FTB, CURSEFORGE and SPIGOT
   forge: 
-    version: 14.23.5.2768
+    version: 14.23.5.2825
   config:
     icon: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7
     ops: sfxworks

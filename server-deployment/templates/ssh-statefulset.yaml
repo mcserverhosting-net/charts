@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-ssh
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-ssh
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-ssh
+      labels:
+        app: {{ .Release.Name }}-ssh
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ .Release.Name }}-server
+            topologyKey: beta.kubernetes.io/arch
+      serviceAccountName: mcsh-sa
+      initContainers:
+      - name: generate-publickey
+        image: harbor-west.sfxworks.net:30003/library/mm
+        imagePullPolicy: Always
+        command: ['/bin/sh']
+        args: ['-c', 'ssh-keygen -y -f /root/.tmp/id-rsa > /home/mcshadmin/.ssh/authorized_keys &&
+              chown 1000:1000 /home/mcshadmin/.ssh/authorized_keys ']
+        volumeMounts:
+        - mountPath: /root/.tmp
+          name: tmp
+        - mountPath: /home/mcshadmin/.ssh
+          name: ssh
+      containers:
+      - name: ssh
+        readinessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          failureThreshold: 20
+        livenessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 60
+          periodSeconds: 20
+        image: harbor-west.sfxworks.net:30003/library/mm
+        resources:
+          limits:
+            memory: 100Mi
+            cpu: 50m
+          requests:
+            memory: 25Mi
+            cpu: 10m
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 22
+          name: ssh
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /home/mcshadmin/minecraft
+          name: minecraft-volume
+        - mountPath: /home/mcshadmin/.ssh
+          name: ssh
+      restartPolicy: Always
+      volumes:
+      - name: minecraft-volume
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pv-claim
+      - name: ssh
+        emptyDir: {}
+      - name: tmp
+        secret:
+          secretName: ssh
+          defaultMode: 256

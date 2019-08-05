@@ -1,0 +1,47 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "0 */12 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            volumeMounts:
+            - mountPath: /home/mcshadmin/minecraft
+              name: minecraft-volume
+            env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: restic
+                  key: access
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: restic
+                  key: secret
+            - name: S3_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: restic
+                  key: endpoint
+            - name: RESTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: restic
+                  key: password
+            image: docker.io/restic/restic
+            command: ['/bin/sh']
+            args: ['-c',
+                  "restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} --exclude=\"*.zip\" --verbose backup /home/mcshadmin/minecraft &&
+                   restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} forget --keep-last 120 --prune &&
+                   restic -r s3:$S3_ENDPOINT/backups/{{ .Release.Name }} snapshots;"]
+          restartPolicy: OnFailure
+          volumes:
+          - name: minecraft-volume
+            persistentVolumeClaim:
+              claimName: {{ .Release.Name }}-pv-claim
