@@ -44,5 +44,9 @@ spec:
           restartPolicy: OnFailure
           volumes:
           - name: minecraft-volume
-            persistentVolumeClaim:
-              claimName: {{ .Release.Name }}-pv-claim
+            flexVolume:
+              driver: ceph.rook.io/rook
+              fsType: ceph
+              options:
+                clusterNamespace: rook-ceph
+                fsName: myfs

@@ -13,25 +13,24 @@ spec:
       labels:
         app: {{ .Release.Name }}-ssh
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - {{ .Release.Name }}-server
-            topologyKey: beta.kubernetes.io/arch
       serviceAccountName: mcsh-sa
       initContainers:
       - name: generate-publickey
-        image: harbor-west.sfxworks.net:30003/library/mm
-        imagePullPolicy: Always
+        image: docker.io/quantomworks/mm
+        imagePullPolicy: IfNotPresent
         command: ['/bin/sh']
         args: ['-c', 'ssh-keygen -y -f /root/.tmp/id-rsa > /etc/authorized_keys/mcshadmin &&
-              chown 1000:1000 /etc/authorized_keys/mcshadmin ']
+              chown 1000:1000 /etc/authorized_keys/mcshadmin &&
+              if ! [ -f /home/mcshadmin/minecraft/mcsh/kubectl ]; then
+                curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl &&
+                chmod +x ./kubectl &&
+                mkdir /home/mcshadmin/minecraft/mcsh &&
+                mv ./kubectl /home/mcshadmin/minecraft/mcsh;
+              fi']
         volumeMounts:
+        - name: minecraft-volume
+          mountPath: /home/mcshadmin/minecraft
+          subPath: {{ .Release.Name }}
         - mountPath: /root/.tmp
           name: tmp
         - mountPath: /etc/authorized_keys
@@ -55,16 +54,27 @@ spec:
           value: mcshadmin:1000:1000
         - name: MOTD 
           value: |          
-                  ███╗   ███╗ ██████╗███████╗██╗  ██╗
-                  ████╗ ████║██╔════╝██╔════╝██║  ██║
-                  ██╔████╔██║██║     ███████╗███████║
-                  ██║╚██╔╝██║██║     ╚════██║██╔══██║
-                  ██║ ╚═╝ ██║╚██████╗███████║██║  ██║
-                  ╚═╝     ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝
-                  Welcome to your MCSH server console
-                  Enjoy the v3.0 cluster deployment!
-                  Your server is in the minecraft folder
-                  Questions? mcserverhosting.net/discord
+                  ███╗   ███╗ ██████╗███████╗██╗  ██╗===============
+                  ████╗ ████║██╔════╝██╔════╝██║  ██║===============
+                  ██╔████╔██║██║     ███████╗███████║===============
+                  ██║╚██╔╝██║██║     ╚════██║██╔══██║===============
+                  ██║ ╚═╝ ██║╚██████╗███████║██║  ██║===============
+                  ╚═╝     ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝===============
+                  Welcome to your MCSH server console!           ===
+                  Enjoy the v3.0 cluster deployment!             ===
+                  Your server is in the minecraft folder         ===
+                  Questions? mcserverhosting.net/discord         === 
+                  ==================Quick Commands==================
+                  ===         Attach to your console             ===
+                  kubectl attach -it {{.Release.Name}}-server-0
+                  
+                  ===      Follow your server's latest logs      ===
+                  === (great for troubleshooting server crashes) ===
+                  kubectl logs -f {{.Release.Name}}-server-0
+                  
+                  ===     Get your server's internal IP address  ===
+                  kubectl get services
+                  ==================================================
         - name: GATEWAY_PORTS
           value: "true"
         resources:
@@ -74,22 +84,31 @@ spec:
           requests:
             memory: 25Mi
             cpu: 10m
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 22
           name: ssh
           protocol: TCP
         volumeMounts:
-        - mountPath: /home/mcshadmin/minecraft
-          name: minecraft-volume
+        - name: minecraft-volume
+          mountPath: /home/mcshadmin/minecraft
           subPath: {{ .Release.Name }}
-        - mountPath: /etc/authorized_keys
-          name: ssh
+        - name: ssh
+          mountPath: /etc/authorized_keys
+        - name: bash-profile
+          mountPath: /home/mcshadmin
       restartPolicy: Always
       volumes:
+      - name: bash-profile
+        configMap:
+          name: bash-profile
       - name: minecraft-volume
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-pv-claim
+        flexVolume:
+          driver: ceph.rook.io/rook
+          fsType: ceph
+          options:
+            clusterNamespace: rook-ceph
+            fsName: myfs
       - name: ssh
         emptyDir: {}
       - name: tmp

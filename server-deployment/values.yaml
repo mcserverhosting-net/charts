@@ -1,20 +1,27 @@
 
 #Backup targets
 backup:
+  AWS_ACCESS_KEY_ID: 
+  AWS_SECRET_ACCESS_KEY: 
+  S3_ENDPOINT: object.
 
 #Mailgun
+MAILGUN_KEY: key-
 
 #Cloudflare
 cloudflare:
+  zoneid: 
+  email:  #SHOULD NOT CHANGE - EMAIL OF CF ACCOUNT HOLDER - NOT USER
+  apikey: 
 #General Data
-memoryBurst: 2
-email: sfxworks@gmail.com
-storage: 12
+memoryBurst: 
+email: 
+storage: 50
 minecraft:
   version: LATEST
-  type: PAPER #Options VANILLA, BUKKIT, FORGE, PAPER, FTB, CURSEFORGE and SPIGOT
+  type: FORGE #Options VANILLA, BUKKIT, FORGE, PAPER, FTB, CURSEFORGE and SPIGOT
   forge: 
-    version: 14.23.5.2825
+    version: 14.23.5.2768
   config:
     icon: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7
     ops: sfxworks
@@ -23,35 +30,5 @@ minecraft:
   properties: 
     motd: "Your new MCSH minecraft server!"
     mode: survival
-    #seed: mcsh
-    #pvp: true
-    #view: 10
-    #npcs: true
-    #animals: true
-    #tick: 60000
-    #height: 256
-    #snooper: false
-    #hardcore: false
-    #force: false
-    #command: false
-    #achievements: true
-    #nether: true
-    #world: 10000
     players: 2019
-    #query: true
-    #rcon: true
-    #difficulty: easy
-    #flight: true
-    #level:
-      #name: world
-      #type: default
-
-
-#BUKKIT_DOWNLOAD_URL
-#SPIGOT_DOWNLOAD_URL
-
-#FTB_SERVER_MOD
-#CF_SERVER_MOD
-#WORLD=http://www.example.com/worlds/MySave.zip
-#MODPACK=http://www.example.com/mods/modpack.zip ...
-#REMOVE_OLD_MODS="TRUE" -e MODPACK=http://www.example.com/mods/modpack.zip ...
+replicas: 1

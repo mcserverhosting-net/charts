@@ -29,24 +29,18 @@ spec:
       containers:
       - name: mc-server
         readinessProbe:
-          exec:
-            command:
-            - mcstatus
-            - localhost
-            - status
+          tcpSocket:
+            port: 25565
           initialDelaySeconds: 15
           periodSeconds: 4
           failureThreshold: 30
         livenessProbe:
-          exec:
-            command:
-            - mcstatus
-            - localhost
-            - status
+          tcpSocket:
+            port: 25565
           initialDelaySeconds: 120
           periodSeconds: 10
           failureThreshold: 5
-        image: docker.io/itzg/minecraft-server@sha256:2311d6ff128df8081f3ab663ea262fda7f53f96a13b251f4d2486fa1921ad342
+        image: docker.io/itzg/minecraft-server@sha256:2b82cca458e398edff6a69860852a595c9f988b6cddccc791e37b6636caa9121
         tty: true
         stdin: true
         imagePullPolicy: IfNotPresent
@@ -67,6 +61,8 @@ spec:
           value: {{ default "Welcome to your MCSH server!" .Values.minecraft.properties.motd }}
         - name: MAX_MEMORY
           value: {{ .Values.memoryBurst }}G
+        - name: INIT_MEMORY
+          value: 1G
         - name: TYPE
           value: {{ .Values.minecraft.type }}
         - name: VERSION
@@ -79,8 +75,6 @@ spec:
           value: {{ .Values.minecraft.forge.version | quote }}
         - name: UID
           value: "1000"
-        - name: MODS
-          value: https://repo.spongepowered.org/maven/org/spongepowered/spongeforge/1.12.2-2825-7.1.6/spongeforge-1.12.2-2825-7.1.6.jar
         resources:
           limits:
             memory: {{ .Values.memoryBurst }}Gi
@@ -99,5 +93,9 @@ spec:
       restartPolicy: Always
       volumes:
       - name: minecraft-volume
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-pv-claim
+        flexVolume:
+          driver: ceph.rook.io/rook
+          fsType: ceph
+          options:
+            clusterNamespace: rook-ceph
+            fsName: myfs
