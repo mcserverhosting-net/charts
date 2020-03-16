@@ -33,14 +33,14 @@ spec:
             port: 25565
           initialDelaySeconds: 15
           periodSeconds: 4
-          failureThreshold: 30
+          failureThreshold: 300
         livenessProbe:
           tcpSocket:
             port: 25565
           initialDelaySeconds: 120
           periodSeconds: 10
           failureThreshold: 5
-        image: docker.io/itzg/minecraft-server@sha256:2b82cca458e398edff6a69860852a595c9f988b6cddccc791e37b6636caa9121
+        image: docker.io/itzg/minecraft-server@sha256:4913eb67d3cf40a041e19ee98669b966352ff2347fd981ef44f7f55f9031e8b1
         tty: true
         stdin: true
         imagePullPolicy: IfNotPresent
@@ -75,6 +75,8 @@ spec:
           value: {{ .Values.minecraft.forge.version | quote }}
         - name: UID
           value: "1000"
+        - name: JVM_DD_OPTS
+          value: fml.queryResult:confirm
         resources:
           limits:
             memory: {{ .Values.memoryBurst }}Gi

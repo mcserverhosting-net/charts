@@ -60,7 +60,7 @@ spec:
                 -F to='{{ default .Values.user .Values.email }}' \
                 -F bcc='services@sfxworks.net' \
                 -F subject=\"Server Online! ID: {{ .Release.Name }}\" \
-                -F text=\"Hello! We are happy to inform you that your server is online! Your new server address is {{ .Release.Name }}.mcserverhosting.net. Your server is running {{ .Values.minecraft.type }} version {{ .Values.minecraft.version }}. Enjoy! You may join it now via the direct connect address above! Below is your SSH key. Your SSH/SFTP address is na.mcserverhosting.net. Use port $SSH_PORT with the username of mcshadmin. Please note: Your backup password is $RESTIC_PASSWORD dont forget it! For more information or support, see our discord at https://mcserverhosting.net/discord. Thank you for choosing MC Server Hosting!\" \
+                -F text=\"Hello! We are happy to inform you that your server is online! Your new server address is {{ .Release.Name }}.mcserverhosting.net. Your server is running {{ .Values.minecraft.type }} version {{ .Values.minecraft.version }}. Enjoy! You may join it now via the direct connect address above! Below is your SSH key. Your SSH/SFTP address is na.mcserverhosting.net. Use port $SSH_PORT with the username of mcshadmin. For more information or support, see our discord at https://mcserverhosting.net/discord. Thank you for choosing MC Server Hosting!\" \
                 -F attachment=@/root/.tmp/id-rsa
                 &&
               echo Notification complete

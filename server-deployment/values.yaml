@@ -1,10 +1,5 @@
 
 #Backup targets
-backup:
-  AWS_ACCESS_KEY_ID: 
-  AWS_SECRET_ACCESS_KEY: 
-  S3_ENDPOINT: object.
-
 #Mailgun
 MAILGUN_KEY: key-
 
