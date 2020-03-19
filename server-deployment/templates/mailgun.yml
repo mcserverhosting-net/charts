@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mailgun
-type: Opaque
-data:
-  apikey: {{ .Values.MAILGUN_KEY | b64enc }}

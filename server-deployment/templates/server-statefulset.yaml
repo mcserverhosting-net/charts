@@ -1,0 +1,80 @@
+{{- range $key, $val := .Values.servers }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .name }}
+spec:
+  serviceName: {{ .name }}
+  selector:
+    matchLabels:
+      app: {{ .name }}
+  {{- if .online }}
+  replicas: 1
+  {{- else }}
+  replicas: 0
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .name }}
+    spec:
+      terminationGracePeriodSeconds: 30
+      nodeSelector:
+        core: i7
+      containers:
+      - name: {{ .name }}
+        envFrom:
+        - configMapRef:
+            name: {{ .name }}
+        readinessProbe:
+          tcpSocket:
+            port: 25565
+          initialDelaySeconds: 15
+          periodSeconds: 4
+          failureThreshold: 300
+        livenessProbe:
+          tcpSocket:
+            port: 25565
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          failureThreshold: 5
+        {{- if .type }}
+        {{- if eq .type "SPONGEVANILLA" }}
+        image: docker.io/itzg/minecraft-server:latest
+        {{- else if eq .type "FORGE"  }}
+        image: docker.io/itzg/minecraft-server:latest
+        {{- else }}
+        image: docker.io/itzg/minecraft-server:adopt13
+        {{- end }}
+        {{- else }}
+        image: docker.io/itzg/minecraft-server:adopt13
+        {{- end }}
+        tty: true
+        stdin: true
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: {{ .config.memory.max }}i
+          requests:
+            memory: {{ .config.memory.initial }}i
+            cpu: 100m
+        ports:
+        - containerPort: 25565
+          name: minecraft
+        - containerPort: 25575
+          name: rcon
+        volumeMounts:
+        - name: minecraft-volume
+          mountPath: /data
+          subPath: {{ $.Release.Namespace }}/{{ .name }}
+      restartPolicy: Always
+      volumes:
+      - name: minecraft-volume
+        flexVolume:
+          driver: ceph.rook.io/rook
+          fsType: ceph
+          options:
+            clusterNamespace: rook-ceph
+            fsName: myfs
+{{- end }}

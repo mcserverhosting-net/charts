@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cloudflare
-type: Opaque
-data:
-  zoneid: {{ .Values.cloudflare.zoneid | b64enc }}
-  email: {{ .Values.cloudflare.email | b64enc }}
-  apikey: {{ .Values.cloudflare.apikey | b64enc }}

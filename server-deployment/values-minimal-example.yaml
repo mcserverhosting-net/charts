@@ -1,0 +1,8 @@
+servers:
+  - name: server-1
+    online: true 
+    eula: true
+    config:
+      memory:
+        initial: 1G
+        max: 1G

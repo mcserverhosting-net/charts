@@ -1,9 +1,11 @@
+{{- range $key, $val := .Values.servers }}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name:  {{ .Release.Name }}-server
+  name:  {{ .name }}
   labels:
-    type:  {{ .Release.Name }}-server
+    type:  {{ .name }}
 spec:
   type: NodePort
   ports:
@@ -14,19 +16,5 @@ spec:
     port: 25575
     protocol: TCP
   selector:
-    app:  {{ .Release.Name }}-server
----
-apiVersion: v1
-kind: Service
-metadata:
-  name:  {{ .Release.Name }}-ssh
-  labels:
-    type:  {{ .Release.Name }}-ssh
-spec:
-  type: NodePort
-  ports:
-  - name: ssh
-    port: 22
-    protocol: TCP
-  selector:
-    app:  {{ .Release.Name }}-ssh
+    app:  {{ .name }}
+{{- end }}

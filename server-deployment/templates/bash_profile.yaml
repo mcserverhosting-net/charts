@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: bash-profile
-data:
-  .profile: |
-    export KUBERNETES_SERVICE_HOST=10.96.0.1
-    export KUBERNETES_SERVICE_PORT=443
-    export PATH=$PATH:~/minecraft/mcsh

@@ -1,29 +1,190 @@
-
-#Backup targets
-#Mailgun
-MAILGUN_KEY: key-
-
-#Cloudflare
-cloudflare:
-  zoneid: 
-  email:  #SHOULD NOT CHANGE - EMAIL OF CF ACCOUNT HOLDER - NOT USER
-  apikey: 
-#General Data
-memoryBurst: 
-email: 
-storage: 50
-minecraft:
-  version: LATEST
-  type: FORGE #Options VANILLA, BUKKIT, FORGE, PAPER, FTB, CURSEFORGE and SPIGOT
-  forge: 
-    version: 14.23.5.2768
-  config:
-    icon: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7
-    ops: sfxworks
-    #whitelist: sfxworks
+servers:
+  #An example server-1. Note this name must be unique. Renaming will use a different internal directory, which will result in the loss of your server.
+  - name: server-1
+    #server online value. If false, server will be shutoff and not count against any quota.
+    online: true 
+    #eula agrees to eula
     eula: true
-  properties: 
-    motd: "Your new MCSH minecraft server!"
-    mode: survival
-    players: 2019
-replicas: 1
+    #version sets the base version of minecraft. Options are SNAPSHOT, LATEST, or a specific version.
+    version: LATEST
+    #type sets the type of server. Possible values are VANILLA, FORGE, BUKKIT, SPIGOT, CURSEFORGE, SPONGEVANILLA  FTB, and FABRIC
+    type: VANILLA
+    #configuration for forge server type
+    forge: 
+      #forge version. defaults to recommended version based on base version selection. Can be changed to a number.
+      version: 
+      #forge installer. can be used reference an installer jar already in the minecraft server directory.
+      installer: 
+      #forge installer url. can be used to reference an installer via url.
+      url:
+    bukkit:
+      url:
+    spigot:
+      url:
+      #spigot build. If URL isn't defined, will build spigot from source repository.
+      build: false
+    curseforge:
+      modpack:
+        url:
+    ftb:
+      #ftb legacy launch mode. May fix issues for older modpacks when running into "unable to launch forgemodloader" errors
+      legacy: false
+      modpack:
+        url:
+    spongevanilla:
+      version: 
+      branch: 
+    fabric:
+      version:
+      installer: 
+      url:
+    custom:
+      url:
+    config:
+      console: true
+      #config modpack takes a custom set of jars in a zip file and extracts them into the mods directory
+      modpack:
+      #config mods takes a comma separated list of urls of jars and places them in the mods directory
+      mods:
+      #removeOldMods removes any old mods that are had before applying new ones when mods is defined
+      removeOldMods: false
+      #memory initial and max for the minecraft server passed to k8s resource mix and max as well as java via -Xms/-Xmx
+      #memory must end in G or M. 
+      memory:
+        initial: 1G
+        max: 1G
+      #icon is the minecraft server icon
+      icon: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7
+      #motd is the minecraft servers message of the day
+      motd: 
+      #general server.properties passed to the minecraft server. 
+      #see https://minecraft.gamepedia.com/Server.properties for specifics
+      server:
+        maxTickTime: 20000 
+        restrictions:
+          ops: 
+          whitelist:
+          forceGamemode: true
+        network:
+          maxPlayers: 2020
+          rcon:
+            enabled: true
+            password:
+          query: true
+          onlineMode: true
+        gameSettings:
+          hardcore: false
+          snooper: true
+          difficulty: 
+          commandBlocks: true
+          announcePlayerAchievements: true
+          nether: true
+          flight: true
+          pvp: true
+      resourcePack:
+        url:
+        sha:
+      world:
+        name: world
+        restrictions:
+          maxBuildHeight: 256
+          maxSize: 10000
+          viewDistance: 16
+          spawnProtection: 0
+        mode: survival
+        level:
+        seed: 
+        spawnAnimals: true
+        spawnNpcs: true
+        generateStructures: true
+        #world url - will download a zip file of a world and extract it
+        url: 
+    #overrideOnStartup - if true, will rewrite the server.properties file when passed here. always runs on first install.
+    overrideOnStartup: true
+    #forces redwonload for VANILLA, FORGE, BUKKIT, SPIGOT, PAPER, CURSEFORGE, SPONGEVANILLA server types 
+    forceRedownload: false
+  #Example of another minecraft server deployment specified in same values file.
+  - name: server-2
+    online: true 
+    eula: true
+    version: 1.12.2
+    type: FORGE
+    forge: 
+      version: 
+      installer: 
+      url:
+    bukkit:
+      url:
+    spigot:
+      url:
+      build: false
+    curseforge:
+      modpack:
+        url:
+    ftb:
+      legacy: false
+      modpack:
+        url:
+    spongevanilla:
+      version: 
+      branch: 
+    fabric:
+      version:
+      installer: 
+      url:
+    custom:
+      url:
+    config:
+      console: true
+      modpack:
+      mods:
+      removeOldMods: false
+      memory:
+        initial: 1G
+        max: 1G
+      icon: 
+      motd: 
+      server:
+        maxTickTime: 20000 
+        restrictions:
+          ops: 
+          whitelist:
+          forceGamemode: true
+        network:
+          maxPlayers: 2020
+          rcon:
+            enabled: true
+            password:
+          query: true
+          onlineMode: true
+        gameSettings:
+          hardcore: false
+          snooper: true
+          difficulty: 
+          commandBlocks: true
+          announcePlayerAchievements: true
+          nether: true
+          flight: true
+          pvp: true
+      resourcePack:
+        url:
+        sha:
+      world:
+        name: world
+        restrictions:
+          maxBuildHeight: 256
+          maxSize: 10000
+          viewDistance: 16
+          spawnProtection: 0
+        mode: survival
+        level:
+        seed: 
+        spawnAnimals: true
+        spawnNpcs: true
+        generateStructures: true
+        url: 
+    overrideOnStartup: true
+    forceRedownload: false
+    replaceEnvBars: true
+    varPrefix: CFG_
+    vars: []

@@ -2,21 +2,12 @@ apiVersion: v1
 entries:
   server-deployment:
   - apiVersion: v1
-    appVersion: "2.0"
-    created: 2019-06-10T03:14:16.829849-04:00
-    description: MCSH Main Deployment
-    digest: be2c7f270a5af6ce8e2ea7a369d2ce01d9258a9e14ac7e87d9f1b4b1be8842fc
+    appVersion: "3.0"
+    created: "2020-03-19T05:43:52.5484716-04:00"
+    description: MCSH Minecraft Server Deployment
+    digest: 148cdd9d326dd8e3707698a1af07b484b0f79e8ba8ba4899023234403a0967fb
     name: server-deployment
     urls:
-    - https://mcserverhosting-net.github.io/charts/server-deployment/releases/server-deployment-2.tgz
-    version: "2"
-  - apiVersion: v1
-    appVersion: "1.0"
-    created: 2019-04-08T02:06:18.1022791-04:00
-    description: MCSH Main Deployment
-    digest: 9a332b1d626c0b9040278256e08c399e99d86905b9d4b2b195e74e7f14dc4bfe
-    name: server-deployment
-    urls:
-    - https://mcserverhosting-net.github.io/charts/server-deployment/releases/server-deployment-1.tgz
-    version: "1"
-generated: 2019-06-10T03:14:16.8278349-04:00
+    - server-deployment-3.tgz
+    version: "3"
+generated: "2020-03-19T05:43:52.5444717-04:00"
