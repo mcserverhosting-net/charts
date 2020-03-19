@@ -6,5 +6,5 @@ helm repo add mcsh https://mcserverhosting.net
 ```
 helm search repo mcsh
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-mcsh/server-deployment  2.5             2.5             MCSH Main Deployment
+mcsh/server-deployment  3.2             3.2             MCSH Main Deployment
 ```
