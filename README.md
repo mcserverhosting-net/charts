@@ -8,3 +8,6 @@ helm search repo mcsh
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
 mcsh/server-deployment  3.2             3.2             MCSH Main Deployment
 ```
+
+
+Operator availible at https://github.com/mcserverhosting-net/mc-operator
