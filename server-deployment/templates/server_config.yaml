@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: {{ .name }}
 data:
-  EULA: {{ .eula | default "false" | quote }}
+  EULA: {{ default false .eula | quote }}
   VERSION: {{ .version | default "LATEST" | quote }}
   {{- if .type }}
   TYPE: {{ .type | quote }}
@@ -19,14 +19,14 @@ data:
   {{- end }}
   {{- if eq .type "SPIGOT" }}
   {{- if .bukkit.url }}SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}{{ end }}
-  BUILD_FROM_SOURCE: {{ .spigot.build | default false }}
+  BUILD_FROM_SOURCE: {{ default false .spigot.build | quote }}
   {{- end }}
   {{- if eq .type "CURSEFORGE" }}
   CF_SERVER_MOD: {{ .curseforge.modpack.url }}
   {{- end }}
   {{- if eq .type "FTB" }}
   FTB_SERVER_MOD: {{ .ftb.modpack.url }}
-  FTB_LEGACYJAVAFIXER: {{ .ftb.modpack.legacy | quote | default "false" }}
+  FTB_LEGACYJAVAFIXER: {{ default false .ftb.modpack.legacy | quote }}
   {{- end }}
   {{- if eq .type "SPONGEVANILLA" }}
   SPONGEVERSION: {{ .spongevanilla.version | default "STABLE" }}
@@ -41,17 +41,17 @@ data:
   CUSTOM_SERVER: {{ .custom.url }}
   {{- end }}
   {{- end }}
-  FORCE_REDOWNLOAD: {{ .forceRedownload | quote | default false }}
-  OVERRIDE_SERVER_PROPERTIES: {{ .overrideOnStartup | quote | default "true"}}
+  FORCE_REDOWNLOAD: {{ default false .forceRedownload | quote }}
+  OVERRIDE_SERVER_PROPERTIES: {{ default true .overrideOnStartup | quote }}
   SERVER_NAME: {{ .name }}
   {{- with .config }}
-  ICON: {{ .icon | default "https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7" }}
+  ICON: {{ default "https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7" .icon }}
   {{- if .modpack }}MODPACK: {{ .modpack }} {{ end }}
-  MOTD: {{ .motd | default "Your new MCSH minecraft server!" }}
+  MOTD: {{ default "Your new MCSH minecraft server!" .motd }}
   {{- if .mods }}MODS: {{ .mods }} {{ end }}
-  REMOVE_OLD_MODS: {{ .removeOldMods | quote | default true }}
+  REMOVE_OLD_MODS: {{ default true .removeOldMods | quote }}
   JVM_DD_OPTS: fml.queryResult:confirm
-  CONSOLE: {{ .console | quote | default true }}
+  CONSOLE: {{ default true .console | quote }}
   GUI: "false"
   INIT_MEMORY: {{ .memory.initial | default "1Gi" }}
   MAX_MEMORY: {{ .memory.max | default "1Gi" }}
@@ -66,27 +66,27 @@ data:
   {{- end }}
   {{- end }}
   OPS: {{ .restrictions.ops | default "sfxworks" }}
-  ENABLE_QUERY: {{ .network.query | default "true" }}
-  MAX_PLAYERS: {{ .network.maxPlayers | default "2020" }}
-  ALLOW_NETHER:  {{ .gameSettings.nether | quote | default true }}
+  ENABLE_QUERY: {{ default true .network.query | quote }}
+  MAX_PLAYERS: {{ default "2020" .network.maxPlayers }}
+  ALLOW_NETHER:  {{ default true .gameSettings.nether | quote }}
   DIFFICULTY: {{ .gameSettings.difficulty | default "hard" }}
-  ANNOUNCE_PLAYER_ACHIEVEMENTS:  {{ .gameSettings.announcePlayerAchievements | default true }}
-  ENABLE_COMMAND_BLOCK: {{ .gameSettings.commandBlocks | quote | default true }}
-  FORCE_GAMEMODE: {{ .restrictions.forceGamemode | quote | default false }}
-  HARDCORE: {{ .gameSettings.hardcore | quote | default true }}
-  SNOOPER_ENABLED: {{ .gameSettings.snooper | quote | default true }}
+  ANNOUNCE_PLAYER_ACHIEVEMENTS:  {{ default true .gameSettings.announcePlayerAchievements | quote }}
+  ENABLE_COMMAND_BLOCK: {{ default true .gameSettings.commandBlocks | quote }}
+  FORCE_GAMEMODE: {{ default false .restrictions.forceGamemode | quote }}
+  HARDCORE: {{ default true .gameSettings.hardcore | quote }}
+  SNOOPER_ENABLED: {{ default true .gameSettings.snooper | quote }}
   MAX_TICK_TIME: {{ .maxTickTime | default "20000" }}
-  PVP: {{ .gameSettings.pvp | quote | default true }}
-  ONLINE_MODE: {{ .network.onlineMode | quote | default true }}
+  PVP: {{ default true .gameSettings.pvp | quote }}
+  ONLINE_MODE: {{ default true .network.onlineMode | quote }}
   {{- if .restrictions.whitelist }}WHITELIST: {{ .restrictions.whitelist }}{{ end }}
   {{- end }}
   {{- with .world }}
   {{- if .restrictions.maxSize }}MAX_WORLD_SIZE: {{ .restrictions.maxSize }} {{ end }}
   MAX_BUILD_HEIGHT: {{ .restrictions.maxBuildHeight | default "256" }}
-  GENERATE_STRUCTURES: {{ .generateStructures | quote | default true }}
-  SPAWN_ANIMALS: {{ .spawnAnimals | quote | default true }}
-  SPAWN_NPCS: {{ .spawnNpcs | quote | default true }}
-  SPAWN_PROTECTION: {{ .restrictions.spawnProtection | quote | default true }}
+  GENERATE_STRUCTURES: {{ default true .generateStructures | quote }}
+  SPAWN_ANIMALS: {{ default true .spawnAnimals | quote }}
+  SPAWN_NPCS: {{ default true .spawnNpcs | quote }}
+  SPAWN_PROTECTION: {{ default true .restrictions.spawnProtection | quote }}
   {{- if .restrictions.viewDistance }}VIEW_DISTANCE: {{ .restrictions.viewDistance }} {{ end }}
   {{- if .seed }}SEED: {{ .seed }}{{ end }}
   MODE: {{ .mode | default "Survival"}}
