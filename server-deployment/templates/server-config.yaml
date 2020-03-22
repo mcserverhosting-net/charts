@@ -25,24 +25,34 @@ data:
   {{- if .spigot.url }}SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}{{ end }}
   BUILD_FROM_SOURCE: {{ default false .spigot.build | quote }}
   {{- end }}
+  {{- if .curseforge }}
   {{- if eq .type "CURSEFORGE" }}
   CF_SERVER_MOD: {{ .curseforge.modpack.url }}
   {{- end }}
+  {{- end }}
+  {{- if .ftb }}
   {{- if eq .type "FTB" }}
   FTB_SERVER_MOD: {{ .ftb.modpack.url }}
   FTB_LEGACYJAVAFIXER: {{ default false .ftb.modpack.legacy | quote }}
   {{- end }}
+  {{- end }}
+  {{- if .spongevanilla }}
   {{- if eq .type "SPONGEVANILLA" }}
   SPONGEVERSION: {{ .spongevanilla.version | default "STABLE" }}
   {{- if .spongevanilla.branch }}SPONGEBRANCH: {{ .spongevanilla.branch }}{{ end }}
   {{- end }}
+  {{- end }}
+  {{- if .fabric }}
   {{- if eq .type "FABRIC" }}
   {{- if .fabric.version }}FABRICVERSION: {{ .fabric.version }}{{ end }}
   {{- if .fabric.installer }}FABRIC_INSTALLER: {{ .fabric.installer }}{{ end }}
   {{- if .fabric.url }}FABRIC_INSTALLER_URL: {{ .fabric.url }}{{ end }}
   {{- end }}
+  {{- end }}
+  {{- if .custom }}
   {{- if eq .type "CUSTOM" }}
   CUSTOM_SERVER: {{ .custom.url }}
+  {{- end }}
   {{- end }}
   {{- end }}
   FORCE_REDOWNLOAD: {{ default false .forceRedownload | quote }}
