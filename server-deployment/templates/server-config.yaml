@@ -10,15 +10,19 @@ data:
   {{- if .type }}
   TYPE: {{ .type | quote }}
   {{- if eq .type "FORGE" }}
+  {{- if .forge }}
   {{- if .forge.version }}FORGEVERSION: {{ .forge.version }}{{ end }}
   {{- if .forge.installer }}FORGE_INSTALLER: {{ .forge.installer }}{{ end }}
   {{- if .forge.url }}FORGE_INSTALLER_URL: {{ .forge.url }}{{ end }}
   {{- end }}
+  {{- end }}
   {{- if eq .type "BUKKIT" }}
+  {{- if .bukkit }}
   {{- if .bukkit.url }}BUKKIT_DOWNLOAD_URL: {{ .bukkit.url }}{{ end }}
   {{- end }}
+  {{- end }}
   {{- if eq .type "SPIGOT" }}
-  {{- if .bukkit.url }}SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}{{ end }}
+  {{- if .spigot.url }}SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}{{ end }}
   BUILD_FROM_SOURCE: {{ default false .spigot.build | quote }}
   {{- end }}
   {{- if eq .type "CURSEFORGE" }}
