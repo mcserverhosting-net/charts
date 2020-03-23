@@ -1,49 +1,62 @@
-{{- range $key, $val := .Values.servers }}
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .name }}
+  name: {{ .Release.Name }}
 data:
+ {{- with .Values}}
   EULA: {{ default false .eula | quote }}
   VERSION: {{ .version | default "LATEST" | quote }}
   {{- if .type }}
   TYPE: {{ .type | quote }}
   {{- if eq .type "FORGE" }}
+  {{- if .forge }}
   {{- if .forge.version }}FORGEVERSION: {{ .forge.version }}{{ end }}
   {{- if .forge.installer }}FORGE_INSTALLER: {{ .forge.installer }}{{ end }}
   {{- if .forge.url }}FORGE_INSTALLER_URL: {{ .forge.url }}{{ end }}
   {{- end }}
+  {{- end }}
   {{- if eq .type "BUKKIT" }}
+  {{- if .bukkit }}
   {{- if .bukkit.url }}BUKKIT_DOWNLOAD_URL: {{ .bukkit.url }}{{ end }}
   {{- end }}
+  {{- end }}
   {{- if eq .type "SPIGOT" }}
-  {{- if .bukkit.url }}SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}{{ end }}
+  {{- if .spigot.url }}SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}{{ end }}
   BUILD_FROM_SOURCE: {{ default false .spigot.build | quote }}
   {{- end }}
+  {{- if .curseforge }}
   {{- if eq .type "CURSEFORGE" }}
   CF_SERVER_MOD: {{ .curseforge.modpack.url }}
   {{- end }}
+  {{- end }}
+  {{- if .ftb }}
   {{- if eq .type "FTB" }}
   FTB_SERVER_MOD: {{ .ftb.modpack.url }}
   FTB_LEGACYJAVAFIXER: {{ default false .ftb.modpack.legacy | quote }}
   {{- end }}
+  {{- end }}
+  {{- if .spongevanilla }}
   {{- if eq .type "SPONGEVANILLA" }}
   SPONGEVERSION: {{ .spongevanilla.version | default "STABLE" }}
   {{- if .spongevanilla.branch }}SPONGEBRANCH: {{ .spongevanilla.branch }}{{ end }}
   {{- end }}
+  {{- end }}
+  {{- if .fabric }}
   {{- if eq .type "FABRIC" }}
   {{- if .fabric.version }}FABRICVERSION: {{ .fabric.version }}{{ end }}
   {{- if .fabric.installer }}FABRIC_INSTALLER: {{ .fabric.installer }}{{ end }}
   {{- if .fabric.url }}FABRIC_INSTALLER_URL: {{ .fabric.url }}{{ end }}
   {{- end }}
+  {{- end }}
+  {{- if .custom }}
   {{- if eq .type "CUSTOM" }}
   CUSTOM_SERVER: {{ .custom.url }}
   {{- end }}
   {{- end }}
+  {{- end }}
   FORCE_REDOWNLOAD: {{ default false .forceRedownload | quote }}
   OVERRIDE_SERVER_PROPERTIES: {{ default true .overrideOnStartup | quote }}
-  SERVER_NAME: {{ .name }}
+  SERVER_NAME: {{ $.Release.Name }}
   {{- with .config }}
   ICON: {{ default "https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7" .icon }}
   {{- if .modpack }}MODPACK: {{ .modpack }} {{ end }}
@@ -94,4 +107,4 @@ data:
   LEVEL: {{ .name | default "mcshworld" }}
   {{- if .url }}WORLD: {{ .url }}{{ end }}
   {{- end }}
-{{- end }}
+  {{- end }}

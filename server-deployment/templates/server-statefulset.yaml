@@ -1,15 +1,13 @@
-{{- range $key, $val := .Values.servers }}
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .name }}
+  name: {{ .Release.Name }}
 spec:
-  serviceName: {{ .name }}
+  serviceName: {{ .Release.Name }}
   selector:
     matchLabels:
-      app: {{ .name }}
-  {{- if .online }}
+      app: {{ .Release.Name }}
+  {{- if .Values.online }}
   replicas: 1
   {{- else }}
   replicas: 0
@@ -17,28 +15,35 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .name }}
+        app: {{ .Release.Name }}
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 2000
       terminationGracePeriodSeconds: 30
-      nodeSelector:
-        core: i7
       containers:
-      - name: {{ .name }}
+      - name: {{ .Release.Name }}
+        securityContext:
+          allowPrivilegeEscalation: false
         envFrom:
         - configMapRef:
-            name: {{ .name }}
+            name: {{ .Release.Name }}
         readinessProbe:
-          tcpSocket:
-            port: 25565
+          exec:
+            command:
+            - mc-monitor
+            - status
           initialDelaySeconds: 15
           periodSeconds: 4
           failureThreshold: 300
         livenessProbe:
-          tcpSocket:
-            port: 25565
-          initialDelaySeconds: 120
+          exec:
+            command:
+            - mc-monitor
+            - status
+          initialDelaySeconds: 60
           periodSeconds: 10
-          failureThreshold: 5
+          failureThreshold: 10
         {{- if .type }}
         {{- if eq .type "SPONGEVANILLA" }}
         image: docker.io/itzg/minecraft-server:latest
@@ -55,9 +60,9 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: {{ .config.memory.max }}i
+            memory: {{ .Values.config.memory.max }}i
           requests:
-            memory: {{ .config.memory.initial }}i
+            memory: {{ .Values.config.memory.initial }}i
             cpu: 100m
         ports:
         - containerPort: 25565
@@ -67,7 +72,7 @@ spec:
         volumeMounts:
         - name: minecraft-volume
           mountPath: /data
-          subPath: {{ $.Release.Namespace }}/{{ .name }}
+          subPath: {{ .Release.Namespace }}/{{ .Release.Name }}
       restartPolicy: Always
       volumes:
       - name: minecraft-volume
@@ -77,4 +82,3 @@ spec:
           options:
             clusterNamespace: rook-ceph
             fsName: myfs
-{{- end }}

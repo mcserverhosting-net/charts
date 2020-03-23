@@ -2,8 +2,17 @@ apiVersion: v1
 entries:
   server-deployment:
   - apiVersion: v1
+    appVersion: "3.3"
+    created: "2020-03-23T06:12:09.3221942-04:00"
+    description: MCSH Minecraft Server Deployment
+    digest: fe412d9ef156322b9bea6965f180cf1d973ca9c3ee84ae92e7039348b805746e
+    name: server-deployment
+    urls:
+    - releases/server-deployment-3.3.tgz
+    version: "3.3"
+  - apiVersion: v1
     appVersion: "3.2"
-    created: "2020-03-19T07:24:27.5254738-04:00"
+    created: "2020-03-23T06:12:09.3211379-04:00"
     description: MCSH Minecraft Server Deployment
     digest: f9fb0b282f16819541f0b8292d0b33598d94ac76a15c912a079b61d8903213d8
     name: server-deployment
@@ -12,7 +21,7 @@ entries:
     version: "3.2"
   - apiVersion: v1
     appVersion: "3.1"
-    created: "2020-03-19T07:24:27.5235273-04:00"
+    created: "2020-03-23T06:12:09.3191381-04:00"
     description: MCSH Minecraft Server Deployment
     digest: 6d5ed98f6912ee7307fbcb3a7ed9e049512fe2868e43019f4f472d4648960c42
     name: server-deployment
@@ -21,7 +30,7 @@ entries:
     version: "3.1"
   - apiVersion: v1
     appVersion: "3.0"
-    created: "2020-03-19T07:24:27.5275275-04:00"
+    created: "2020-03-23T06:12:09.3241571-04:00"
     description: MCSH Minecraft Server Deployment
     digest: c8d754650c0ca9ab3a6c5f563f34cd64c5afaa006f9c35083dcf99ec07c5ef01
     name: server-deployment
@@ -30,7 +39,7 @@ entries:
     version: "3"
   - apiVersion: v1
     appVersion: "2.5"
-    created: "2020-03-19T07:24:27.5195265-04:00"
+    created: "2020-03-23T06:12:09.3151898-04:00"
     description: MCSH Main Deployment
     digest: f65cdf45a9688496e9287fa0dad3f8af396f059478d9dd7d2952d0d1d0507a2b
     name: server-deployment
@@ -39,7 +48,7 @@ entries:
     version: "2.5"
   - apiVersion: v1
     appVersion: "2.0"
-    created: "2020-03-19T07:24:27.5205353-04:00"
+    created: "2020-03-23T06:12:09.3161911-04:00"
     description: MCSH Main Deployment
     digest: be2c7f270a5af6ce8e2ea7a369d2ce01d9258a9e14ac7e87d9f1b4b1be8842fc
     name: server-deployment
@@ -48,11 +57,11 @@ entries:
     version: "2"
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-03-19T07:24:27.5185264-04:00"
+    created: "2020-03-23T06:12:09.3141392-04:00"
     description: MCSH Main Deployment
     digest: 9a332b1d626c0b9040278256e08c399e99d86905b9d4b2b195e74e7f14dc4bfe
     name: server-deployment
     urls:
     - releases/server-deployment-1.tgz
     version: "1"
-generated: "2020-03-19T07:24:27.5174747-04:00"
+generated: "2020-03-23T06:12:09.3131903-04:00"

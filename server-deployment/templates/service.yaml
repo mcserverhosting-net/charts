@@ -1,11 +1,9 @@
-{{- range $key, $val := .Values.servers }}
----
 apiVersion: v1
 kind: Service
 metadata:
-  name:  {{ .name }}
+  name:  {{ .Release.Name }}
   labels:
-    type:  {{ .name }}
+    type:  {{ .Release.Name }}
 spec:
   type: NodePort
   ports:
@@ -16,5 +14,4 @@ spec:
     port: 25575
     protocol: TCP
   selector:
-    app:  {{ .name }}
-{{- end }}
+    app:  {{ .Release.Name }}
