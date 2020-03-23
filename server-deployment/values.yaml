@@ -35,12 +35,15 @@ spongevanilla:
   # spongevanilla.version -- version of sponge vanilla chosen
   version: 
   branch:
-  # fabric -- configuration for fabric server type
 fabric:
+  # fabric.version -- version of fabric server chosen
   version:
+  # fabric.installer -- can be used reference a installer already in the minecraft server directory.
   installer: 
+  # forge.url -- can be used to reference an installer via url
   url:
 custom:
+  # custom.url -- can be used to reference a custom server jar via url or local directory
   url:
 config:
   console: true

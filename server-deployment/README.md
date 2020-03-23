@@ -53,9 +53,11 @@ Current chart version is `3.3`
 | config.world.spawnNpcs | bool | `true` |  |
 | config.world.url | string | `nil` | will download a zip file of a world and extract it |
 | curseforge.modpack.url | string | `nil` | Immediately applies a CurseForge modpack via url |
-| custom.url | string | `nil` |  |
+| custom.url | string | `nil` | can be used to reference a custom server jar via url or local directory |
 | eula | bool | `true` | agrees to eula |
-| fabric | object | `{"installer":null,"url":null,"version":null}` | configuration for fabric server type |
+| fabric.installer | string | `nil` | can be used reference a installer already in the minecraft server directory. |
+| fabric.url | string | `nil` |  |
+| fabric.version | string | `nil` | version of fabric server chosen |
 | forceRedownload | bool | `false` | forces redwonload for VANILLA, FORGE, BUKKIT, SPIGOT, PAPER, CURSEFORGE, SPONGEVANILLA server types  |
 | forge.installer | string | `nil` | can be used reference an installer jar already in the minecraft server directory. |
 | forge.url | string | `nil` | can be used to reference an installer via url |
