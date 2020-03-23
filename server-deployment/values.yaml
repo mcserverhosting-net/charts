@@ -6,7 +6,6 @@ eula: true
 version: LATEST
 # type -- sets the type of server. Possible values are VANILLA, FORGE, BUKKIT, SPIGOT, CURSEFORGE, SPONGEVANILLA  FTB, and FABRIC
 type: VANILLA
-# forge -- configuration for forge server type
 forge: 
   # forge.version -- defaults to recommended version based on base version selection. Can be changed to a number.
   version: 
@@ -14,33 +13,29 @@ forge:
   installer: 
   # forge.url -- can be used to reference an installer via url
   url:
-# bukkit -- configuration for bukkit server type
 bukkit:
   # bukkit.url -- can be used to reference a bukkit jar via http/s
   url:
-# bukkit -- configuration for spigot server type
 spigot:
   # spigot.url -- can be used to reference a spigot jar via http/s
   url:
   # spigot.build -- If URL isn't defined, will build spigot from source repository.
   build: false
-# curseforge -- configuration for curseforge server type
 curseforge:
   modpack:
     # curseforge.modpack.url -- Immediately applies a CurseForge modpack via url
     url:
-# ftb -- configuration for curseforge server type
 ftb:
   # ftb.legacy -- launch mode. May fix issues for older modpacks when running into "unable to launch forgemodloader" errors
   legacy: false
   modpack:
     # ftb.modpack.url -- Immediately applies a FTB modpack via url
     url:
-# spongevanilla -- configuration for spongevanilla server type
 spongevanilla:
+  # spongevanilla.version -- version of sponge vanilla chosen
   version: 
   branch:
-# fabric -- configuration for fabric server type
+  # fabric -- configuration for fabric server type
 fabric:
   version:
   installer: 
@@ -55,15 +50,16 @@ config:
   mods:
   # config.removeOldMods -- removes any old mods that are had before applying new ones when mods is defined
   removeOldMods: false
-  # config.memory -- initial and max for the minecraft server passed to k8s resource mix and max as well as java via -Xms/-Xmx. memory must end in G or M. 
   memory:
+    # config.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
     initial: 1G
+    # config.memory.max -- max memory for the minecraft server. memory must end in G or M. 
     max: 1G
   # config.icon -- The icon displayed for your minecraft servers by the client and cabable query services
-  icon: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7
+  icon: 
   # config.motd -- the minecraft servers message of the day
   motd: 
-  #config.server -- general server.properties passed to the minecraft server. see https://minecraft.gamepedia.com/Server.properties for specifics
+  #config.server -- general server.properties. see https://minecraft.gamepedia.com/Server.properties for specifics
   server:
     maxTickTime: 20000 
     restrictions:
