@@ -1,10 +1,9 @@
-{{- range $key, $val := .Values.servers }}
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .name }}
+  name: {{ .Release.Name }}
 data:
+ {{- with .Values}}
   EULA: {{ default false .eula | quote }}
   VERSION: {{ .version | default "LATEST" | quote }}
   {{- if .type }}
@@ -57,7 +56,7 @@ data:
   {{- end }}
   FORCE_REDOWNLOAD: {{ default false .forceRedownload | quote }}
   OVERRIDE_SERVER_PROPERTIES: {{ default true .overrideOnStartup | quote }}
-  SERVER_NAME: {{ .name }}
+  SERVER_NAME: {{ $.Release.Name }}
   {{- with .config }}
   ICON: {{ default "https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7" .icon }}
   {{- if .modpack }}MODPACK: {{ .modpack }} {{ end }}
@@ -108,4 +107,4 @@ data:
   LEVEL: {{ .name | default "mcshworld" }}
   {{- if .url }}WORLD: {{ .url }}{{ end }}
   {{- end }}
-{{- end }}
+  {{- end }}

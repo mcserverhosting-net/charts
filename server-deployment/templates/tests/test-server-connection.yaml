@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-connection-test
+  annotations:
+    helm.sh/hook: test
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        image: itzg/mc-monitor:0.5.0
+        args:
+        - status 
+        - --host
+        - {{ .Release.Name }}
+      restartPolicy: OnFailure
+  backoffLimit: 4
