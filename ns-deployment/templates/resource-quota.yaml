@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota
+spec:
+  hard:
+    services.nodeports: {{ .Values.ports }}
+    count/server.mcserverhosting.net: {{ .Values.servers }}
+    count/scp.mcserverhosting.net: 1
+    limits.memory: {{ .Values.memory }}
