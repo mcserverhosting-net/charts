@@ -1,0 +1,31 @@
+# online -- server online value. If false, server will be shutoff and not count against any quota.
+online: true 
+
+# plugins - A list of bungee plugins to install. Must be a direct download link ending in .jar.
+plugins: 
+- https://ci.viaversion.com/job/ViaVersion/lastSuccessfulBuild/artifact/jar/target/ViaVersion-2.2.3.jar
+- https://ci.viaversion.com/job/ViaVersion-Abstraction/lastSuccessfulBuild/artifact/jar/target/ViaVersion-3.0.0-SNAPSHOT.jar
+- https://ci.viaversion.com/view/ViaBackwards/job/ViaBackwards/lastSuccessfulBuild/artifact/all/target/viabackwards-all-2.4.0-SNAPSHOT.jar
+- https://ci.viaversion.com/view/ViaRewind/job/ViaRewind-DEV/lastSuccessfulBuild/artifact/all/target/viarewind-all-1.5.0-SNAPSHOT.jar
+
+# jar -- The bungee jar to use. Can be overridden to use an alternative jar. FlameCord is used in this example.
+jar: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/FlameCord.jar?alt=media&token=9a8ba3db-7847-4d62-9a7f-10f65fe54601
+# jarName -- The name of the custom bungee jar to use
+jarName: FlameCord.jar
+
+# bungee -- general bungee config. see https://www.spigotmc.org/wiki/bungeecord-configuration-guide/ for all availible values
+#Cannot use at this time
+#ERR: Copying BungeeCord configs over...
+#cp: can't stat '/config/config.yml': No such file or directory
+
+config:
+  network:
+    # config.network.domainName -- The DNS name your players will connect by
+    domainName: play.mcserverhosting.net
+    # config.network.routeName -- The DNS name that will route to your node's IP address.
+    routeName: cluster-nodes.mcserverhosting.net
+  memory:
+    # config.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
+    initial: 500M
+    # config.memory.max -- max memory for the minecraft server. memory must end in G or M. 
+    max: 2G

@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-bungee
+spec:
+  serviceName: {{ .Release.Name }}-bungee
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-bungee
+  {{- if .Values.online }}
+  replicas: 1
+  {{- else }}
+  replicas: 0
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-bungee
+    spec:
+      {{- if .Values.runtime }}
+      runtimeClassName: {{ .Values.admin.runtime }}
+      {{- end }}
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 999
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: {{ .Release.Name }}
+        tty: true
+        stdin: true
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+        readinessProbe:
+          tcpSocket:
+            port: 25565
+          initialDelaySeconds: 15
+          periodSeconds: 4
+          failureThreshold: 300
+        livenessProbe:
+          tcpSocket:
+            port: 25565
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          failureThreshold: 10
+        image: docker.io/itzg/bungeecord
+        env:
+        - name: BUNGEE_JAR 
+          value: {{ .Values.jarName }}
+        - name: BUNGEE_JAR_URL
+          value: {{ .Values.jar }}
+        - name: PLUGINS
+          value: {{ include "helm-toolkit.utils.joinListWithComma" .Values.plugins }}
+        resources:
+          limits:
+            memory: {{ .Values.config.memory.max }}i
+            cpu: 1
+          requests:
+            memory: {{ .Values.config.memory.initial }}i
+            cpu: 100m
+        ports:
+        - containerPort: 25565
+          name: bungee
+        volumeMounts:
+        - name: bungee-volume
+          mountPath: /server
+          subPath: {{ .Release.Namespace }}/servers/bungee/{{ .Release.Name }}
+      restartPolicy: Always
+      volumes:
+      - name: bungee-config
+        configMap:
+          name: {{ .Release.Name }}-bungee-config
+      - name: bungee-volume
+        flexVolume:
+          driver: ceph.rook.io/rook
+          fsType: ceph
+          options:
+            clusterNamespace: rook-ceph
+            fsName: myfs

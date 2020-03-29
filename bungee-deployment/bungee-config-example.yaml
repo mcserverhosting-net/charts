@@ -1,0 +1,53 @@
+player_limit: -1
+ip_forward: true
+permissions:
+  default:
+  - bungeecord.command.server
+  - bungeecord.command.list
+  admin:
+  - bungeecord.command.alert
+  - bungeecord.command.end
+  - bungeecord.command.ip
+  - bungeecord.command.reload
+timeout: 30000
+log_commands: true
+online_mode: true
+servers:
+  main:
+    motd: '&1MC Server Hosting'
+    address: main:25565
+    restricted: false
+  earth:
+    motd: '&1MC Earth'
+    address: world:25565
+    restricted: false
+  library:
+    motd: '&1MC Library'
+    address: library:25565
+    restricted: false
+listeners:
+- query_port: 25565
+  motd: '&1MC Server Hosting'
+  priorities:
+  - lobby
+  bind_local_address: true
+  tab_list: GLOBAL_PING
+  query_enabled: true
+  forced_hosts:
+    library.mcserverhosting.net: library
+  max_players: 2020
+  tab_size: 60
+  ping_passthrough: true
+  force_default_server: false
+  proxy_protocol: false
+disabled_commands:
+- disabledcommandhere
+network_compression_threshold: 64
+groups:
+  sfxworks:
+  - admin
+connection_throttle: 1000
+connection_throttle_limit: 3
+stats: f2876aa6-74d2-468c-90ee-1377111f1c9f
+forge_support: true
+inject_commands: false

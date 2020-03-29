@@ -1,0 +1,6 @@
+apiVersion: v2
+name: bungee-deployment
+description: BungeeCord helm chart. Route players to multiple servers internally. https://www.spigotmc.org/wiki/about-bungeecord/ 
+type: application
+version: 0.1.0
+appVersion: 1.16.0
