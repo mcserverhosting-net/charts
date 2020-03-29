@@ -3,11 +3,15 @@ kind: Service
 metadata:
   name:  {{ .Release.Name }}
   annotations:
-    mc-router.itzg.me/externalServerName: {{ .Values.config.address }}
+    #Integration option for external dns
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.config.network.domainName }}
+    #Integration option for mc-router
+    mc-router.itzg.me/externalServerName: {{ .Values..config.network.domainName }}
   labels:
     type:  {{ .Release.Name }}
 spec:
-  type: ClusterIP
+  type: ClusterIp
+  externalName: {{ .Values.config.network.routeName }}
   ports:
   - name: minecraft
     port: 25565

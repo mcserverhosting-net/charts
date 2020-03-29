@@ -46,7 +46,6 @@ custom:
   # custom.url -- can be used to reference a custom server jar via url or local directory
   url:
 config:
-  address: play.mcserverhosting.net
   console: true
   # config.modpack -- takes a custom set of jars in a zip file and extracts them into the mods directory
   modpack:
@@ -71,6 +70,8 @@ config:
       whitelist:
       forceGamemode: true
     network:
+      domainName: play.mcserverhosting.net
+      routeName: cluster-nodes.mcserverhosting.net
       maxPlayers: 2020
       query: true
       onlineMode: true
