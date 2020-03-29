@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name:  {{ .Release.Name }}-bungee
+  annotations:
+    #Integration option for external dns
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.config.network.domainName }}
+    #Integration option for mc-router
+    mc-router.itzg.me/externalServerName: {{ .Values..config.network.domainName }}
+  labels:
+    type:  {{ .Release.Name }}-bungee
+spec:
+  type: CluserIp
+  externalName: {{ .Values.config.network.routeName }}
+  ports:
+  - name: bungee
+    port: 25565
+    protocol: TCP
+  selector:
+    app:  {{ .Release.Name }}-bungee

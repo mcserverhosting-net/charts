@@ -37,7 +37,9 @@ data:
   {{- end }}
   {{- if .spongevanilla }}
   {{- if eq .type "SPONGEVANILLA" }}
-  SPONGEVERSION: {{ .spongevanilla.version | default "STABLE" }}
+  {{- if .spongevanilla.version }}
+  SPONGEVERSION: {{ .spongevanilla.version }}
+  {{- end }}
   {{- if .spongevanilla.branch }}SPONGEBRANCH: {{ .spongevanilla.branch }}{{ end }}
   {{- end }}
   {{- end }}
@@ -55,16 +57,16 @@ data:
   {{- end }}
   {{- end }}
   FORCE_REDOWNLOAD: {{ default false .forceRedownload | quote }}
-  OVERRIDE_SERVER_PROPERTIES: {{ default true .overrideOnStartup | quote }}
+  OVERRIDE_SERVER_PROPERTIES: {{ default true ( .overrideOnStartup | toString) | quote }}
   SERVER_NAME: {{ $.Release.Name }}
   {{- with .config }}
   ICON: {{ default "https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7" .icon }}
   {{- if .modpack }}MODPACK: {{ .modpack }} {{ end }}
   MOTD: {{ default "Your new MCSH minecraft server!" .motd }}
   {{- if .mods }}MODS: {{ .mods }} {{ end }}
-  REMOVE_OLD_MODS: {{ default true .removeOldMods | quote }}
+  REMOVE_OLD_MODS: {{ default true ( .removeOldMods | toString ) | quote }}
   JVM_DD_OPTS: fml.queryResult:confirm
-  CONSOLE: {{ default true .console | quote }}
+  CONSOLE: {{ default true ( .console | toString ) | quote }}
   GUI: "false"
   INIT_MEMORY: {{ .memory.initial | default "1Gi" }}
   MAX_MEMORY: {{ .memory.max | default "1Gi" }}
@@ -79,27 +81,27 @@ data:
   {{- end }}
   {{- end }}
   OPS: {{ .restrictions.ops | default "sfxworks" }}
-  ENABLE_QUERY: {{ default true .network.query | quote }}
+  ENABLE_QUERY: {{ default true ( .network.query | toString ) | quote }}
   MAX_PLAYERS: {{ default "2020" .network.maxPlayers }}
-  ALLOW_NETHER:  {{ default true .gameSettings.nether | quote }}
+  ALLOW_NETHER:  {{ default true ( .gameSettings.nether | toString ) | quote }}
   DIFFICULTY: {{ .gameSettings.difficulty | default "hard" }}
-  ANNOUNCE_PLAYER_ACHIEVEMENTS:  {{ default true .gameSettings.announcePlayerAchievements | quote }}
-  ENABLE_COMMAND_BLOCK: {{ default true .gameSettings.commandBlocks | quote }}
+  ANNOUNCE_PLAYER_ACHIEVEMENTS:  {{ default true ( .gameSettings.announcePlayerAchievements | toString ) | quote }}
+  ENABLE_COMMAND_BLOCK: {{ default true ( .gameSettings.commandBlocks| toString )  | quote }}
   FORCE_GAMEMODE: {{ default false .restrictions.forceGamemode | quote }}
-  HARDCORE: {{ default true .gameSettings.hardcore | quote }}
-  SNOOPER_ENABLED: {{ default true .gameSettings.snooper | quote }}
+  HARDCORE: {{ default true ( .gameSettings.hardcore | toString )  | quote }}
+  SNOOPER_ENABLED: {{ default true ( .gameSettings.snooper | toString ) | quote }}
   MAX_TICK_TIME: {{ .maxTickTime | default "20000" }}
-  PVP: {{ default true .gameSettings.pvp | quote }}
-  ONLINE_MODE: {{ default true .network.onlineMode | quote }}
+  PVP: {{ default true ( .gameSettings.pvp | toString )  | quote }}
+  ONLINE_MODE: {{ default true ( .network.onlineMode | toString ) | quote }}
   {{- if .restrictions.whitelist }}WHITELIST: {{ .restrictions.whitelist }}{{ end }}
   {{- end }}
   {{- with .world }}
   {{- if .restrictions.maxSize }}MAX_WORLD_SIZE: {{ .restrictions.maxSize }} {{ end }}
   MAX_BUILD_HEIGHT: {{ .restrictions.maxBuildHeight | default "256" }}
-  GENERATE_STRUCTURES: {{ default true .generateStructures | quote }}
-  SPAWN_ANIMALS: {{ default true .spawnAnimals | quote }}
-  SPAWN_NPCS: {{ default true .spawnNpcs | quote }}
-  SPAWN_PROTECTION: {{ default true .restrictions.spawnProtection | quote }}
+  GENERATE_STRUCTURES: {{ default true ( .generateStructures| toString ) | quote }}
+  SPAWN_ANIMALS: {{ default true ( .spawnAnimals | toString ) | quote }}
+  SPAWN_NPCS: {{ default true ( .spawnNpcs| toString ) | quote }}
+  SPAWN_PROTECTION: {{ default true ( .restrictions.spawnProtection | toString ) | quote }}
   {{- if .restrictions.viewDistance }}VIEW_DISTANCE: {{ .restrictions.viewDistance }} {{ end }}
   {{- if .seed }}SEED: {{ .seed }}{{ end }}
   MODE: {{ .mode | default "Survival"}}

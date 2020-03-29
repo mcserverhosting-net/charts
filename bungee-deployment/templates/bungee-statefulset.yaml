@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Release.Name }}-bungee
 spec:
-  serviceName: {{ .Release.Name }}
+  serviceName: {{ .Release.Name }}-bungee
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: {{ .Release.Name }}-bungee
   {{- if .Values.online }}
   replicas: 1
   {{- else }}
@@ -15,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: {{ .Release.Name }}-bungee
     spec:
       {{- if .Values.runtime }}
       runtimeClassName: {{ .Values.admin.runtime }}
@@ -26,57 +26,51 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: {{ .Release.Name }}
+        tty: true
+        stdin: true
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
-        envFrom:
-        - configMapRef:
-            name: {{ .Release.Name }}
         readinessProbe:
-          exec:
-            command:
-            - mc-monitor
-            - status
+          tcpSocket:
+            port: 25565
           initialDelaySeconds: 15
           periodSeconds: 4
           failureThreshold: 300
         livenessProbe:
-          exec:
-            command:
-            - mc-monitor
-            - status
+          tcpSocket:
+            port: 25565
           initialDelaySeconds: 60
           periodSeconds: 10
           failureThreshold: 10
-        {{- if .type }}
-        {{- if eq .type "SPONGEVANILLA" }}
-        image: docker.io/itzg/minecraft-server:latest
-        {{- else if eq .type "FORGE"  }}
-        image: docker.io/itzg/minecraft-server:latest
-        {{- else }}
-        image: docker.io/itzg/minecraft-server:adopt13
-        {{- end }}
-        {{- else }}
-        image: docker.io/itzg/minecraft-server:adopt13
-        {{- end }}
-        tty: true
-        stdin: true
-        imagePullPolicy: IfNotPresent
+        image: docker.io/itzg/bungeecord
+        env:
+        - name: BUNGEE_JAR 
+          value: {{ .Values.jarName }}
+        - name: BUNGEE_JAR_URL
+          value: {{ .Values.jar }}
+        - name: PLUGINS
+          value: {{ include "helm-toolkit.utils.joinListWithComma" .Values.plugins }}
         resources:
           limits:
             memory: {{ .Values.config.memory.max }}i
+            cpu: 1
           requests:
             memory: {{ .Values.config.memory.initial }}i
             cpu: 100m
         ports:
         - containerPort: 25565
-          name: minecraft
+          name: bungee
         volumeMounts:
-        - name: minecraft-volume
-          mountPath: /data
-          subPath: {{ .Release.Namespace }}/servers/{{ .Release.Name }}
+        - name: bungee-volume
+          mountPath: /server
+          subPath: {{ .Release.Namespace }}/servers/bungee/{{ .Release.Name }}
       restartPolicy: Always
       volumes:
-      - name: minecraft-volume
+      - name: bungee-config
+        configMap:
+          name: {{ .Release.Name }}-bungee-config
+      - name: bungee-volume
         flexVolume:
           driver: ceph.rook.io/rook
           fsType: ceph

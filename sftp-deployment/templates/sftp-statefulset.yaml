@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Namespace }}-ssh
+spec:
+  serviceName: {{ .Release.Namespace }}-ssh
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-ssh
+  {{- if .Values.online }}
+  replicas: 1
+  {{- else }}
+  replicas: 0
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Namespace }}-ssh
+    spec:
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        fsGroup: 999
+      containers:
+      - name: {{ .Release.Namespace }}-ssh
+        image: docker.io/atmoz/sftp:alpine
+        tty: false
+        stdin: false
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 500m
+            ephemeral-storage: {{ .Values.system.ephemeralStorage }}
+          requests:
+            memory: 100Mi
+            cpu: 50m
+            ephemeral-storage: {{ .Values.system.ephemeralStorage }}
+        ports:
+        - containerPort: 22
+          name: sftp
+        volumeMounts:
+        - name: users
+          mountPath: /etc/sftp
+        {{- range .Values.users }}
+        - name: {{ .username }}-public-key
+          mountPath: /home/{{ .username }}/.ssh/keys
+        - name: minecraft-volume
+          mountPath: /home/{{ .username }}/servers
+          subPath: {{ $.Release.Namespace }}/servers
+        {{- end }}
+      restartPolicy: Always
+      volumes:
+      - name: users
+        configMap:
+          name: users
+      {{- range .Values.users }}
+      - name: {{ .username }}-public-key
+        configMap:
+          name: public-keys
+          items: 
+          - key: {{ .username }}
+            path: id_rsa.pub
+      {{- end }}
+      - name: minecraft-volume
+        flexVolume:
+          driver: ceph.rook.io/rook
+          fsType: ceph
+          options:
+            clusterNamespace: rook-ceph
+            fsName: myfs

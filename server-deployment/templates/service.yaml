@@ -2,16 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name:  {{ .Release.Name }}
+  annotations:
+    mc-router.itzg.me/externalServerName: {{ .Values.config.address }}
   labels:
     type:  {{ .Release.Name }}
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
   - name: minecraft
     port: 25565
-    protocol: TCP
-  - name: rcon
-    port: 25575
     protocol: TCP
   selector:
     app:  {{ .Release.Name }}
