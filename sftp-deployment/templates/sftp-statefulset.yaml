@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-ssh
+  name: {{ .Release.Namespace }}-ssh
 spec:
-  serviceName: {{ .Release.Name }}-ssh
+  serviceName: {{ .Release.Namespace }}-ssh
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-ssh
+      app: {{ .Release.Namespace }}-ssh
   {{- if .Values.online }}
   replicas: 1
   {{- else }}
@@ -15,13 +15,13 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-ssh
+        app: {{ .Release.Namespace }}-ssh
     spec:
       terminationGracePeriodSeconds: 10
       securityContext:
         fsGroup: 999
       containers:
-      - name: {{ .Release.Name }}-ssh
+      - name: {{ .Release.Namespace }}-ssh
         image: docker.io/atmoz/sftp:alpine
         tty: false
         stdin: false
