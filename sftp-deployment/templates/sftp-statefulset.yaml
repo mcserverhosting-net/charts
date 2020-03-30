@@ -47,6 +47,9 @@ spec:
         - name: minecraft-volume
           mountPath: /home/{{ .username }}/servers
           subPath: {{ $.Release.Namespace }}/servers
+        - name: minecraft-volume
+          mountPath: /home/{{ .username }}/bungee
+          subPath: {{ $.Release.Namespace }}/bungee
         {{- end }}
       restartPolicy: Always
       volumes:
