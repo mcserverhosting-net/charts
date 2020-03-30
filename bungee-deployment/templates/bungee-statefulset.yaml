@@ -45,12 +45,16 @@ spec:
           failureThreshold: 10
         image: docker.io/itzg/bungeecord
         env:
+        {{- if .Values.jar }}
         - name: BUNGEE_JAR 
           value: {{ .Values.jarName }}
         - name: BUNGEE_JAR_URL
           value: {{ .Values.jar }}
+        {{- end }}
+        {{- if .Values.plugins }}
         - name: PLUGINS
           value: {{ include "helm-toolkit.utils.joinListWithComma" .Values.plugins }}
+        {{- end }}
         resources:
           limits:
             memory: {{ .Values.config.memory.max }}i
@@ -64,7 +68,7 @@ spec:
         volumeMounts:
         - name: bungee-volume
           mountPath: /server
-          subPath: {{ .Release.Namespace }}/servers/bungee/{{ .Release.Name }}
+          subPath: {{ .Release.Namespace }}/bungee/{{ .Release.Name }}
       restartPolicy: Always
       volumes:
       - name: bungee-config
