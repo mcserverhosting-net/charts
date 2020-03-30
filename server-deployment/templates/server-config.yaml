@@ -3,86 +3,99 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}
 data:
- {{- with .Values}}
-  EULA: {{ default false .eula | quote }}
-  VERSION: {{ .version | default "LATEST" | quote }}
-  {{- if .type }}
-  TYPE: {{ .type | quote }}
+  {{- with .Values}}
+  EULA: {{ default false (.eula | toString) | quote }}
+  VERSION: {{ default "LATEST" .version | quote }}
+  TYPE: {{ default "VANILLA" .type | quote }}
   {{- if eq .type "FORGE" }}
-  {{- if .forge }}
-  {{- if .forge.version }}FORGEVERSION: {{ .forge.version }}{{ end }}
-  {{- if .forge.installer }}FORGE_INSTALLER: {{ .forge.installer }}{{ end }}
-  {{- if .forge.url }}FORGE_INSTALLER_URL: {{ .forge.url }}{{ end }}
-  {{- end }}
+    {{- if .forge }}
+      {{- if .forge.version }}
+  FORGEVERSION: {{ .forge.version }}
+      {{ end }}
+      {{- if .forge.installer }}
+  FORGE_INSTALLER: {{ .forge.installer }}
+      {{ end }}
+      {{- if .forge.url }}
+  FORGE_INSTALLER_URL: {{ .forge.url }}
+      {{ end }}
+    {{- end }}
   {{- end }}
   {{- if eq .type "BUKKIT" }}
-  {{- if .bukkit }}
-  {{- if .bukkit.url }}BUKKIT_DOWNLOAD_URL: {{ .bukkit.url }}{{ end }}
-  {{- end }}
+    {{- if .bukkit }}
+      {{- if .bukkit.url }}
+  BUKKIT_DOWNLOAD_URL: {{ .bukkit.url }}
+      {{ end }}
+    {{- end }}
   {{- end }}
   {{- if eq .type "SPIGOT" }}
-  {{- if .spigot.url }}SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}{{ end }}
-  BUILD_FROM_SOURCE: {{ default false .spigot.build | quote }}
+    {{- if .spigot.url }}
+  SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}
+    {{ end }}
+  BUILD_FROM_SOURCE: {{ default false ( .spigot.build | toString ) | quote }}
   {{- end }}
   {{- if .curseforge }}
-  {{- if eq .type "CURSEFORGE" }}
+    {{- if eq .type "CURSEFORGE" }}
   CF_SERVER_MOD: {{ .curseforge.modpack.url }}
-  {{- end }}
+    {{- end }}
   {{- end }}
   {{- if .ftb }}
-  {{- if eq .type "FTB" }}
+    {{- if eq .type "FTB" }}
+      {{- if .ftb.modpack }}
   FTB_SERVER_MOD: {{ .ftb.modpack.url }}
-  FTB_LEGACYJAVAFIXER: {{ default false .ftb.modpack.legacy | quote }}
-  {{- end }}
+  FTB_LEGACYJAVAFIXER: {{ default false ( .ftb.modpack.legacy | toString ) | quote }}
+      {{- end }}
+    {{- end }}
   {{- end }}
   {{- if .spongevanilla }}
-  {{- if eq .type "SPONGEVANILLA" }}
-  {{- if .spongevanilla.version }}
+    {{- if eq .type "SPONGEVANILLA" }}
+      {{- if .spongevanilla.version }}
   SPONGEVERSION: {{ .spongevanilla.version }}
-  {{- end }}
-  {{- if .spongevanilla.branch }}SPONGEBRANCH: {{ .spongevanilla.branch }}{{ end }}
-  {{- end }}
+      {{- end }}
+      {{- if .spongevanilla.branch }}
+  SPONGEBRANCH: {{ .spongevanilla.branch }}
+      {{ end }}
+    {{- end }}
   {{- end }}
   {{- if .fabric }}
-  {{- if eq .type "FABRIC" }}
-  {{- if .fabric.version }}FABRICVERSION: {{ .fabric.version }}{{ end }}
-  {{- if .fabric.installer }}FABRIC_INSTALLER: {{ .fabric.installer }}{{ end }}
-  {{- if .fabric.url }}FABRIC_INSTALLER_URL: {{ .fabric.url }}{{ end }}
-  {{- end }}
+    {{- if eq .type "FABRIC" }}
+      {{- if .fabric.version }}
+  FABRICVERSION: {{ .fabric.version }}
+      {{ end }}
+      {{- if .fabric.installer }}
+  FABRIC_INSTALLER: {{ .fabric.installer }}
+      {{ end }}
+      {{- if .fabric.url }}
+  FABRIC_INSTALLER_URL: {{ .fabric.url }}
+      {{ end }}
+    {{- end }}
   {{- end }}
   {{- if .custom }}
-  {{- if eq .type "CUSTOM" }}
+    {{- if eq .type "CUSTOM" }}
   CUSTOM_SERVER: {{ .custom.url }}
-  {{- end }}
-  {{- end }}
+    {{- end }}
   {{- end }}
   FORCE_REDOWNLOAD: {{ default false .forceRedownload | quote }}
   OVERRIDE_SERVER_PROPERTIES: {{ default true ( .overrideOnStartup | toString) | quote }}
   SERVER_NAME: {{ $.Release.Name }}
   {{- with .config }}
   ICON: {{ default "https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7" .icon }}
-  {{- if .modpack }}MODPACK: {{ .modpack }} {{ end }}
+    {{- if .modpack }}
+  MODPACK: {{ .modpack }}
+    {{- end }}
   MOTD: {{ default "Your new MCSH minecraft server!" .motd }}
-  {{- if .mods }}MODS: {{ .mods }} {{ end }}
+    {{- if .mods }}
+  MODS: {{ .mods }}
+    {{- end }}
   REMOVE_OLD_MODS: {{ default true ( .removeOldMods | toString ) | quote }}
   JVM_DD_OPTS: fml.queryResult:confirm
   CONSOLE: {{ default true ( .console | toString ) | quote }}
   GUI: "false"
   INIT_MEMORY: {{ .memory.initial | default "1Gi" }}
   MAX_MEMORY: {{ .memory.max | default "1Gi" }}
-  {{- end }}
-  {{- with .server }}
-  {{- if .network.rcon.enabled }}
-  ENABLE_RCON: true
-  {{- if .network.rcon.password }}
-  RCON_PASSWORD: {{ .network.rcon.password}}
-  {{- else }}
-  RCON_PASSWORD: {{ randAlphaNum 20 }}
-  {{- end }}
-  {{- end }}
-  OPS: {{ .restrictions.ops | default "sfxworks" }}
+    {{- with .server }}
+  OPS: {{ default .restrictions.ops "sfxworks" }}
   ENABLE_QUERY: {{ default true ( .network.query | toString ) | quote }}
-  MAX_PLAYERS: {{ default "2020" .network.maxPlayers }}
+  MAX_PLAYERS: {{ default "2020" .network.maxPlayers | quote }}
   ALLOW_NETHER:  {{ default true ( .gameSettings.nether | toString ) | quote }}
   DIFFICULTY: {{ .gameSettings.difficulty | default "hard" }}
   ANNOUNCE_PLAYER_ACHIEVEMENTS:  {{ default true ( .gameSettings.announcePlayerAchievements | toString ) | quote }}
@@ -90,23 +103,37 @@ data:
   FORCE_GAMEMODE: {{ default false .restrictions.forceGamemode | quote }}
   HARDCORE: {{ default true ( .gameSettings.hardcore | toString )  | quote }}
   SNOOPER_ENABLED: {{ default true ( .gameSettings.snooper | toString ) | quote }}
-  MAX_TICK_TIME: {{ .maxTickTime | default "20000" }}
+  MAX_TICK_TIME: {{ default "20000" .maxTickTime | quote}}
   PVP: {{ default true ( .gameSettings.pvp | toString )  | quote }}
   ONLINE_MODE: {{ default true ( .network.onlineMode | toString ) | quote }}
-  {{- if .restrictions.whitelist }}WHITELIST: {{ .restrictions.whitelist }}{{ end }}
-  {{- end }}
-  {{- with .world }}
-  {{- if .restrictions.maxSize }}MAX_WORLD_SIZE: {{ .restrictions.maxSize }} {{ end }}
-  MAX_BUILD_HEIGHT: {{ .restrictions.maxBuildHeight | default "256" }}
+      {{- if .restrictions.whitelist }}
+  WHITELIST: {{ .restrictions.whitelist }}
+      {{- end }}
+    {{- end }}
+    {{- with .world }}
+      {{- if .restrictions.maxSize }}
+  MAX_WORLD_SIZE: {{ .restrictions.maxSize | quote }}
+      {{- end }}
+  MAX_BUILD_HEIGHT: {{  default 256 .restrictions.maxBuildHeight | quote }}
   GENERATE_STRUCTURES: {{ default true ( .generateStructures| toString ) | quote }}
   SPAWN_ANIMALS: {{ default true ( .spawnAnimals | toString ) | quote }}
   SPAWN_NPCS: {{ default true ( .spawnNpcs| toString ) | quote }}
   SPAWN_PROTECTION: {{ default true ( .restrictions.spawnProtection | toString ) | quote }}
-  {{- if .restrictions.viewDistance }}VIEW_DISTANCE: {{ .restrictions.viewDistance }} {{ end }}
-  {{- if .seed }}SEED: {{ .seed }}{{ end }}
+      {{- if .restrictions.viewDistance }}
+  VIEW_DISTANCE: {{ .restrictions.viewDistance | quote }}
+      {{- end }}
+      {{- if .seed }}
+  SEED: {{ .seed }}
+      {{- end }}
   MODE: {{ .mode | default "Survival"}}
-  LEVEL_TYPE: {{ .level | default "DEFAULT"}}
+  LEVEL_TYPE: {{ default "DEFAULT" .level | quote }}
+      {{- if .generatorSettings }}
+  GENERATOR_SETTINGS: {{ .generatorSettings }}
+      {{- end }}
   LEVEL: {{ .name | default "mcshworld" }}
-  {{- if .url }}WORLD: {{ .url }}{{ end }}
+      {{- if .url }}
+  WORLD: {{ .url }}
+      {{- end }}
+    {{- end }}
   {{- end }}
   {{- end }}

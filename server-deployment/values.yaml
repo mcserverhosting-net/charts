@@ -45,6 +45,10 @@ fabric:
 custom:
   # custom.url -- can be used to reference a custom server jar via url or local directory
   url:
+
+domainName: 
+routeName: 
+
 config:
   console: true
   # config.modpack -- takes a custom set of jars in a zip file and extracts them into the mods directory
@@ -70,43 +74,43 @@ config:
       whitelist:
       forceGamemode: true
     network:
-      domainName: play.mcserverhosting.net
-      routeName: cluster-nodes.mcserverhosting.net
       maxPlayers: 2020
       query: true
-      onlineMode: true
+      onlineMode: false
     gameSettings:
       hardcore: false
       snooper: true
       difficulty: 
       commandBlocks: true
       announcePlayerAchievements: true
-      nether: true
+      nether: false
       flight: true
-      pvp: true
+      pvp: false
   resourcePack:
-    url:
+    url: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/KDesp%201.15%20v1.9.zip?alt=media&token=2a9e2133-a553-4433-bae7-824d964d1c7c
     sha:
   world:
-    name: world
+    name: superflat
     restrictions:
       maxBuildHeight: 256
-      maxSize: 10000
-      viewDistance: 16
+      maxSize: 1000
+      viewDistance: 32
       spawnProtection: 0
-    mode: survival
-    level:
+    mode: adventure
+    level: FLAT
+    generatorSettings: 
     seed: 
-    spawnAnimals: true
-    spawnNpcs: true
-    generateStructures: true
+    spawnAnimals: false
+    spawnNpcs: false
+    generateStructures: false
     # config.world.url -- will download a zip file of a world and extract it
     url: 
-# overrideOnStartup -- if true, will rewrite the server.properties file when passed here. always runs on first install.
-overrideOnStartup: false
+# overrideOnStartup -- dif true, will rewrite the server.properties file when passed here. always runs on first install.
+overrideOnStartup: true
 # forceRedownload -- forces redwonload for VANILLA, FORGE, BUKKIT, SPIGOT, PAPER, CURSEFORGE, SPONGEVANILLA server types 
 forceRedownload: false
 
 #Cluster admin values
 runtime: 
 userID: 1000
+groupID: 999
