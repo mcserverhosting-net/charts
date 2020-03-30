@@ -18,11 +18,11 @@ spec:
         app: {{ .Release.Name }}
     spec:
       {{- if .Values.runtime }}
-      runtimeClassName: {{ .Values.admin.runtime }}
+      runtimeClassName: {{ .Values.runtime }}
       {{- end }}
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 999
+        runAsUser: {{ default .Values.userID 1000 }} 
+        runAsGroup: {{ default .Values.groupID 999 }} 
       terminationGracePeriodSeconds: 30
       containers:
       - name: {{ .Release.Name }}
