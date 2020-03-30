@@ -23,9 +23,6 @@ spec:
   hostNetwork: false
   hostIPC: false
   hostPID: false
-  runAsUser:
-    # Require the container to run without root privileges.
-    rule: 'MustRunAsNonRoot'
   supplementalGroups:
     rule: 'MustRunAs'
     ranges:
