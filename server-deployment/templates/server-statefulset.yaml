@@ -73,13 +73,10 @@ spec:
         volumeMounts:
         - name: minecraft-volume
           mountPath: /data
-          subPath: {{ .Release.Namespace }}/servers/{{ .Release.Name }}
+          subPath: servers/{{ .Release.Name }}
       restartPolicy: Always
       volumes:
       - name: minecraft-volume
-        flexVolume:
-          driver: ceph.rook.io/rook
-          fsType: ceph
-          options:
-            clusterNamespace: rook-ceph
-            fsName: myfs
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}
+          readOnly: false
