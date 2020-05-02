@@ -6,3 +6,6 @@ ports: 10
 servers: 
 # memory -- The maximum memory that is allowed in the namespace to be active at one time
 memory:
+
+# storage -- maximum storage size for the namespace shared among other deployments
+storage:

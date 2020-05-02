@@ -68,16 +68,13 @@ spec:
         volumeMounts:
         - name: bungee-volume
           mountPath: /server
-          subPath: {{ .Release.Namespace }}/bungee/{{ .Release.Name }}
+          subPath: bungee/{{ .Release.Name }}
       restartPolicy: Always
       volumes:
       - name: bungee-config
         configMap:
           name: {{ .Release.Name }}-bungee-config
       - name: bungee-volume
-        flexVolume:
-          driver: ceph.rook.io/rook
-          fsType: ceph
-          options:
-            clusterNamespace: rook-ceph
-            fsName: myfs
+        persistentVolumeClaim:
+          claimName: ns-pvc
+          readOnly: false

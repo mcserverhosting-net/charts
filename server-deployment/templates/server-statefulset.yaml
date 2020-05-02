@@ -78,5 +78,5 @@ spec:
       volumes:
       - name: minecraft-volume
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}
+          claimName: ns-pvc
           readOnly: false

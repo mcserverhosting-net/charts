@@ -46,10 +46,10 @@ spec:
           mountPath: /home/{{ .username }}/.ssh/keys
         - name: minecraft-volume
           mountPath: /home/{{ .username }}/servers
-          subPath: {{ $.Release.Namespace }}/servers
+          subPath: servers
         - name: minecraft-volume
           mountPath: /home/{{ .username }}/bungee
-          subPath: {{ $.Release.Namespace }}/bungee
+          subPath: bungee
         {{- end }}
       restartPolicy: Always
       volumes:
@@ -65,9 +65,6 @@ spec:
             path: id_rsa.pub
       {{- end }}
       - name: minecraft-volume
-        flexVolume:
-          driver: ceph.rook.io/rook
-          fsType: ceph
-          options:
-            clusterNamespace: rook-ceph
-            fsName: myfs
+        persistentVolumeClaim:
+          claimName: ns-pvc
+          readOnly: false
