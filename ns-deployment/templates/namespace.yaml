@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ .Release.Name }}
-  labels:
-    profile-id: {{ .Release.Name }}

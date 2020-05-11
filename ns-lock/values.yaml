@@ -1,11 +1,10 @@
 # user -- The username of the admin of the namespace.
-user: 
+user: sfxworks@gmail.com
 # ports -- The number of exposed ports the namespace is allowed to have 
 ports: 10
 # servers -- The number of servers the user is allowed to have
-servers: 
-# memory -- The maximum memory that is allowed in the namespace to be active at one time
-memory:
-
+servers: 2
+# memory -- The maximum memory in GB that is allowed in the namespace to be active at one time
+memory: 2Gi
 # storage -- maximum storage size for the namespace shared among other deployments
-storage:
+storage: 10Gi

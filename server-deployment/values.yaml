@@ -46,7 +46,7 @@ custom:
   # custom.url -- can be used to reference a custom server jar via url or local directory
   url:
 
-domainName: 
+domainName: play.mcserverhosting.red
 routeName: 
 
 config:
@@ -59,9 +59,9 @@ config:
   removeOldMods: false
   memory:
     # config.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
-    initial: 6G
+    initial: 1G
     # config.memory.max -- max memory for the minecraft server. memory must end in G or M. 
-    max: 24G
+    max: 2G
   # config.icon -- The icon displayed for your minecraft servers by the client and cabable query services
   icon: 
   # config.motd -- the minecraft servers message of the day
@@ -76,7 +76,7 @@ config:
     network:
       maxPlayers: 2020
       query: true
-      onlineMode: false
+      onlineMode: true
     gameSettings:
       hardcore: false
       snooper: true

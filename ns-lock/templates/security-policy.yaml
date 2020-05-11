@@ -2,12 +2,10 @@ apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: restricted
-  annotations:
-    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default,runtime/default'
-    apparmor.security.beta.kubernetes.io/allowedProfileNames: 'runtime/default'
-    seccomp.security.alpha.kubernetes.io/defaultProfileName:  'runtime/default'
-    apparmor.security.beta.kubernetes.io/defaultProfileName:  'runtime/default'
 spec:
+  readOnlyRootFilesystem: true
+  requiredDropCapabilities:
+    - ALL
   privileged: false
   # Required to prevent escalations to root.
   allowPrivilegeEscalation: false
@@ -23,6 +21,12 @@ spec:
   hostNetwork: false
   hostIPC: false
   hostPID: false
+  runAsUser:
+    # Require the container to run without root privileges.
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    # This policy assumes the nodes are using AppArmor rather than SELinux.
+    rule: 'RunAsAny'  
   supplementalGroups:
     rule: 'MustRunAs'
     ranges:

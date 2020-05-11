@@ -28,7 +28,7 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: 1Gi
+            memory: 200Mi
             cpu: 500m
             ephemeral-storage: {{ .Values.system.ephemeralStorage }}
           requests:
