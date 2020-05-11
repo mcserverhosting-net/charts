@@ -1,6 +1,0 @@
-apiVersion: v2
-name: ns-lock
-description: A namespace lock deployment for MCSH. Includes namespace quota and user rolebinding for authentication.
-type: application
-version: 0.1.0
-appVersion: 1.18

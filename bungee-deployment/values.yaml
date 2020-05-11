@@ -21,11 +21,11 @@ jarName: FlameCord.jar
 config:
   network:
     # config.network.domainName -- The DNS name your players will connect by
-    domainName: play.mcserverhosting.net
+    domainName: bungee.mcserverhosting.red
     # config.network.routeName -- The DNS name that will route to your node's IP address.
-    routeName: cluster-nodes.mcserverhosting.net
+    routeName: bungee.mcserverhosting.red
   memory:
     # config.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
     initial: 500M
     # config.memory.max -- max memory for the minecraft server. memory must end in G or M. 
-    max: 2G
+    max: 1G

@@ -1,12 +1,12 @@
 apiVersion: v2
-name: server-deployment
+name: namespace-lock
 version: 2.0
-kubeVersion: < 1.15.0
-description: A server deployment deployment for MCSH. Includes statefulset. 
+kubeVersion: 1.18
+description: A namespace lock deployment for MCSH. Includes namespace quota and user rolebinding for authentication.
 type: application
 keywords:
   - mcserverhosting
-  - server
+  - namespace
 home: https://mcserverhosting.net/
 sources:
   - https://github.com/mcserverhosting-net/charts

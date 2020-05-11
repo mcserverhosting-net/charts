@@ -1,6 +1,19 @@
 apiVersion: v2
 name: bungee-deployment
-description: BungeeCord helm chart. Route players to multiple servers internally. https://www.spigotmc.org/wiki/about-bungeecord/ 
+version: 2.0
+kubeVersion: "> 1.15.0"
+description: An bungee deployment deployment for MCSH. Includes bungee deployment.
 type: application
-version: 0.1.0
-appVersion: 1.16.0
+keywords:
+  - mcserverhosting
+  - bungee
+home: https://mcserverhosting.net/
+sources:
+  - https://github.com/mcserverhosting-net/charts
+maintainers:
+  - name: sfxworks
+    email: sfxworks@gmail.com
+    url: sfxworks.net
+icon: https://avatars0.githubusercontent.com/u/49386422
+appVersion: 2.0
+deprecated: false
