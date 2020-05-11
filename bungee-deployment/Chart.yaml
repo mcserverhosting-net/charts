@@ -1,6 +1,6 @@
 apiVersion: v2
 name: bungee-deployment
-version: 2.0
+version: 2.1
 kubeVersion: "> 1.15.0"
 description: An bungee deployment deployment for MCSH. Includes bungee deployment.
 type: application
@@ -15,5 +15,5 @@ maintainers:
     email: sfxworks@gmail.com
     url: sfxworks.net
 icon: https://avatars0.githubusercontent.com/u/49386422
-appVersion: 2.0
+appVersion: 2.1
 deprecated: false

@@ -21,7 +21,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - https://github.com/mcserverhosting-net/charts/releases/download/2.1/bungee-deployment-2.1.tgz
+    - bungee-deployment-2.1.tgz
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
@@ -43,7 +43,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - https://github.com/mcserverhosting-net/charts/releases/download/2.0/bungee-deployment-2.tgz
+    - bungee-deployment-2.tgz
     version: "2"
   namespace-lock:
   - apiVersion: v2
@@ -67,7 +67,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - https://github.com/mcserverhosting-net/charts/releases/download/2.1/namespace-lock-2.1.tgz
+    - namespace-lock-2.1.tgz
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
@@ -90,7 +90,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - https://github.com/mcserverhosting-net/charts/releases/download/2.0/namespace-lock-2.tgz
+    - namespace-lock-2.tgz
     version: "2"
   server-deployment:
   - apiVersion: v2
@@ -113,7 +113,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - https://github.com/mcserverhosting-net/charts/releases/download/2.1/server-deployment-2.1.tgz
+    - server-deployment-2.1.tgz
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
@@ -135,7 +135,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - https://github.com/mcserverhosting-net/charts/releases/download/2.0/server-deployment-2.tgz
+    - server-deployment-2.tgz
     version: "2"
   sftp-deployment:
   - apiVersion: v2
@@ -161,7 +161,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - https://github.com/mcserverhosting-net/charts/releases/download/2.1/sftp-deployment-2.1.tgz
+    - sftp-deployment-2.1.tgz
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
@@ -186,6 +186,6 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - https://github.com/mcserverhosting-net/charts/releases/download/2.0/sftp-deployment-2.tgz
+    - sftp-deployment-2.tgz
     version: "2"
 generated: "2020-05-11T13:22:12.5026344-04:00"
