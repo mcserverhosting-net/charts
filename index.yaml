@@ -21,7 +21,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - bungee-deployment-2.tgz
+    - https://github.com/mcserverhosting-net/charts/releases/download/2.0/bungee-deployment-2.tgz
     version: "2"
   namespace-lock:
   - apiVersion: v2
@@ -45,7 +45,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - namespace-lock-2.tgz
+    - https://github.com/mcserverhosting-net/charts/releases/download/2.0/namespace-lock-2.tgz
     version: "2"
   server-deployment:
   - apiVersion: v2
@@ -68,7 +68,7 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - server-deployment-2.tgz
+    - https://github.com/mcserverhosting-net/charts/releases/download/2.0/server-deployment-2.tgz
     version: "2"
   sftp-deployment:
   - apiVersion: v2
@@ -94,6 +94,6 @@ entries:
     - https://github.com/mcserverhosting-net/charts
     type: application
     urls:
-    - sftp-deployment-2.tgz
+    - https://github.com/mcserverhosting-net/charts/releases/download/2.0/sftp-deployment-2.tgz
     version: "2"
 generated: "2020-05-11T07:49:52.123129-04:00"
