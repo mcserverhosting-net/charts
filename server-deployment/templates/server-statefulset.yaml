@@ -47,10 +47,10 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 10
           failureThreshold: 10
-        {{- if .type }}
-        {{- if eq .type "SPONGEVANILLA" }}
+        {{- if .Values.type }}
+        {{- if eq .Values.type "SPONGEVANILLA" }}
         image: docker.io/itzg/minecraft-server:latest
-        {{- else if eq .type "FORGE"  }}
+        {{- else if eq .Values.type "FORGE"  }}
         image: docker.io/itzg/minecraft-server:latest
         {{- else }}
         image: docker.io/itzg/minecraft-server:adopt13
