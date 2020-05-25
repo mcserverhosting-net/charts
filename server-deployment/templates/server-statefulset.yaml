@@ -48,15 +48,10 @@ spec:
           periodSeconds: 10
           failureThreshold: 10
         {{- if .Values.type }}
-        {{- if eq .Values.type "SPONGEVANILLA" }}
-        image: docker.io/itzg/minecraft-server:latest
-        {{- else if eq .Values.type "FORGE"  }}
-        image: docker.io/itzg/minecraft-server:latest
-        {{- else }}
+        {{- if eq .Values.type "VANILLA" }}
         image: docker.io/itzg/minecraft-server:adopt13
-        {{- end }}
         {{- else }}
-        image: docker.io/itzg/minecraft-server:adopt13
+        image: docker.io/itzg/minecraft-server:latest
         {{- end }}
         tty: true
         stdin: true
