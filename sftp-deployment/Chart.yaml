@@ -1,6 +1,6 @@
 apiVersion: v2
 name: sftp-deployment
-version: 2.1
+version: 2.2
 kubeVersion: "> 1.15.0"
 description: An SFTP deployment deployment for MCSH. Includes user management for keys and uid.
 type: application
@@ -17,5 +17,5 @@ maintainers:
     email: sfxworks@gmail.com
     url: sfxworks.net
 icon: https://avatars0.githubusercontent.com/u/49386422
-appVersion: 2.1
+appVersion: 2.2
 deprecated: false
