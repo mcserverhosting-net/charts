@@ -1,0 +1,8 @@
+# repository -- The location of an s3 repository
+repository: s3:http://rook-ceph-rgw-mcsh-store.rook-ceph.cluster.mcserverhosting.blue:80
+# password -- The password, used by restic, to access the repository
+password: password-goes-here
+# id -- The S3 key id
+id: s3-id
+# key -- The S3 key secret
+key: qwertyuiop

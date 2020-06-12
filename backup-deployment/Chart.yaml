@@ -1,0 +1,20 @@
+apiVersion: v2
+name: backup-cron
+version: 1.0
+kubeVersion: "> 1.15.0"
+description: A backup deployment based on restic. Includes cronjob. 
+type: application
+keywords:
+  - mcserverhosting
+  - server
+  - backup
+home: https://github.com/mcserverhosting-net/charts
+sources:
+  - https://github.com/mcserverhosting-net/charts
+maintainers:
+  - name: sfxworks
+    email: sfxworks@gmail.com
+    url: sfxworks.net
+icon: https://avatars0.githubusercontent.com/u/49386422
+appVersion: 1.0
+deprecated: false
