@@ -55,6 +55,7 @@ spec:
         - name: PLUGINS
           value: {{ include "helm-toolkit.utils.joinListWithComma" .Values.plugins }}
         {{- end }}
+        terminationMessagePolicy: FallbackToLogsOnError
         resources:
           limits:
             memory: {{ .Values.config.memory.max }}i
