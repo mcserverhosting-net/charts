@@ -26,6 +26,7 @@ spec:
         tty: false
         stdin: false
         imagePullPolicy: IfNotPresent
+        terminationMessagePolicy: FallbackToLogsOnError
         resources:
           limits:
             memory: 200Mi
