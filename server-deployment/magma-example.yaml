@@ -1,0 +1,75 @@
+# online -- server online value. If false, server will be shutoff and not count against any quota.
+online: true 
+# eula -- agrees to eula
+eula: true
+# version -- sets the base version of minecraft. Options are SNAPSHOT, LATEST, or a specific version.
+version: LATEST
+# type -- sets the type of server. Possible values are VANILLA, FORGE, BUKKIT, SPIGOT, CURSEFORGE, SPONGEVANILLA, PAPER, FTB, and FABRIC
+type: CUSTOM
+custom:
+  # custom.url -- can be used to reference a custom server jar via url or local directory
+  url: https://github.com/magmafoundation/Magma/releases/download/v8d2a711/Magma-8d2a711-server.jar
+
+domainName: magma.thepixelmc.net
+routeName: magma.thepixelmc.net
+
+config:
+  console: true
+  # config.modpack -- takes a custom set of jars in a zip file and extracts them into the mods directory
+  modpack:
+  # config.mods -- takes a comma separated list of urls of jars and places them in the mods directory
+  mods:
+  # config.removeOldMods -- removes any old mods that are had before applying new ones when mods is defined
+  removeOldMods: false
+  memory:
+    # config.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
+    initial: 3G
+    # config.memory.max -- max memory for the minecraft server. memory must end in G or M. 
+    max: 5G
+  # config.icon -- The icon displayed for your minecraft servers by the client and cabable query services
+  icon: 
+  # config.motd -- the minecraft servers message of the day
+  motd: 
+  #config.server -- general server.properties. see https://minecraft.gamepedia.com/Server.properties for specifics
+  server:
+    maxTickTime: 20000 
+    restrictions:
+      ops: 
+      whitelist:
+      forceGamemode: true
+    network:
+      maxPlayers: 2020
+      query: true
+      onlineMode: true
+    gameSettings:
+      hardcore: false
+      snooper: true
+      difficulty: 
+      commandBlocks: true
+      announcePlayerAchievements: true
+      nether: false
+      flight: true
+      pvp: false
+  resourcePack:
+    url: https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/KDesp%201.15%20v1.9.zip?alt=media&token=2a9e2133-a553-4433-bae7-824d964d1c7c
+    sha:
+  world:
+    name: superflat
+    restrictions:
+      maxBuildHeight: 256
+      maxSize: 1000
+      viewDistance: 32
+      spawnProtection: 0
+    mode: adventure
+    level: FLAT
+    generatorSettings: 
+    seed: 
+    spawnAnimals: false
+    spawnNpcs: false
+    generateStructures: false
+    # config.world.url -- will download a zip file of a world and extract it
+    url: 
+# overrideOnStartup -- dif true, will rewrite the server.properties file when passed here. always runs on first install.
+overrideOnStartup: true
+# forceRedownload -- forces redwonload for VANILLA, FORGE, BUKKIT, SPIGOT, PAPER, CURSEFORGE, SPONGEVANILLA server types 
+forceRedownload: false

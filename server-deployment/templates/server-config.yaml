@@ -75,7 +75,7 @@ data:
     {{- end }}
   {{- end }}
   FORCE_REDOWNLOAD: {{ default false .forceRedownload | quote }}
-  OVERRIDE_SERVER_PROPERTIES: {{ default true ( .overrideOnStartup | toString) | quote }}
+  OVERRIDE_SERVER_PROPERTIES: {{ default false ( .overrideOnStartup | toString) | quote }}
   SERVER_NAME: {{ $.Release.Name }}
   {{- with .config }}
   ICON: {{ default "https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7" .icon }}
