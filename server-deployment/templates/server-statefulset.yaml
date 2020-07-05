@@ -24,6 +24,8 @@ spec:
         runAsUser: {{ default .Values.userID 1000 }} 
         runAsGroup: {{ default .Values.groupID 999 }} 
       terminationGracePeriodSeconds: 30
+      nodeSelector:
+        node-role.kubernetes.io/game: ""
       containers:
       - name: {{ .Release.Name }}
         securityContext:
