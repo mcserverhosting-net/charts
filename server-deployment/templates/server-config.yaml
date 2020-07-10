@@ -11,26 +11,26 @@ data:
     {{- if .forge }}
       {{- if .forge.version }}
   FORGEVERSION: {{ .forge.version }}
-      {{ end }}
+      {{- end }}
       {{- if .forge.installer }}
   FORGE_INSTALLER: {{ .forge.installer }}
-      {{ end }}
+      {{- end }}
       {{- if .forge.url }}
   FORGE_INSTALLER_URL: {{ .forge.url }}
-      {{ end }}
+      {{- end }}
     {{- end }}
   {{- end }}
   {{- if eq .type "BUKKIT" }}
     {{- if .bukkit }}
       {{- if .bukkit.url }}
   BUKKIT_DOWNLOAD_URL: {{ .bukkit.url }}
-      {{ end }}
+      {{- end }}
     {{- end }}
   {{- end }}
   {{- if eq .type "SPIGOT" }}
     {{- if .spigot.url }}
   SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}
-    {{ end }}
+    {{- end }}
   BUILD_FROM_SOURCE: {{ default false ( .spigot.build | toString ) | quote }}
   {{- end }}
   {{- if .curseforge }}
@@ -53,20 +53,20 @@ data:
       {{- end }}
       {{- if .spongevanilla.branch }}
   SPONGEBRANCH: {{ .spongevanilla.branch }}
-      {{ end }}
+      {{- end }}
     {{- end }}
   {{- end }}
   {{- if .fabric }}
     {{- if eq .type "FABRIC" }}
       {{- if .fabric.version }}
   FABRICVERSION: {{ .fabric.version }}
-      {{ end }}
+      {{- end }}
       {{- if .fabric.installer }}
   FABRIC_INSTALLER: {{ .fabric.installer }}
-      {{ end }}
+      {{- end }}
       {{- if .fabric.url }}
   FABRIC_INSTALLER_URL: {{ .fabric.url }}
-      {{ end }}
+      {{- end }}
     {{- end }}
   {{- end }}
   {{- if .custom }}
@@ -88,6 +88,7 @@ data:
     {{- end }}
   REMOVE_OLD_MODS: {{ default true ( .removeOldMods | toString ) | quote }}
   JVM_DD_OPTS: fml.queryResult:confirm
+  JVM_XX_OPTS: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
   CONSOLE: {{ default true ( .console | toString ) | quote }}
   GUI: "false"
   INIT_MEMORY: {{ .memory.initial | default "1Gi" }}
