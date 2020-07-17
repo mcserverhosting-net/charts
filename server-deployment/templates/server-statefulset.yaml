@@ -33,22 +33,21 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}
-        readinessProbe:
-          exec:
-            command:
-            - mc-monitor
-            - status
-          initialDelaySeconds: 15
-          periodSeconds: 4
-          failureThreshold: 300
-        livenessProbe:
-          exec:
-            command:
-            - mc-monitor
-            - status
-          initialDelaySeconds: 60
+        startupProbe:
+          tcpSocket:
+            port: minecraft
+          failureThreshold: 30
           periodSeconds: 10
-          failureThreshold: 10
+        readinessProbe:
+          tcpSocket:
+            port: minecraft
+          periodSeconds: 10
+          failureThreshold: 1
+        livenessProbe:
+          tcpSocket:
+            port: minecraft
+          periodSeconds: 10
+          failureThreshold: 1
         {{- if .Values.type }}
         {{- if eq .Values.type "VANILLA" }}
         image: docker.io/itzg/minecraft-server:adopt13
@@ -62,15 +61,16 @@ spec:
         terminationMessagePolicy: FallbackToLogsOnError
         resources:
           limits:
-            memory: {{ .Values.config.memory.max }}i
+            memory: {{ .Values.minecraft.memory.max }}i
+            hugepages-2Mi: {{ .Values.minecraft.memory.hugePages }}i
           requests:
-            memory: {{ .Values.config.memory.initial }}i
+            memory: {{ .Values.minecraft.memory.initial }}i
             cpu: 100m
         ports:
         - containerPort: 25565
           name: minecraft
         volumeMounts:
-        - name: minecraft-volume
+        - name: {{ .Values.volumeName }}
           mountPath: /data
           subPath: servers/{{ .Release.Name }}
       restartPolicy: Always
@@ -79,3 +79,6 @@ spec:
         persistentVolumeClaim:
           claimName: ns-pvc
           readOnly: false
+      - name: hugepage-2mi
+        emptyDir:
+          medium: HugePages-2Mi

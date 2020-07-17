@@ -3,82 +3,58 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}
 data:
-  {{- with .Values}}
+  SERVER_NAME: {{ .Release.Name }}
+  USE_LARGE_PAGES: {{ default false (.Values.pages | toString) | quote }}
+  {{- with .Values.minecraft }}
+  INIT_MEMORY: {{ .memory.initial | default "1Gi" }}
+  MAX_MEMORY: {{ .memory.max | default "1Gi" }}
   EULA: {{ default false (.eula | toString) | quote }}
   VERSION: {{ default "LATEST" .version | quote }}
+  {{- end }}
+  {{- with .Values.servercore }}
   TYPE: {{ default "VANILLA" .type | quote }}
-  {{- if eq .type "FORGE" }}
-    {{- if .forge }}
-      {{- if .forge.version }}
-  FORGEVERSION: {{ .forge.version }}
+  FORCE_REDOWNLOAD: {{ default false .redownload | quote }}
+    {{- if .properties }}
+      {{- if .properties.version }}
+        {{- if eq .type "FORGE" }}
+  FORGEVERSION: {{ .properties.version | quote }}
+        {{- end }}
+        {{- if eq .type "SPONGEVANILLA" }}
+  SPONGEVERSION: {{ .properties.version | quote }}
+        {{- end }}
+        {{- if eq .type "FABRIC" }}
+  FABRICVERSION: {{ .properties.version | quote }}
+        {{- end }}
       {{- end }}
-      {{- if .forge.installer }}
-  FORGE_INSTALLER: {{ .forge.installer }}
-      {{- end }}
-      {{- if .forge.url }}
-  FORGE_INSTALLER_URL: {{ .forge.url }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-  {{- if eq .type "BUKKIT" }}
-    {{- if .bukkit }}
-      {{- if .bukkit.url }}
-  BUKKIT_DOWNLOAD_URL: {{ .bukkit.url }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-  {{- if eq .type "SPIGOT" }}
-    {{- if .spigot.url }}
-  SPIGOT_DOWNLOAD_URL: {{ .spigot.url }}
-    {{- end }}
-  BUILD_FROM_SOURCE: {{ default false ( .spigot.build | toString ) | quote }}
-  {{- end }}
-  {{- if .curseforge }}
-    {{- if eq .type "CURSEFORGE" }}
-  CF_SERVER_MOD: {{ .curseforge.modpack.url }}
-    {{- end }}
-  {{- end }}
-  {{- if .ftb }}
-    {{- if eq .type "FTB" }}
-      {{- if .ftb.modpack }}
-  FTB_SERVER_MOD: {{ .ftb.modpack.url }}
-  FTB_LEGACYJAVAFIXER: {{ default false ( .ftb.modpack.legacy | toString ) | quote }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-  {{- if .spongevanilla }}
-    {{- if eq .type "SPONGEVANILLA" }}
-      {{- if .spongevanilla.version }}
-  SPONGEVERSION: {{ .spongevanilla.version }}
-      {{- end }}
-      {{- if .spongevanilla.branch }}
-  SPONGEBRANCH: {{ .spongevanilla.branch }}
+      {{- if .properties.url }}
+        {{- if eq .type "FORGE" }}
+  FORGE_INSTALLER_URL: {{ .properties.url }}
+        {{- end }}
+        {{- if eq .type "BUKKIT" }}
+  BUKKIT_DOWNLOAD_URL: {{ .properties.url }}
+        {{- end }}
+        {{- if eq .type "SPIGOT" }}
+  SPIGOT_DOWNLOAD_URL: {{ .properties.url }}
+        {{- end }}
+        {{- if eq .type "CURSEFORGE" }}
+  CF_SERVER_MOD: {{ .properties.url }}
+        {{- end }}
+        {{- if eq .type "FTB" }}
+  FTB_SERVER_MOD: {{ .properties.url }}
+        {{- end }}
+        {{- if eq .type "FABRIC" }}
+  FABRIC_INSTALLER_URL: {{ .properties.url }}
+        {{- end }}
+        {{- if eq .type "CUSTOM" }}
+  CUSTOM_SERVER: {{ .properties.url }}
+        {{- end }}
       {{- end }}
     {{- end }}
   {{- end }}
-  {{- if .fabric }}
-    {{- if eq .type "FABRIC" }}
-      {{- if .fabric.version }}
-  FABRICVERSION: {{ .fabric.version }}
-      {{- end }}
-      {{- if .fabric.installer }}
-  FABRIC_INSTALLER: {{ .fabric.installer }}
-      {{- end }}
-      {{- if .fabric.url }}
-  FABRIC_INSTALLER_URL: {{ .fabric.url }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-  {{- if .custom }}
-    {{- if eq .type "CUSTOM" }}
-  CUSTOM_SERVER: {{ .custom.url }}
-    {{- end }}
-  {{- end }}
-  FORCE_REDOWNLOAD: {{ default false .forceRedownload | quote }}
-  OVERRIDE_SERVER_PROPERTIES: {{ default false ( .overrideOnStartup | toString) | quote }}
-  SERVER_NAME: {{ $.Release.Name }}
-  {{- with .config }}
-  ICON: {{ default "https://firebasestorage.googleapis.com/v0/b/mchostingnet-202204.appspot.com/o/mcshicon.png?alt=media&token=efcba97b-9a5d-4e62-a3bb-39a3b36b2ff7" .icon }}
+
+  {{- with .Values.config }}
+  OVERRIDE_SERVER_PROPERTIES: {{ default false ( .overrideOnStartup ) | quote }}
+  ICON: {{ default "https://mcserverhosting.net/favicon.ico" .icon }}
     {{- if .modpack }}
   MODPACK: {{ .modpack }}
     {{- end }}
@@ -87,12 +63,8 @@ data:
   MODS: {{ .mods }}
     {{- end }}
   REMOVE_OLD_MODS: {{ default true ( .removeOldMods | toString ) | quote }}
-  JVM_DD_OPTS: fml.queryResult:confirm
-  JVM_XX_OPTS: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
   CONSOLE: {{ default true ( .console | toString ) | quote }}
   GUI: "false"
-  INIT_MEMORY: {{ .memory.initial | default "1Gi" }}
-  MAX_MEMORY: {{ .memory.max | default "1Gi" }}
     {{- with .server }}
   OPS: {{ default .restrictions.ops "sfxworks" }}
   ENABLE_QUERY: {{ default true ( .network.query | toString ) | quote }}
@@ -137,4 +109,15 @@ data:
       {{- end }}
     {{- end }}
   {{- end }}
+
+  {{- if .Values.javaargs }}
+    {{- if .Values.javaargs.argsdd }}
+  JVM_DD_OPTS: fml.queryResult:confirm
+    {{- end }}
+    {{- if .Values.javaargs.argsxx }}
+  JVM_XX_OPTS: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+    {{- end }}
+    {{- if .Values.javaargs.args }}
+  JVM_OPTS: fml.queryResult:confirm
+    {{- end }}
   {{- end }}
