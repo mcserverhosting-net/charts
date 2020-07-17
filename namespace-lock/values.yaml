@@ -1,5 +1,5 @@
 # user -- The username of the admin of the namespace.
-user: ahr9194@gmail.com
+user: example@gmail.com
 # ports -- The number of exposed ports the namespace is allowed to have 
 ports: 10
 # servers -- The number of servers the user is allowed to have
