@@ -1,6 +1,6 @@
 apiVersion: v2
 name: namespace-lock
-version: 2.2
+version: 2.3
 kubeVersion: "> 1.15.0"
 description: A namespace lock deployment for MCSH. Includes namespace quota and user rolebinding for authentication.
 type: application

@@ -12,7 +12,7 @@ metadata:
   labels:
     type:  {{ .Release.Name }}
 spec:
-  type: NodePort
+  type: ClusterIP
   {{- if .Values.routeName }}
   externalName: {{ .Values.routeName }}
   {{- end }}

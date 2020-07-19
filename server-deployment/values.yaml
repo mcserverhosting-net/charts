@@ -28,9 +28,8 @@ network:
 java:
   args:
   argsdd: fml.queryResult:confirm
-  argsxx: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
-
-
+  argsxx: -XX:+UseLargePagesInMetaspace -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseLargePages -XX:LargePageSizeInBytes=2m
+#Based on https://www.redhat.com/en/blog/optimizing-rhel-8-run-java-implementation-minecraft-server
 
 config:
 # config.modpack -- takes a custom set of jars in a zip file and extracts them into the mods directory

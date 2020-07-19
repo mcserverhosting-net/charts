@@ -1,6 +1,6 @@
 apiVersion: v2
 name: sftp-deployment
-version: 2.2
+version: 2.3
 kubeVersion: "> 1.15.0"
 description: An SFTP deployment deployment for MCSH. Includes user management for keys and uid.
 type: application

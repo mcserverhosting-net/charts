@@ -3,7 +3,30 @@ entries:
   backup-cron:
   - apiVersion: v2
     appVersion: "1"
-    created: "2020-06-15T04:59:53.9981144-04:00"
+    created: "2020-07-19T05:18:42.5765466-04:00"
+    description: A backup deployment based on restic. Includes cronjob.
+    digest: 40449fa80e71c44c359b6ebcd142c883edc19fa8a1ca8e0c4de93fd509eac2be
+    home: https://github.com/mcserverhosting-net/charts
+    icon: https://avatars0.githubusercontent.com/u/49386422
+    keywords:
+    - mcserverhosting
+    - server
+    - backup
+    kubeVersion: '> 1.15.0'
+    maintainers:
+    - email: sfxworks@gmail.com
+      name: sfxworks
+      url: sfxworks.net
+    name: backup-cron
+    sources:
+    - https://github.com/mcserverhosting-net/charts
+    type: application
+    urls:
+    - https://mcserverhosting-net.github.io/charts/releases/backup-cron-1.1.tgz
+    version: "1.1"
+  - apiVersion: v2
+    appVersion: "1"
+    created: "2020-07-19T05:18:42.5770458-04:00"
     description: A backup deployment based on restic. Includes cronjob.
     digest: 07572cf95d739217ca0b0a4085c697c154da477ab3aaf51edc2a0328f18ac076
     home: https://github.com/mcserverhosting-net/charts
@@ -27,7 +50,7 @@ entries:
   bungee-deployment:
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-06-15T04:59:53.9986117-04:00"
+    created: "2020-07-19T05:18:42.5780458-04:00"
     description: An bungee deployment deployment for MCSH. Includes bungee deployment.
     digest: 4199b90b16dd741d876d8cb939c03752fc64b96d8bd284e108a1f73982cd58d9
     home: https://mcserverhosting.net/
@@ -49,7 +72,7 @@ entries:
     version: "2.2"
   - apiVersion: v2
     appVersion: "2.1"
-    created: "2020-06-15T04:59:53.9986117-04:00"
+    created: "2020-07-19T05:18:42.5775464-04:00"
     description: An bungee deployment deployment for MCSH. Includes bungee deployment.
     digest: fc271ceb2661659e3ed8fcf94736c36edc8d7183f5b807401128d091adeecefa
     home: https://mcserverhosting.net/
@@ -71,7 +94,7 @@ entries:
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
-    created: "2020-06-15T04:59:53.9996135-04:00"
+    created: "2020-07-19T05:18:42.5785484-04:00"
     description: An bungee deployment deployment for MCSH. Includes bungee deployment.
     digest: 5a71d141bbf38b21bf715bef45df02e0a66b61500f9bc6e4704508da3aa12504
     home: https://mcserverhosting.net/
@@ -94,7 +117,30 @@ entries:
   namespace-lock:
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-06-15T04:59:54.0006125-04:00"
+    created: "2020-07-19T05:18:42.5865497-04:00"
+    description: A namespace lock deployment for MCSH. Includes namespace quota and
+      user rolebinding for authentication.
+    digest: 0abc248e6b5c5560b2e83eee9e75d7eb6ef07dd04d7baf766ecaf36938ab14c7
+    home: https://mcserverhosting.net/
+    icon: https://avatars0.githubusercontent.com/u/49386422
+    keywords:
+    - mcserverhosting
+    - namespace
+    kubeVersion: '> 1.15.0'
+    maintainers:
+    - email: sfxworks@gmail.com
+      name: sfxworks
+      url: sfxworks.net
+    name: namespace-lock
+    sources:
+    - https://github.com/mcserverhosting-net/charts
+    type: application
+    urls:
+    - https://mcserverhosting-net.github.io/charts/releases/namespace-lock-2.3.tgz
+    version: "2.3"
+  - apiVersion: v2
+    appVersion: "2.2"
+    created: "2020-07-19T05:18:42.5825468-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 47621b75c9f8253a493052d0021aec82db001d77aec0230750977a890f395606
@@ -117,7 +163,7 @@ entries:
     version: "2.2"
   - apiVersion: v2
     appVersion: "2.1"
-    created: "2020-06-15T04:59:54.0001123-04:00"
+    created: "2020-07-19T05:18:42.5790491-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 468c6ecff02067379d868e537b03eefc8f84fd779e101da8701ce35b1369a013
@@ -140,7 +186,7 @@ entries:
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
-    created: "2020-06-15T04:59:54.0006125-04:00"
+    created: "2020-07-19T05:18:42.5895489-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 5ae615a5f6b6371e50333eaab3a8034f00af7155225e5b60cd1579d93cf7214c
@@ -164,7 +210,29 @@ entries:
   server-deployment:
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-06-15T04:59:54.0021128-04:00"
+    created: "2020-07-19T05:18:42.5925488-04:00"
+    description: A server deployment deployment for MCSH. Includes statefulset.
+    digest: 2fb83625ad2566a949397b32016892aa03b6b3ba3329abd858f426019e62885d
+    home: https://mcserverhosting.net/
+    icon: https://avatars0.githubusercontent.com/u/49386422
+    keywords:
+    - mcserverhosting
+    - server
+    kubeVersion: '> 1.15.0'
+    maintainers:
+    - email: sfxworks@gmail.com
+      name: sfxworks
+      url: sfxworks.net
+    name: server-deployment
+    sources:
+    - https://github.com/mcserverhosting-net/charts
+    type: application
+    urls:
+    - https://mcserverhosting-net.github.io/charts/releases/server-deployment-3.tgz
+    version: "3"
+  - apiVersion: v2
+    appVersion: "2.2"
+    created: "2020-07-19T05:18:42.5910468-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: 0c5de5ec4a3104f3ee8e6c18fd3b2abd04b8d21fde8affcbc9fa7ebb9b4a9c33
     home: https://mcserverhosting.net/
@@ -186,7 +254,7 @@ entries:
     version: "2.2"
   - apiVersion: v2
     appVersion: "2.1"
-    created: "2020-06-15T04:59:54.0016125-04:00"
+    created: "2020-07-19T05:18:42.590047-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: 720e6126825715eb3b407c3ef984cd7aa12ebcc070816c80edc9a9d8c465af63
     home: https://mcserverhosting.net/
@@ -208,7 +276,7 @@ entries:
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
-    created: "2020-06-15T04:59:54.003112-04:00"
+    created: "2020-07-19T05:18:42.5915462-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: 836bb6c1a5417301e13e710afb915526ed161ce32be471957a7bcd4ee2aec4b4
     home: https://mcserverhosting.net/
@@ -231,7 +299,32 @@ entries:
   sftp-deployment:
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-06-15T04:59:54.0041127-04:00"
+    created: "2020-07-19T05:18:42.5945485-04:00"
+    description: An SFTP deployment deployment for MCSH. Includes user management
+      for keys and uid.
+    digest: f8ca5a7d8f8ebf9f786e72237df343a8a9bde8240e1d4c8d650dc2eeae813c7b
+    home: https://mcserverhosting.net/
+    icon: https://avatars0.githubusercontent.com/u/49386422
+    keywords:
+    - mcserverhosting
+    - sftp
+    - ftp
+    - user
+    kubeVersion: '> 1.15.0'
+    maintainers:
+    - email: sfxworks@gmail.com
+      name: sfxworks
+      url: sfxworks.net
+    name: sftp-deployment
+    sources:
+    - https://github.com/mcserverhosting-net/charts
+    type: application
+    urls:
+    - https://mcserverhosting-net.github.io/charts/releases/sftp-deployment-2.3.tgz
+    version: "2.3"
+  - apiVersion: v2
+    appVersion: "2.2"
+    created: "2020-07-19T05:18:42.5940482-04:00"
     description: An SFTP deployment deployment for MCSH. Includes user management
       for keys and uid.
     digest: 285cc3e34297abfc5d88c516487dc096acd07e20c2733a95b1b8a6adfab01892
@@ -256,7 +349,7 @@ entries:
     version: "2.2"
   - apiVersion: v2
     appVersion: "2.1"
-    created: "2020-06-15T04:59:54.0036125-04:00"
+    created: "2020-07-19T05:18:42.59305-04:00"
     description: An SFTP deployment deployment for MCSH. Includes user management
       for keys and uid.
     digest: 5f82af2cd02f26e3311e996405024f9d315cb9aafe8f164ef7856c95bd983616
@@ -281,7 +374,7 @@ entries:
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
-    created: "2020-06-15T04:59:54.0046121-04:00"
+    created: "2020-07-19T05:18:42.5955463-04:00"
     description: An SFTP deployment deployment for MCSH. Includes user management
       for keys and uid.
     digest: b1329a7a7dd66434b9e2c9a460faf9b3215cf308309d527351dd50c8c7271b43
@@ -304,4 +397,4 @@ entries:
     urls:
     - https://mcserverhosting-net.github.io/charts/releases/sftp-deployment-2.tgz
     version: "2"
-generated: "2020-06-15T04:59:53.9971123-04:00"
+generated: "2020-07-19T05:18:42.5760456-04:00"
