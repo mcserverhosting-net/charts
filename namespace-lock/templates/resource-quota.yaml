@@ -8,4 +8,4 @@ spec:
     count/server.mcserverhosting.net: {{ .Values.servers }}
     count/scp.mcserverhosting.net: 1
     limits.memory: {{ .Values.memory }}
-    limits.hugepages-2Mi: {{ .Values.hugePages2mi }}
+    hugepages-2Mi: {{ .Values.hugePages2mi }}

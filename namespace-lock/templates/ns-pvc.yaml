@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: ns-pvc
 spec:
+  storageClassName: {{ .Values.storageclass }}
   accessModes:
   - ReadWriteMany
   resources:

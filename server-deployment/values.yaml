@@ -3,19 +3,19 @@ online: true
 
 minecraft:
   # eula -- agrees to eula
-  eula:
+  eula: true
   # minecraft.version -- sets the base version of minecraft. Options are SNAPSHOT, LATEST, or a specific version.
-  version:
+  version: LATEST
   memory:
     # minecraft.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
     initial: 1G
     # minecraft.memory.max -- max memory for the minecraft server. memory must end in G or M. 
-    max: 2G
-    hugePages: 125Mi
+    max: 4G
+    hugePages: 125M
 
 servercore:
   # type -- sets the type of server. Possible values are VANILLA, FORGE, BUKKIT, SPIGOT, CURSEFORGE, SPONGEVANILLA, PAPER, FTB, and FABRIC
-  type:
+  type: VANILLA
   # forceRedownload -- forces redwonload for core server types 
   redownload: false
   properties:
@@ -88,4 +88,5 @@ overrideOnStartup: true
 runtime: 
 userID: 1000
 groupID: 999
+# pages -- Enable the use of hugepages
 pages: true

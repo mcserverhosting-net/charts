@@ -48,8 +48,8 @@ spec:
             port: minecraft
           periodSeconds: 10
           failureThreshold: 1
-        {{- if .Values.type }}
-        {{- if eq .Values.type "VANILLA" }}
+        {{- if .Values.servercore.type }}
+        {{- if eq .Values.servercore.type "VANILLA" }}
         image: docker.io/itzg/minecraft-server:adopt13
         {{- else }}
         image: docker.io/itzg/minecraft-server:latest
@@ -62,7 +62,9 @@ spec:
         resources:
           limits:
             memory: {{ .Values.minecraft.memory.max }}i
+            {{- if .Values.pages }}
             hugepages-2Mi: {{ .Values.minecraft.memory.hugePages }}i
+            {{- end }}
           requests:
             memory: {{ .Values.minecraft.memory.initial }}i
             cpu: 100m
@@ -70,7 +72,7 @@ spec:
         - containerPort: 25565
           name: minecraft
         volumeMounts:
-        - name: {{ .Values.volumeName }}
+        - name: minecraft-volume
           mountPath: /data
           subPath: servers/{{ .Release.Name }}
       restartPolicy: Always
@@ -79,6 +81,8 @@ spec:
         persistentVolumeClaim:
           claimName: ns-pvc
           readOnly: false
+      {{- if .Values.pages }}
       - name: hugepage-2mi
         emptyDir:
           medium: HugePages-2Mi
+      {{- end }}

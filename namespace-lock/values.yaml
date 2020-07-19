@@ -9,4 +9,6 @@ memory: 8Gi
 # storage -- maximum storage size for the namespace shared among other deployments
 storage: 60Gi
 # memory -- The hugePages in MB (not number of pages) that is allowed in the namespace to be active at one time
-hugePages2mi: 
+hugePages2mi: 256Mi
+# storageclass -- The storageclass to use
+storageclass: rook-cephfs

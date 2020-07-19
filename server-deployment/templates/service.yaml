@@ -3,11 +3,13 @@ kind: Service
 metadata:
   name:  {{ .Release.Name }}
   annotations:
-    {{- if .Values.domainName }}
+    {{- if .Values.network }}
+    {{- if .Values.network.domainName }}
     #Integration option for external dns
-    external-dns.alpha.kubernetes.io/hostname: {{ .Values.domainName }}
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.network.domainName }}
     #Integration option for mc-router
-    mc-router.itzg.me/externalServerName: {{ .Values.domainName }}
+    mc-router.itzg.me/externalServerName: {{ .Values.network.domainName }}
+    {{- end }}
     {{- end }}
   labels:
     type:  {{ .Release.Name }}
