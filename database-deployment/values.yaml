@@ -1,0 +1,6 @@
+# type -- The type of database. valid types are MYSQL, MARIADB or POSTGRES
+type: MYSQL
+# version -- The version of the databse. Versions correlate with their image tag.
+version: 5.6
+# password -- The initial root password for the database. Does not change after set unless database is deleted.
+password: change-this

@@ -5,7 +5,9 @@ metadata:
 spec:
   hard:
     services.nodeports: {{ .Values.ports }}
-    count/server.mcserverhosting.net: {{ .Values.servers }}
-    count/scp.mcserverhosting.net: 1
+    count/sftpservers.mcserverhosting.net: {{ .Values.servers.sftp }}
+    count/minecraftservers.mcserverhosting.net: {{ .Values.servers.minecraft }}
+    count/bungeedeployments.mcserverhosting.net: {{ .Values.servers.bungee }}
+    count/database.mcserverhosting.net: {{ .Values.servers.database }}
     limits.memory: {{ .Values.memory }}
     hugepages-2Mi: {{ .Values.hugePages2mi }}

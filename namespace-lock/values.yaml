@@ -1,14 +1,18 @@
 # user -- The username of the admin of the namespace.
-user: example@gmail.com
+user: 	
 # ports -- The number of exposed ports the namespace is allowed to have 
-ports: 10
+ports: 
 # servers -- The number of servers the user is allowed to have
-servers: 4
+servers: 
+  bungee:
+  minecraft:
+  sftp: 1
+  database: 1
 # memory -- The maximum memory in GB that is allowed in the namespace to be active at one time
-memory: 8Gi
+memory: Gi
 # storage -- maximum storage size for the namespace shared among other deployments
-storage: 60Gi
+storage: Gi
 # memory -- The hugePages in MB (not number of pages) that is allowed in the namespace to be active at one time
-hugePages2mi: 256Mi
+hugePages2mi: Mi
 # storageclass -- The storageclass to use
 storageclass: rook-cephfs

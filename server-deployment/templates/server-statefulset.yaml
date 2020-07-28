@@ -75,6 +75,9 @@ spec:
         - name: minecraft-volume
           mountPath: /data
           subPath: servers/{{ .Release.Name }}
+        - name: minecraft-volume
+          mountPath: /web
+          subPath: web
       restartPolicy: Always
       volumes:
       - name: minecraft-volume

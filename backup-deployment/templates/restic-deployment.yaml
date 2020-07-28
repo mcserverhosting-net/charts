@@ -37,6 +37,6 @@ spec:
             persistentVolumeClaim:
               claimName: ns-pvc
               readOnly: false
-  schedule: 0 */12 * * *
+  schedule: 0 {{ randAlphaNum 22 }} * * *
   successfulJobsHistoryLimit: 3
   suspend: false

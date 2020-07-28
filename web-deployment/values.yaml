@@ -1,0 +1,6 @@
+# Type of web deployment. Possible values are HTML, PHP, and NODEJS
+type: http
+# Memory for your web server. Smaller values suffice for static sites.
+memory: 50Mi
+# Your web address. Be sure you point your site to the cluster's nameservers.
+address: www.yoursite.com

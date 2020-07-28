@@ -24,7 +24,7 @@ servercore:
 
 network:
   domainName: play.mcserverhosting.red
-
+  
 java:
   args:
   argsdd: fml.queryResult:confirm
