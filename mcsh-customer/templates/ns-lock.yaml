@@ -1,4 +1,4 @@
-apiVersion: mcserverhosting.net/v2.1
+apiVersion: mcserverhosting.net/v3
 kind: NamespaceLock
 metadata:
   name: namespacelock
