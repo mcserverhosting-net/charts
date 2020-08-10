@@ -6,10 +6,10 @@ metadata:
 spec:
   hugePages2mi: {{  div (mul (trimSuffix "GB" .Values.plan) 1000) 16 }}Mi
   servers:
-    bungee: {{ floor (div (trimSuffix "GB" .Values.plan) 4 )}}
-    minecraft: {{ max (div (trimSuffix "GB" .Values.plan) 2 ) 1}}
-    sftp: 1
-    database: 1
+    bungee: {{ floor (div (trimSuffix "GB" .Values.plan) 4 ) | quote}}
+    minecraft: {{ max (div (trimSuffix "GB" .Values.plan) 2 ) 1 | quote}}
+    sftp: "1"
+    database: "1"
   storage: {{ mul (trimSuffix "GB" .Values.plan) 10 }}Gi
   memory: {{ trimSuffix "GB" .Values.plan}}Gi
   storageclass: rook-cephfs
