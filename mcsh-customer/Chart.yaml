@@ -1,12 +1,12 @@
 apiVersion: v2
-name: namespace-lock
-version: 3
+name: customer
+version: 1.0
 kubeVersion: "> 1.15.0"
-description: A namespace lock deployment for MCSH. Includes namespace quota and user rolebinding for authentication.
+description: An customer deployment deployment for MCSH.
 type: application
 keywords:
-  - mcserverhosting
-  - namespace
+  - customer
+  - cx
 home: https://mcserverhosting.net/
 sources:
   - https://github.com/mcserverhosting-net/charts
@@ -15,5 +15,5 @@ maintainers:
     email: sfxworks@gmail.com
     url: sfxworks.net
 icon: https://avatars0.githubusercontent.com/u/49386422
-appVersion: 3
+appVersion: 1.0
 deprecated: false

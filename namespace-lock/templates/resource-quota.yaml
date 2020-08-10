@@ -4,7 +4,6 @@ metadata:
   name: quota
 spec:
   hard:
-    services.nodeports: {{ .Values.ports }}
     count/sftpservers.mcserverhosting.net: {{ .Values.servers.sftp }}
     count/minecraftservers.mcserverhosting.net: {{ .Values.servers.minecraft }}
     count/bungeedeployments.mcserverhosting.net: {{ .Values.servers.bungee }}
