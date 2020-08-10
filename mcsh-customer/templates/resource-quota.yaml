@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota
+  namespace: {{.Values.namespace}}
+spec:
+  hard:
+    count/sftpservers.mcserverhosting.net: "1"
+    count/minecraftservers.mcserverhosting.net: {{ max (div (trimSuffix "GB" .Values.plan) 2 ) 1 | quote}}
+    count/bungeedeployments.mcserverhosting.net: {{ floor (div (trimSuffix "GB" .Values.plan) 4 ) | quote}}
+    count/database.mcserverhosting.net: "1"
+    limits.memory: {{ trimSuffix "GB" .Values.plan}}Gi
+    hugepages-2Mi: {{  div (mul (trimSuffix "GB" .Values.plan) 1000) 16 }}Mi
