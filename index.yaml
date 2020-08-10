@@ -3,9 +3,9 @@ entries:
   backup-cron:
   - apiVersion: v2
     appVersion: "1.2"
-    created: "2020-08-10T08:10:31.0010124-04:00"
+    created: "2020-08-10T08:11:30.0650294-04:00"
     description: A backup deployment based on restic. Includes cronjob.
-    digest: ff794ae1836d4827afff56618ba718569db820c11ed0bca4550c782ab208ab5f
+    digest: 8462ab2abc5312ff098acbc78f4d5f4f1a194d48aaff9580d51a1c700278cdbb
     home: https://github.com/mcserverhosting-net/charts
     icon: https://avatars0.githubusercontent.com/u/49386422
     keywords:
@@ -26,7 +26,7 @@ entries:
     version: "1.2"
   - apiVersion: v2
     appVersion: "1"
-    created: "2020-08-10T08:10:30.998511-04:00"
+    created: "2020-08-10T08:11:30.0625292-04:00"
     description: A backup deployment based on restic. Includes cronjob.
     digest: d0b33efdf8773c62977012d472096cfc63f312048d601ba049e9160e718b6b5d
     home: https://github.com/mcserverhosting-net/charts
@@ -49,7 +49,7 @@ entries:
     version: "1.1"
   - apiVersion: v2
     appVersion: "1"
-    created: "2020-08-10T08:10:31.0015125-04:00"
+    created: "2020-08-10T08:11:30.0655299-04:00"
     description: A backup deployment based on restic. Includes cronjob.
     digest: 07572cf95d739217ca0b0a4085c697c154da477ab3aaf51edc2a0328f18ac076
     home: https://github.com/mcserverhosting-net/charts
@@ -73,9 +73,9 @@ entries:
   bungee-deployment:
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.0045111-04:00"
+    created: "2020-08-10T08:11:30.0680309-04:00"
     description: An bungee deployment deployment for MCSH. Includes bungee deployment.
-    digest: 138871a527a9af6abe9bf8765421175a02514b6d2e6f5d5d41fac87af58690f8
+    digest: c6d21cbfeaecbd7f5789f541e6cbda71d1189c6231c7549065564d3d6ca363b7
     home: https://mcserverhosting.net/
     icon: https://avatars0.githubusercontent.com/u/49386422
     keywords:
@@ -95,7 +95,7 @@ entries:
     version: "2.2"
   - apiVersion: v2
     appVersion: "2.1"
-    created: "2020-08-10T08:10:31.0020112-04:00"
+    created: "2020-08-10T08:11:30.0660316-04:00"
     description: An bungee deployment deployment for MCSH. Includes bungee deployment.
     digest: fc271ceb2661659e3ed8fcf94736c36edc8d7183f5b807401128d091adeecefa
     home: https://mcserverhosting.net/
@@ -117,7 +117,7 @@ entries:
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
-    created: "2020-08-10T08:10:31.0050101-04:00"
+    created: "2020-08-10T08:11:30.0685294-04:00"
     description: An bungee deployment deployment for MCSH. Includes bungee deployment.
     digest: 5a71d141bbf38b21bf715bef45df02e0a66b61500f9bc6e4704508da3aa12504
     home: https://mcserverhosting.net/
@@ -139,8 +139,30 @@ entries:
     version: "2"
   customer:
   - apiVersion: v2
+    appVersion: "1.3"
+    created: "2020-08-10T08:11:30.0720312-04:00"
+    description: An customer deployment deployment for MCSH.
+    digest: 23be294ffc205895866549d59f49ae471548c2fac37e73bc37483c020a404a17
+    home: https://mcserverhosting.net/
+    icon: https://avatars0.githubusercontent.com/u/49386422
+    keywords:
+    - customer
+    - cx
+    kubeVersion: '> 1.15.0'
+    maintainers:
+    - email: sfxworks@gmail.com
+      name: sfxworks
+      url: sfxworks.net
+    name: customer
+    sources:
+    - https://github.com/mcserverhosting-net/charts
+    type: application
+    urls:
+    - https://mcserverhosting-net.github.io/charts/releases/customer-1.3.tgz
+    version: "1.3"
+  - apiVersion: v2
     appVersion: "1.2"
-    created: "2020-08-10T08:10:31.0075126-04:00"
+    created: "2020-08-10T08:11:30.0700304-04:00"
     description: An customer deployment deployment for MCSH.
     digest: 59cdb778c59273415e4429deff6492e83faa924c6de9cc8a0438cc227ce9bee5
     home: https://mcserverhosting.net/
@@ -162,7 +184,7 @@ entries:
     version: "1.2"
   - apiVersion: v2
     appVersion: "1.1"
-    created: "2020-08-10T08:10:31.0055103-04:00"
+    created: "2020-08-10T08:11:30.0690295-04:00"
     description: An customer deployment deployment for MCSH.
     digest: 3c8564f1fdb2d833ad0214b0859a92c690891c9f8bb1adb793ecf365c850de8c
     home: https://mcserverhosting.net/
@@ -184,7 +206,7 @@ entries:
     version: "1.1"
   - apiVersion: v2
     appVersion: "1"
-    created: "2020-08-10T08:10:31.0080145-04:00"
+    created: "2020-08-10T08:11:30.0720312-04:00"
     description: An customer deployment deployment for MCSH.
     digest: 44956457a6057af9eb28ef42d6c725220ca190a79378fe2445a5b38f87d1a763
     home: https://mcserverhosting.net/
@@ -207,9 +229,9 @@ entries:
   database-deployment:
   - apiVersion: v2
     appVersion: "1"
-    created: "2020-08-10T08:10:31.008514-04:00"
+    created: "2020-08-10T08:11:30.0725293-04:00"
     description: An database deployment deployment for MCSH. Includes bungee deployment.
-    digest: fab7713c148bdbc0f507614770a0939355ee3868fccdd2f32d84fe632aa0c04c
+    digest: b26b4864647af018ff0322450d3a93cb3a87e0dced1660731389054417fdcf58
     home: https://mcserverhosting.net/
     icon: https://avatars0.githubusercontent.com/u/49386422
     keywords:
@@ -230,10 +252,10 @@ entries:
   namespace-lock:
   - apiVersion: v2
     appVersion: "3"
-    created: "2020-08-10T08:10:31.0110141-04:00"
+    created: "2020-08-10T08:11:30.0750296-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
-    digest: 06e266e7e51b4d8085a46d55a35de1c1a9450bebb9ce263cb11a36bb20a7e8bd
+    digest: f71b21c2c7915102ed8f97c304507ab49988ffa613735bee463ab89caeb0cc0a
     home: https://mcserverhosting.net/
     icon: https://avatars0.githubusercontent.com/u/49386422
     keywords:
@@ -253,7 +275,7 @@ entries:
     version: "3"
   - apiVersion: v2
     appVersion: "2.4"
-    created: "2020-08-10T08:10:31.010014-04:00"
+    created: "2020-08-10T08:11:30.0745293-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 2a6a0caf1eb8812910c32ea9919b2a69469e90f22f4be0cd665147f7546ebed0
@@ -276,7 +298,7 @@ entries:
     version: "2.4"
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.0095132-04:00"
+    created: "2020-08-10T08:11:30.0735294-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 6072b021d0d8d9cdf5a4a7cef7a97c0bd743a4bd002f847ca04f9f21f5c7b6e5
@@ -299,7 +321,7 @@ entries:
     version: 2.3.1
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.010014-04:00"
+    created: "2020-08-10T08:11:30.0740297-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 0abc248e6b5c5560b2e83eee9e75d7eb6ef07dd04d7baf766ecaf36938ab14c7
@@ -322,7 +344,7 @@ entries:
     version: "2.3"
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.009014-04:00"
+    created: "2020-08-10T08:11:30.0730297-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 47621b75c9f8253a493052d0021aec82db001d77aec0230750977a890f395606
@@ -345,7 +367,7 @@ entries:
     version: "2.2"
   - apiVersion: v2
     appVersion: "2.1"
-    created: "2020-08-10T08:10:31.008514-04:00"
+    created: "2020-08-10T08:11:30.0730297-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 468c6ecff02067379d868e537b03eefc8f84fd779e101da8701ce35b1369a013
@@ -368,7 +390,7 @@ entries:
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
-    created: "2020-08-10T08:10:31.010514-04:00"
+    created: "2020-08-10T08:11:30.0745293-04:00"
     description: A namespace lock deployment for MCSH. Includes namespace quota and
       user rolebinding for authentication.
     digest: 5ae615a5f6b6371e50333eaab3a8034f00af7155225e5b60cd1579d93cf7214c
@@ -392,9 +414,9 @@ entries:
   server-deployment:
   - apiVersion: v2
     appVersion: 2.2.2
-    created: "2020-08-10T08:10:31.0155105-04:00"
+    created: "2020-08-10T08:11:30.0795292-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
-    digest: 0d6d6432d4f2359f382895ea3516b7641cd4acbdbf132cecf235a5db9738a0c3
+    digest: ccb6c7487e4fc1679ee1a7228ca9a354c827dec505807a83e588d96da6169996
     home: https://mcserverhosting.net/
     icon: https://avatars0.githubusercontent.com/u/49386422
     keywords:
@@ -414,7 +436,7 @@ entries:
     version: 3.0.3
   - apiVersion: v2
     appVersion: 2.2.1
-    created: "2020-08-10T08:10:31.01501-04:00"
+    created: "2020-08-10T08:11:30.0785295-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: e030de114c7ad4b56d10988c7b7b3772ceb7753856854229b8dea12615dec9ca
     home: https://mcserverhosting.net/
@@ -436,7 +458,7 @@ entries:
     version: 3.0.2
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.0140129-04:00"
+    created: "2020-08-10T08:11:30.0780306-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: e172547988160fa3077a7dc094177f3259b47f22e7fd778beddf1bd585b5cb5e
     home: https://mcserverhosting.net/
@@ -458,7 +480,7 @@ entries:
     version: 3.0.1
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.0165118-04:00"
+    created: "2020-08-10T08:11:30.0800314-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: 2fb83625ad2566a949397b32016892aa03b6b3ba3329abd858f426019e62885d
     home: https://mcserverhosting.net/
@@ -480,7 +502,7 @@ entries:
     version: "3"
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.0125138-04:00"
+    created: "2020-08-10T08:11:30.0765294-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: 0c5de5ec4a3104f3ee8e6c18fd3b2abd04b8d21fde8affcbc9fa7ebb9b4a9c33
     home: https://mcserverhosting.net/
@@ -502,7 +524,7 @@ entries:
     version: "2.2"
   - apiVersion: v2
     appVersion: "2.1"
-    created: "2020-08-10T08:10:31.0115121-04:00"
+    created: "2020-08-10T08:11:30.0755295-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: 720e6126825715eb3b407c3ef984cd7aa12ebcc070816c80edc9a9d8c465af63
     home: https://mcserverhosting.net/
@@ -524,7 +546,7 @@ entries:
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
-    created: "2020-08-10T08:10:31.0135107-04:00"
+    created: "2020-08-10T08:11:30.0770298-04:00"
     description: A server deployment deployment for MCSH. Includes statefulset.
     digest: 836bb6c1a5417301e13e710afb915526ed161ce32be471957a7bcd4ee2aec4b4
     home: https://mcserverhosting.net/
@@ -547,10 +569,10 @@ entries:
   sftp-deployment:
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.0185103-04:00"
+    created: "2020-08-10T08:11:30.0820333-04:00"
     description: An SFTP deployment deployment for MCSH. Includes user management
       for keys and uid.
-    digest: 8aa47255874cf8a21cc28bcd2f89b0c348f18a5d8b7de92aaaf5f40799479e32
+    digest: c5545325272a8d18f6c13a85df0fa756b5adcd74b8fe15efb6118655acaabc70
     home: https://mcserverhosting.net/
     icon: https://avatars0.githubusercontent.com/u/49386422
     keywords:
@@ -572,7 +594,7 @@ entries:
     version: 2.3.1
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.0190115-04:00"
+    created: "2020-08-10T08:11:30.0825333-04:00"
     description: An SFTP deployment deployment for MCSH. Includes user management
       for keys and uid.
     digest: f8ca5a7d8f8ebf9f786e72237df343a8a9bde8240e1d4c8d650dc2eeae813c7b
@@ -597,7 +619,7 @@ entries:
     version: "2.3"
   - apiVersion: v2
     appVersion: "2.2"
-    created: "2020-08-10T08:10:31.0180126-04:00"
+    created: "2020-08-10T08:11:30.0815335-04:00"
     description: An SFTP deployment deployment for MCSH. Includes user management
       for keys and uid.
     digest: 285cc3e34297abfc5d88c516487dc096acd07e20c2733a95b1b8a6adfab01892
@@ -622,7 +644,7 @@ entries:
     version: "2.2"
   - apiVersion: v2
     appVersion: "2.1"
-    created: "2020-08-10T08:10:31.0175123-04:00"
+    created: "2020-08-10T08:11:30.0810327-04:00"
     description: An SFTP deployment deployment for MCSH. Includes user management
       for keys and uid.
     digest: 5f82af2cd02f26e3311e996405024f9d315cb9aafe8f164ef7856c95bd983616
@@ -647,7 +669,7 @@ entries:
     version: "2.1"
   - apiVersion: v2
     appVersion: "2"
-    created: "2020-08-10T08:10:31.0195114-04:00"
+    created: "2020-08-10T08:11:30.0830332-04:00"
     description: An SFTP deployment deployment for MCSH. Includes user management
       for keys and uid.
     digest: b1329a7a7dd66434b9e2c9a460faf9b3215cf308309d527351dd50c8c7271b43
@@ -670,4 +692,4 @@ entries:
     urls:
     - https://mcserverhosting-net.github.io/charts/releases/sftp-deployment-2.tgz
     version: "2"
-generated: "2020-08-10T08:10:30.9980135-04:00"
+generated: "2020-08-10T08:11:30.0620296-04:00"
