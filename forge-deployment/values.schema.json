@@ -2,29 +2,39 @@
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
     "properties": {
-        "groupID": {
-            "type": "integer"
-        },
-        "javaArgs": {
-            "type": "string"
-        },
         "minecraft": {
             "type": "object",
+            "title": "Minecraft Properties",
+            "form": true,
             "properties": {
                 "memory": {
+                    "title": "Memory",
+                    "form": true,
                     "type": "object",
                     "properties": {
-                        "buffer": {
-                            "type": "integer"
-                        },
-                        "hugePages": {
-                            "type": "string"
-                        },
                         "initial": {
+                            "title": "initial memory",
+                            "description": "The inital amount of memory. Use G to specify gigabytes and M to specify megabytes.",
+                            "form": true,
                             "type": "string"
                         },
                         "max": {
+                            "title": "max memory",
+                            "description": "The MAXIMUM amount of memory. Use G to specify gigabytes and M to specify megabytes.",
+                            "form": true,
                             "type": "string"
+                        },
+                        "buffer": {
+                            "title": "buffer",
+                            "form": true,
+                            "type": "integer",
+                            "description": "Gives a buffer between java and your absolute max memory. Prevents OutOfMemory issues for your server when it hits a quota."
+                        },
+                        "hugePages": {
+                            "title": "huge pages",
+                            "form": true,
+                            "type": "string",
+                            "description": "Gives your server a boost by letting it use hugePages for memory!"
                         }
                     }
                 }
@@ -32,23 +42,41 @@
         },
         "network": {
             "type": "object",
+            "form": true,
+            "title": "Network Settings",
             "properties": {
                 "domainName": {
-                    "type": "string"
+                    "form": true,
+                    "title": "Domain name",
+                    "type": "string",
+                    "description": "Defaults to your-server-name.your-namespace.mcsh.red/blue. Use a custom domain name you own. Make sure your custom domain points to the regional endpoint (mcsh.red vs mcsh.blue)."
                 },
                 "ports": {
                     "type": "array",
+                    "form": true,
+                    "title": "Ports",
+                    "description": "Open up custom ports for plugins here! Useful for Dynmap, votifier or others that need custom ports. You can view the random port we open externally after deployment.",
                     "items": {
                         "type": "object",
+                        "form": true,
+                        "title": "Port",
                         "properties": {
                             "name": {
+                                "form": true,
+                                "title": "name",
                                 "type": "string"
                             },
                             "port": {
+                                "form": true,
+                                "title": "internal number",
                                 "type": "integer"
                             },
                             "protocol": {
-                                "type": "string"
+                                "form": true,
+                                "title": "protocol",
+                                "type": "string",
+                                "description": "You probably want TCP unless the plugin declares otherwise.",
+                                "enum": ["TCP", "UDP"]
                             }
                         }
                     }
@@ -56,10 +84,28 @@
             }
         },
         "online": {
-            "type": "boolean"
+            "type": "boolean",
+            "form": true,
+            "title": "Online",
+            "description": "Turns your server on or off. Useful for maintenance or for temporary event servers that wont go against your quota when they're not taking place."
+        },
+        "javaArgs": {
+            "type": "string",
+            "form": true,
+            "title": "Java args",
+            "description": "Add extra java args here or leave blank to keep our optimized defaults."
+        },
+        "groupID": {
+            "type": "integer",
+            "form": true,
+            "title": "Group ID",
+            "description": "The Group ID of the server. Useful for only allowing certain admins to view this server's file via SFTP."
         },
         "userID": {
-            "type": "integer"
+            "title": "Usd ID",
+            "type": "integer",
+            "form": true,
+            "description": "The User ID of the server. Useful for allowing owners of the server view and modify file permissions via SFTP."
         }
     }
 }
