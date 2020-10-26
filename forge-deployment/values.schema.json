@@ -53,26 +53,26 @@
                 },
                 "ports": {
                     "type": "array",
-                    "form": true,
+                    "form": false,
                     "title": "Ports",
                     "description": "Open up custom ports for plugins here! Useful for Dynmap, votifier or others that need custom ports. You can view the random port we open externally after deployment.",
                     "items": {
                         "type": "object",
-                        "form": true,
+                        "form": false,
                         "title": "Port",
                         "properties": {
                             "name": {
-                                "form": true,
+                                "form": false,
                                 "title": "name",
                                 "type": "string"
                             },
                             "port": {
-                                "form": true,
+                                "form": false,
                                 "title": "internal number",
                                 "type": "integer"
                             },
                             "protocol": {
-                                "form": true,
+                                "form": false,
                                 "title": "protocol",
                                 "type": "string",
                                 "description": "You probably want TCP unless the plugin declares otherwise.",
