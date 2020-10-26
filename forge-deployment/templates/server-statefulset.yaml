@@ -21,12 +21,23 @@ spec:
         runAsUser: {{ .Values.userID | default 1000  }} 
         runAsGroup: {{ .Values.groupID | default 1001  }} 
       terminationGracePeriodSeconds: 30
+      initContainers:
+      - name: eula-check
+        image: busybox:1.28
+        env:
+        - name: EULA
+          value: {{ .Values.eula | quote }}
+        command: ['sh', '-c', "echo eula=$EULA > /minecraft/eula.txt"]
+        volumeMounts:
+        - name: minecraft-volume
+          mountPath: /minecraft
+          subPath: servers/{{ .Release.Name }}
       containers:
       - name: {{ .Release.Name }}
         workingDir: /minecraft
         env:
-          name: _JAVA_OPTIONS
-          value: {{ .Values.javaArgs }} -Xms={{ include "chart.initmem" . }} -Xmx={{ include "chart.maxmem" . }} -Duser.dir=/minecraft
+        - name: _JAVA_OPTIONS
+          value: {{ .Values.javaArgs }} -Xms{{ include "chart.initmem" . }} -Xmx{{ include "chart.maxmem" . }} -Duser.dir=/minecraft
         startupProbe:
           tcpSocket:
             port: minecraft-tcp
@@ -70,7 +81,7 @@ spec:
         {{- end }}
         volumeMounts:
         - name: minecraft-volume
-          mountPath: /data
+          mountPath: /minecraft
           subPath: servers/{{ .Release.Name }}
         - name: minecraft-volume
           mountPath: /web

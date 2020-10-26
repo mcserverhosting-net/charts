@@ -8,7 +8,7 @@ metadata:
     {{- if .Values.network.domainName }}
     mc-router.itzg.me/externalServerName: {{ .Values.network.domainName }}
     {{- else }}
-    mc-router.itzg.me/externalServerName: {{ .Release.Name }}.{{ .Release.Namespace }}.{{.Values.tld}}
+    mc-router.itzg.me/externalServerName: {{ .Release.Name }}.{{ .Release.Namespace }}.mcsh.red
     {{- end }}
     {{- end }}
   labels:

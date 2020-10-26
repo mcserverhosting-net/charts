@@ -89,6 +89,12 @@
             "title": "Online",
             "description": "Turns your server on or off. Useful for maintenance or for temporary event servers that wont go against your quota when they're not taking place."
         },
+        "eula": {
+            "type": "boolean",
+            "form": true,
+            "title": "EULA",
+            "description": "Agrees to the minecraft EULA so the server may start."
+        },
         "javaArgs": {
             "type": "string",
             "form": true,

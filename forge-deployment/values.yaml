@@ -1,5 +1,6 @@
 # online -- server online value. If false, server will be shutoff and not count against any quota.
 online: true 
+eula: true
 
 minecraft:
   memory:
@@ -20,7 +21,7 @@ network:
   #  port: 8193
   #  protocol: TCP
   
-javaArgs: -Dfml.queryResult:confirm -XX:+UseLargePagesInMetaspace -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseLargePages -XX:LargePageSizeInBytes=2m
+javaArgs: -Dfml.queryResult:confirm -Duser.dir=/minecraft
 #Based on https://www.redhat.com/en/blog/optimizing-rhel-8-run-java-implementation-minecraft-server
 
 userID: 1000
