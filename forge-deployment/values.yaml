@@ -1,0 +1,27 @@
+# online -- server online value. If false, server will be shutoff and not count against any quota.
+online: true 
+
+minecraft:
+  memory:
+    # minecraft.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
+    initial: 1G
+    # minecraft.memory.max -- max memory for the minecraft server. memory must end in G or M. 
+    max: 4G
+    hugePages: 125M
+    buffer: 400
+
+network:
+  domainName: ""
+  #ports:
+  #- name: votifier
+  #  port: 8192
+  #  protocol: TCP
+  #- name: anotherone
+  #  port: 8193
+  #  protocol: TCP
+  
+javaArgs: -Dfml.queryResult:confirm -XX:+UseLargePagesInMetaspace -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseLargePages -XX:LargePageSizeInBytes=2m
+#Based on https://www.redhat.com/en/blog/optimizing-rhel-8-run-java-implementation-minecraft-server
+
+userID: 1000
+groupID: 1001

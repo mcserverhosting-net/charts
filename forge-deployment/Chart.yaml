@@ -1,0 +1,20 @@
+apiVersion: v2
+name: forge-server
+version: 1.0
+kubeVersion: "> 1.15.0"
+description: A forge server for mods!
+type: application
+keywords:
+  - mcserverhosting
+  - server
+  - forge
+home: https://mcserverhosting.net/
+sources:
+  - https://github.com/mcserverhosting-net/charts
+maintainers:
+  - name: sfxworks
+    email: sfxworks@gmail.com
+    url: sfxworks.net
+icon: https://files.minecraftforge.net/maven/manage/static/images/logo.svg
+appVersion: 1.12.2
+deprecated: false

@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  serviceName: {{ .Release.Name }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  {{- if .Values.online }}
+  replicas: 1
+  {{- else }}
+  replicas: 0
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.userID | default 1000  }} 
+        runAsGroup: {{ .Values.groupID | default 1001  }} 
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: {{ .Release.Name }}
+        workingDir: /minecraft
+        env:
+          name: _JAVA_OPTIONS
+          value: {{ .Values.javaArgs }} -Xms={{ include "chart.initmem" . }} -Xmx={{ include "chart.maxmem" . }} -Duser.dir=/minecraft
+        startupProbe:
+          tcpSocket:
+            port: minecraft-tcp
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          tcpSocket:
+            port: minecraft-tcp
+          periodSeconds: 10
+          failureThreshold: 1
+        livenessProbe:
+          tcpSocket:
+            port: minecraft-tcp
+          periodSeconds: 10
+          failureThreshold: 1
+        image: docker.pkg.github.com/mcserverhosting-net/forge-base/forge-base:{{$.Chart.AppVersion }}
+        tty: true
+        stdin: true
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: {{ .Values.minecraft.memory.max }}i
+            {{- if .Values.pages }}
+            hugepages-2Mi: {{ .Values.minecraft.memory.hugePages }}i
+            {{- end }}
+            cpu: 4
+          requests:
+            memory: {{ .Values.minecraft.memory.initial }}i
+            cpu: 1
+        ports:
+        - containerPort: 25565
+          name: minecraft-udp
+          protocol: UDP
+        - containerPort: 25565
+          name: minecraft-tcp
+          protocol: TCP
+        {{- range .Values.network.ports }}
+        - containerPort: {{ .port }}
+          name: {{ .name }}
+          protocol: TCP
+        {{- end }}
+        volumeMounts:
+        - name: minecraft-volume
+          mountPath: /data
+          subPath: servers/{{ .Release.Name }}
+        - name: minecraft-volume
+          mountPath: /web
+          subPath: web
+      restartPolicy: Always
+      volumes:
+      - name: minecraft-volume
+        persistentVolumeClaim:
+          claimName: ns-pvc
+          readOnly: false
+      {{- if .Values.pages }}
+      - name: hugepage-2mi
+        emptyDir:
+          medium: HugePages-2Mi
+      {{- end }}

@@ -1,0 +1,65 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "groupID": {
+            "type": "integer"
+        },
+        "javaArgs": {
+            "type": "string"
+        },
+        "minecraft": {
+            "type": "object",
+            "properties": {
+                "memory": {
+                    "type": "object",
+                    "properties": {
+                        "buffer": {
+                            "type": "integer"
+                        },
+                        "hugePages": {
+                            "type": "string"
+                        },
+                        "initial": {
+                            "type": "string"
+                        },
+                        "max": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "network": {
+            "type": "object",
+            "properties": {
+                "domainName": {
+                    "type": "string"
+                },
+                "ports": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "port": {
+                                "type": "integer"
+                            },
+                            "protocol": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "online": {
+            "type": "boolean"
+        },
+        "userID": {
+            "type": "integer"
+        }
+    }
+}

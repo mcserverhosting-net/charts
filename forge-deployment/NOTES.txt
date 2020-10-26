@@ -1,0 +1,9 @@
+Your server is deployed!
+
+{{- if .Values.network }}
+{{- if .Values.network.domainName }}
+You and your players can join using the address: {{ .Values.network.domainName }}
+{{- else }}
+You and your players can join using the address: {{ .Release.Name }}.{{ .Release.Namespace }}.{{.Values.tld}}
+{{- end }}
+{{- end }}

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name:  {{ .Release.Name }}
+  annotations:
+    {{- if .Values.network }}
+    #Integration option for mc-router
+    {{- if .Values.network.domainName }}
+    mc-router.itzg.me/externalServerName: {{ .Values.network.domainName }}
+    {{- else }}
+    mc-router.itzg.me/externalServerName: {{ .Release.Name }}.{{ .Release.Namespace }}.{{.Values.tld}}
+    {{- end }}
+    {{- end }}
+  labels:
+    type:  {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+  - name: minecraft-tcp
+    port: 25565
+    protocol: TCP
+  - name: minecraft-udp
+    port: 25565
+    protocol: UDP
+  selector:
+    app:  {{ .Release.Name }}
