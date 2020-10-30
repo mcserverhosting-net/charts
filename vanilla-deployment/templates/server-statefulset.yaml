@@ -82,7 +82,7 @@ spec:
           name: {{ .name }}
           protocol: TCP
         {{- end }}
-        {{- if .Values.enablercon }}
+        {{- if .Values.minecraft.properties.enablercon }}
         - name: rcon
           containerPort: 25575
           protocol: TCP

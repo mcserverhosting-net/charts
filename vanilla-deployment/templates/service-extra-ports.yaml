@@ -13,7 +13,7 @@ spec:
     port: {{ .port }}
     protocol: {{ .protocol }}
   {{- end }}
-  {{- if .Values.enablercon }}
+  {{- if .Values.minecraft.properties.enablercon }}
   - name: rcon
     port: 25575
     protocol: TCP

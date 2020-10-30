@@ -6,7 +6,7 @@ data:
   server.properties: |
     query.port=5{{ include "chart.mcport" . | b64dec }}
     server-port=5{{ include "chart.mcport" . | b64dec }}
-    {{- with .Values.properties }}
+    {{- with .Values.minecraft.properties }}
     enable-jmx-monitoring=false
     rcon.port=25575
     level-seed={{ .levelseed }}

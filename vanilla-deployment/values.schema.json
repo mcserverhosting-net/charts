@@ -2,13 +2,25 @@
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
     "properties": {
+        "online": {
+            "type": "boolean",
+            "form": true,
+            "title": "Online",
+            "description": "Turns your server on or off. Useful for maintenance or for temporary event servers that wont go against your quota when they're not taking place."
+        },
+        "eula": {
+            "type": "boolean",
+            "form": true,
+            "title": "EULA",
+            "description": "Agrees to the minecraft EULA so the server may start."
+        },
         "minecraft": {
             "type": "object",
             "title": "Minecraft Properties",
             "form": true,
             "properties": {
                 "memory": {
-                    "title": "Memory",
+                    "title": "Server Memory",
                     "form": true,
                     "type": "object",
                     "properties": {
@@ -37,309 +49,297 @@
                             "description": "Gives your server a boost by letting it use hugePages for memory!"
                         }
                     }
+                },
+                "properties": {
+                    "type": "object",
+                    "title": "Server Properties",
+                    "form": true,
+                    "description": "A list of server properties that get set.",
+                    "properties": {
+                        "allowflight": {
+                            "title": "Allow Flight",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "allownether": {
+                            "title": "Allow Nether",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "broadcastconsoletoops": {
+                            "title": "Broadcast Console to OPs",
+                            "description": "Send console command outputs to all online operators",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "broadcastrcontoops": {
+                            "title": "Broadcast RCON to OPs",
+                            "description": "Send rcon console command outputs to all online operators",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "difficulty": {
+                            "title": "Difficulty",
+                            "description": "Defines the difficulty (such as damage dealt by mobs and the way hunger and poison affects players) of the server.",
+                            "form": true,
+                            "type": "string",
+                            "enum": ["peaceful", "easy", "normal", "hard"]
+                        },
+                        "enablecommandblock": {
+                            "title": "Enable Command Block",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "enablequery": {
+                            "title": "Enable Query",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "enablercon": {
+                            "title": "Enable RCON",
+                            "description": "Enables remote access to the server console via RCON.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "rconpassword": {
+                            "title": "RCON Password",
+                            "form": true,
+                            "type": "string",
+                            "hidden": {
+                                "value": false,
+                                "path": "properties/enablercon"
+                            }
+                        },
+                        "enablestatus": {
+                            "title": "Enable Status",
+                            "description": "Makes the server appear as \"online\" on the server list. If set to false, it will suppress replies from clients. This means it will appear as offline, but will still accept connections.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "pvp": {
+                            "title": "Enable PVP",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "whitelist": {
+                            "title": "Enable Whitelist",
+                            "description": "With a whitelist enabled, users not on the whitelist cannot connect. Intended for private servers, such as those for real-life friends or strangers carefully selected via an application process, for example.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "enforcewhitelist": {
+                            "title": "Enforce Whitelist",
+                            "description": "Enforces the whitelist on the server. When this option is enabled, users who are not present on the whitelist get kicked from the server after the server reloads the whitelist file.",
+                            "form": true,
+                            "type": "boolean",
+                            "hidden": {
+                                "value": false,
+                                "path": "properties/whitelist"
+                            }
+                        },
+                        "entitybroadcastrangepercentage": {
+                            "title": "Entity Broadcast Range Percentage",
+                            "description": "Controls how close entities need to be before being sent to clients. Higher values means they'll be rendered from farther away, potentially causing more lag. This is expressed the percentage of the default value. For example, setting to 50 will make it half as usual. This mimics the function on the client video settings (not unlike Render Distance, which the client can customize so long as it's under the server's setting).",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 500
+                        },
+                        "forcegamemode": {
+                            "title": "Force Game Mode",
+                            "description": "Force players to always join in the default game mode.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "functionpermissionlevel": {
+                            "title": "Function Permission Level",
+                            "description": "Sets the default permission level for functions. See https://minecraft.gamepedia.com/Function_(Java_Edition) for information on functions.",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 4
+                        },
+                        "gamemode": {
+                            "title": "Gamemode",
+                            "description": "Defines the mode of gameplay. See https://minecraft.gamepedia.com/Gameplay#Game_modes for a description on gamemodes",
+                            "form": true,
+                            "type": "string",
+                            "enum": ["survival", "creative", "adventure", "spectator"]
+                        },
+                        "generatestructures": {
+                            "title": "Generate Structures",
+                            "description": "Defines whether structures (such as villages) can be generated.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "generatorsettings": {
+                            "title": "Generator Settings",
+                            "description": "The settings used to customize world generation. Follow its format and write the corresponding JSON string. More information on this can be found at https://minecraft.gamepedia.com/Java_Edition_level_format#generatorOptions_tag_format",
+                            "form": true,
+                            "type": "null"
+                        },
+                        "hardcore": {
+                            "title": "Hardcore",
+                            "description": "If set to true, server difficulty is ignored and set to hard and players are set to spectator mode if they die.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "levelname": {
+                            "title": "Level Name",
+                            "description": "The \"level-name\" value is used as the world name and its folder name. The player may also copy their saved game folder here, and change the name to the same as that folder's to load it instead. Characters such as ' (apostrophe) may need to be escaped by adding a backslash before them.",
+                            "form": true,
+                            "type": "string"
+                        },
+                        "levelseed": {
+                            "title": "Level Seed",
+                            "description": "Sets a world seed for the player's world, as in Singleplayer. The world generates with a random seed if left blank.",
+                            "form": true,
+                            "type": "string"
+                        },
+                        "leveltype": {
+                            "title": "Level Type",
+                            "description": "Determines the type of map that is generated.",
+                            "form": true,
+                            "type": "string",
+                            "enum": ["default", "flat", "largeBiomes", "amplified", "buffet"]
+                        },
+                        "maxbuildheight": {
+                            "title": "Max Build Height",
+                            "description": "The maximum height allowed for building. Terrain may still naturally generate above a low height limit.",
+                            "form": true,
+                            "type": "integer",
+                            "multipleOf" : 8,
+                            "maximum": 256,
+                            "minimum": 8
+                        },
+                        "maxplayers": {
+                            "title": "Max Players",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "maxticktime": {
+                            "title": "Max Tick Time",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "maxworldsize": {
+                            "title": "Max World Size",
+                            "description": "This sets the maximum possible size in blocks, expressed as a radius, that the world border can obtain. Example: Setting max-world-size to 1000 allows the player to have a 2000×2000 world border. Setting max-world-size to 4000 gives the player an 8000×8000 world border.",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 29999984
+                        },
+                        "motd": {
+                            "title": "Message of the Day",
+                            "description": "This is the message that is displayed in the server list of the client, below the name.",
+                            "form": true,
+                            "type": "string"
+                        },
+                        "networkcompressionthreshold": {
+                            "title": "Network Compression Threshold",
+                            "description": "By default it allows packets that are n-1 bytes big to go normally, but a packet of n bytes or more gets compressed down. So, a lower number means more compression but compressing small amounts of bytes might actually end up with a larger result than what went in. -1 - disable compression entirely. 0 - compress everything.",
+                            "form": true,
+                            "type": "integer"
+                        },
+                        "onlinemode": {
+                            "title": "Online Mode",
+                            "description": "If enabled, the server will check connecting players against Minecraft account database.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "oppermissionlevel": {
+                            "title": "OP Permission Level",
+                            "description": "Sets the default permission level for ops when using /op",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 4
+                        },
+                        "playeridletimeout": {
+                            "title": "Player Idle Timeout",
+                            "description": "If non-zero, players are kicked from the server if they are idle for more than that many minutes.",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "preventproxyconnections": {
+                            "title": "Prevent Proxy Connections",
+                            "description": "If enabled, the server prevents users from using vpns or proxies.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "ratelimit": {
+                            "title": "Rate Limit",
+                            "description": "Sets the maximum amount of packets a user can send before getting kicked. Setting to 0 disables this feature.",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "resourcepack": {
+                            "title": "Resource Pack",
+                            "description": "A URL to a resource pack you want clients to download.",
+                            "form": true,
+                            "type": "string"
+                        },
+                        "resourcepacksha1": {
+                            "title": "Resource Pack SHA1",
+                            "description": "Optional SHA-1 digest of the resource pack, in lowercase hexadecimal. It is recommended to specify this, because it is used to verify the integrity of the resource pack.",
+                            "form": true,
+                            "type": "string"
+                        },
+                        "snooperenabled": {
+                            "title": "Snooper Enabled",
+                            "description": "Sets whether the server sends snoop data regularly to http://snoop.minecraft.net.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "spawnanimals": {
+                            "title": "Spawn Animals",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "spawnmonsters": {
+                            "title": "Spawn Monsters",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "spawnnpcs": {
+                            "title": "Spawn NPCs",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "spawnprotection": {
+                            "title": "Spawn Protection",
+                            "description": "Determines the side length of the square spawn protection area as 2x+1. Setting this to 0 disables the spawn protection. A value of 1 protects a 3×3 square centered on the spawn point. 2 protects 5×5, 3 protects 7×7, etc.",
+                            "form": true,
+                            "type": "integer"
+                        },
+                        "syncchunkwrites": {
+                            "title": "Sync Chunk Writes",
+                            "description": "Enables synchronous chunk writes.",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "usenativetransport": {
+                            "title": "Use Native Transport",
+                            "description": "Linux server performance improvements: optimized packet sending/receiving on Linux",
+                            "form": true,
+                            "type": "boolean"
+                        },
+                        "viewdistance": {
+                            "title": "View Distance",
+                            "description": "Sets the amount of world data the server sends the client, measured in chunks in each direction of the player (radius, not diameter). It determines the server-side viewing distance.",
+                            "form": true,
+                            "type": "integer",
+                            "minimum": 3,
+                            "maximum": 32
+                        }
+                    }
                 }
             }
-        },
-        "properties": {
-            "type": "object",
-            "title": "Server Properties",
-            "form": true,
-            "description": "A list of server properties that get set.",
-            "properties": {
-                "allowflight": {
-                    "title": "Allow Flight",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "allownether": {
-                    "title": "Allow Nether",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "broadcastconsoletoops": {
-                    "title": "Broadcast Console to OPs",
-                    "description": "Send console command outputs to all online operators",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "broadcastrcontoops": {
-                    "title": "Broadcast RCON to OPs",
-                    "description": "Send rcon console command outputs to all online operators",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "difficulty": {
-                    "title": "Difficulty",
-                    "description": "Defines the difficulty (such as damage dealt by mobs and the way hunger and poison affects players) of the server.",
-                    "form": true,
-                    "type": "string",
-                    "enum": ["peaceful", "easy", "normal", "hard"]
-                },
-                "enablecommandblock": {
-                    "title": "Enable Command Block",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "enablequery": {
-                    "title": "Enable Query",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "enablercon": {
-                    "title": "Enable RCON",
-                    "description": "Enables remote access to the server console via RCON.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "rconpassword": {
-                    "title": "RCON Password",
-                    "form": true,
-                    "type": "string",
-                    "hidden": {
-                        "value": false,
-                        "path": "properties/enablercon"
-                    }
-                },
-                "enablestatus": {
-                    "title": "Enable Status",
-                    "description": "Makes the server appear as \"online\" on the server list. If set to false, it will suppress replies from clients. This means it will appear as offline, but will still accept connections.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "pvp": {
-                    "title": "Enable PVP",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "whitelist": {
-                    "title": "Enable Whitelist",
-                    "description": "With a whitelist enabled, users not on the whitelist cannot connect. Intended for private servers, such as those for real-life friends or strangers carefully selected via an application process, for example.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "enforcewhitelist": {
-                    "title": "Enforce Whitelist",
-                    "description": "Enforces the whitelist on the server. When this option is enabled, users who are not present on the whitelist get kicked from the server after the server reloads the whitelist file.",
-                    "form": true,
-                    "type": "boolean",
-                    "hidden": {
-                        "value": false,
-                        "path": "properties/whitelist"
-                    }
-                },
-                "entitybroadcastrangepercentage": {
-                    "title": "Entity Broadcast Range Percentage",
-                    "description": "Controls how close entities need to be before being sent to clients. Higher values means they'll be rendered from farther away, potentially causing more lag. This is expressed the percentage of the default value. For example, setting to 50 will make it half as usual. This mimics the function on the client video settings (not unlike Render Distance, which the client can customize so long as it's under the server's setting).",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 500
-                },
-                "forcegamemode": {
-                    "title": "Force Game Mode",
-                    "description": "Force players to always join in the default game mode.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "functionpermissionlevel": {
-                    "title": "Function Permission Level",
-                    "description": "Sets the default permission level for functions. See https://minecraft.gamepedia.com/Function_(Java_Edition) for information on functions.",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 1,
-                    "maximum": 4
-                },
-                "gamemode": {
-                    "title": "Gamemode",
-                    "description": "Defines the mode of gameplay. See https://minecraft.gamepedia.com/Gameplay#Game_modes for a description on gamemodes",
-                    "form": true,
-                    "type": "string",
-                    "enum": ["survival", "creative", "adventure", "spectator"]
-                },
-                "generatestructures": {
-                    "title": "Generate Structures",
-                    "description": "Defines whether structures (such as villages) can be generated.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "generatorsettings": {
-                    "title": "Generator Settings",
-                    "description": "The settings used to customize world generation. Follow its format and write the corresponding JSON string. More information on this can be found at https://minecraft.gamepedia.com/Java_Edition_level_format#generatorOptions_tag_format",
-                    "form": true,
-                    "type": "null"
-                },
-                "hardcore": {
-                    "title": "Hardcore",
-                    "description": "If set to true, server difficulty is ignored and set to hard and players are set to spectator mode if they die.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "levelname": {
-                    "title": "Level Name",
-                    "description": "The \"level-name\" value is used as the world name and its folder name. The player may also copy their saved game folder here, and change the name to the same as that folder's to load it instead. Characters such as ' (apostrophe) may need to be escaped by adding a backslash before them.",
-                    "form": true,
-                    "type": "string"
-                },
-                "levelseed": {
-                    "title": "Level Seed",
-                    "description": "Sets a world seed for the player's world, as in Singleplayer. The world generates with a random seed if left blank.",
-                    "form": true,
-                    "type": "string"
-                },
-                "leveltype": {
-                    "title": "Level Type",
-                    "description": "Determines the type of map that is generated.",
-                    "form": true,
-                    "type": "string",
-                    "enum": ["default", "flat", "largeBiomes", "amplified", "buffet"]
-                },
-                "maxbuildheight": {
-                    "title": "Max Build Height",
-                    "description": "The maximum height allowed for building. Terrain may still naturally generate above a low height limit.",
-                    "form": true,
-                    "type": "number",
-                    "multipleOf" : 8,
-                    "maximum": 256,
-                    "minimum": 8
-                },
-                "maxplayers": {
-                    "title": "Max Players",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 0
-                },
-                "maxticktime": {
-                    "title": "Max Tick Time",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 0
-                },
-                "maxworldsize": {
-                    "title": "Max World Size",
-                    "description": "This sets the maximum possible size in blocks, expressed as a radius, that the world border can obtain. Example: Setting max-world-size to 1000 allows the player to have a 2000×2000 world border. Setting max-world-size to 4000 gives the player an 8000×8000 world border.",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 29999984
-                },
-                "motd": {
-                    "title": "Message of the Day",
-                    "description": "This is the message that is displayed in the server list of the client, below the name.",
-                    "form": true,
-                    "type": "string"
-                },
-                "networkcompressionthreshold": {
-                    "title": "Network Compression Threshold",
-                    "description": "By default it allows packets that are n-1 bytes big to go normally, but a packet of n bytes or more gets compressed down. So, a lower number means more compression but compressing small amounts of bytes might actually end up with a larger result than what went in. -1 - disable compression entirely. 0 - compress everything.",
-                    "form": true,
-                    "type": "integer"
-                },
-                "onlinemode": {
-                    "title": "Online Mode",
-                    "description": "If enabled, the server will check connecting players against Minecraft account database.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "oppermissionlevel": {
-                    "title": "OP Permission Level",
-                    "description": "Sets the default permission level for ops when using /op",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 1,
-                    "maximum": 4
-                },
-                "playeridletimeout": {
-                    "title": "Player Idle Timeout",
-                    "description": "If non-zero, players are kicked from the server if they are idle for more than that many minutes.",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 0
-                },
-                "preventproxyconnections": {
-                    "title": "Prevent Proxy Connections",
-                    "description": "If enabled, the server prevents users from using vpns or proxies.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "ratelimit": {
-                    "title": "Rate Limit",
-                    "description": "Sets the maximum amount of packets a user can send before getting kicked. Setting to 0 disables this feature.",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 0
-                },
-                "resourcepack": {
-                    "title": "Resource Pack",
-                    "description": "A URL to a resource pack you want clients to download.",
-                    "form": true,
-                    "type": "string"
-                },
-                "resourcepacksha1": {
-                    "title": "Resource Pack SHA1",
-                    "description": "Optional SHA-1 digest of the resource pack, in lowercase hexadecimal. It is recommended to specify this, because it is used to verify the integrity of the resource pack.",
-                    "form": true,
-                    "type": "string"
-                },
-                "snooperenabled": {
-                    "title": "Snooper Enabled",
-                    "description": "Sets whether the server sends snoop data regularly to http://snoop.minecraft.net.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "spawnanimals": {
-                    "title": "Spawn Animals",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "spawnmonsters": {
-                    "title": "Spawn Monsters",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "spawnnpcs": {
-                    "title": "Spawn NPCs",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "spawnprotection": {
-                    "title": "Spawn Protection",
-                    "description": "Determines the side length of the square spawn protection area as 2x+1. Setting this to 0 disables the spawn protection. A value of 1 protects a 3×3 square centered on the spawn point. 2 protects 5×5, 3 protects 7×7, etc.",
-                    "form": true,
-                    "type": "integer"
-                },
-                "syncchunkwrites": {
-                    "title": "Sync Chunk Writes",
-                    "description": "Enables synchronous chunk writes.",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "usenativetransport": {
-                    "title": "Use Native Transport",
-                    "description": "Linux server performance improvements: optimized packet sending/receiving on Linux",
-                    "form": true,
-                    "type": "boolean"
-                },
-                "viewdistance": {
-                    "title": "View Distance",
-                    "description": "Sets the amount of world data the server sends the client, measured in chunks in each direction of the player (radius, not diameter). It determines the server-side viewing distance.",
-                    "form": true,
-                    "type": "number",
-                    "minimum": 3,
-                    "maximum": 32
-                }
-            }
-        },
-        "online": {
-            "type": "boolean",
-            "form": true,
-            "title": "Online",
-            "description": "Turns your server on or off. Useful for maintenance or for temporary event servers that wont go against your quota when they're not taking place."
-        },
-        "eula": {
-            "type": "boolean",
-            "form": true,
-            "title": "EULA",
-            "description": "Agrees to the minecraft EULA so the server may start."
         },
         "javaArgs": {
             "type": "string",
