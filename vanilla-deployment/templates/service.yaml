@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name:  {{ .Release.Name }}
+  annotations:
+    metallb.universe.tf/allow-shared-ip: mcsh-public
+    #metallb.universe.tf/address-pool: mcsh-public
+  labels:
+    type:  {{ .Release.Name }}
+spec:
+  type: LoadBalancer
+  ports:
+  - name: minecraft
+    port: 5{{ include "chart.mcport" . | b64dec }}
+    protocol: TCP
+  selector:
+    app:  {{ .Release.Name }}

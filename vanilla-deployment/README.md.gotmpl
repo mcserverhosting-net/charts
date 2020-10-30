@@ -1,0 +1,17 @@
+![Status](https://prow.mcserverhosting.net/badge.svg?jobs=lint-server-deployment)
+
+Note: 
+- Requires PVC named minecraft-volume. 
+- Requires runtime runsc.
+- Requires access to forge image ref.
+
+{{ template "chart.header" . }}
+{{ template "chart.description" . }}
+
+{{ template "chart.versionLine" . }}
+
+{{ template "chart.sourceLinkLine" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}

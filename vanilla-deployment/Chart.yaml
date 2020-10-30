@@ -1,0 +1,20 @@
+apiVersion: v2
+name: vanilla-server
+version: 1.0
+kubeVersion: "> 1.15.0"
+description: A minecraft server - sweet vanilla!
+type: application
+keywords:
+  - mcserverhosting
+  - server
+  - vanilla
+home: https://mcserverhosting.net/
+sources:
+  - https://github.com/mcserverhosting-net/charts
+maintainers:
+  - name: MC Server Hosting LLC
+    email: support@mcserverhosting.net
+    url: mcserverhosting.net
+icon: https://mcserverhosting-net.github.io/charts/vanilla-deployment/vanilla-logo.svg
+appVersion: 1.16.3
+deprecated: false

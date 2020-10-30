@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mc-config
+data:
+  server.properties: |
+    query.port=5{{ include "chart.mcport" . | b64dec }}
+    server-port=5{{ include "chart.mcport" . | b64dec }}
+    {{- with .Values.properties }}
+    enable-jmx-monitoring=false
+    rcon.port=25575
+    level-seed={{ .levelseed }}
+    gamemode={{ .gamemode }}
+    enable-command-block={{ .enablecommandblock }}
+    enable-query={{ .enablequery }}
+    generator-settings={{ .generatorsettings }}
+    level-name={{ .levelname }}
+    motd={{ .motd }}
+    pvp={{ .pvp }}
+    generate-structures={{ .generatestructures }}
+    difficulty={{ .difficulty }}
+    network-compression-threshold={{ .networkcompressionthreshold }}
+    max-tick-time={{ .maxticktime }}
+    max-players={{ .maxplayers }}
+    use-native-transport={{ .usenativetransport }}
+    online-mode={{ .onlinemode }}
+    enable-status={{ .enablestatus }}
+    allow-flight={{ .allowflight }}
+    broadcast-rcon-to-ops={{ .broadcastrcontoops }}
+    view-distance={{ .viewdistance }}
+    max-build-height={{ .maxbuildheight }}
+    serverip=
+    allow-nether={{ .allownether }}
+    enable-rcon={{ .enablercon }}
+    sync-chunk-writes={{ .syncchunkwrites }}
+    op-permission-level={{ .oppermissionlevel }}
+    prevent-proxy-connections={{ .preventproxyconnections }}
+    resource-pack={{ .resourcepack }}
+    entity-broadcast-range-percentage={{ .entitybroadcastrangepercentage }}
+    rcon.password={{ .rconpassword }}
+    player-idle-timeout={{ .playeridletimeout }}
+    force-gamemode={{ .forcegamemode }}
+    rate-limit={{ .ratelimit }}
+    hardcore={{ .hardcore }}
+    white-list={{ .whitelist }}
+    broadcast-console-to-ops={{ .broadcastconsoletoops }}
+    spawn-npcs={{ .spawnnpcs }}
+    spawn-animals={{ .spawnanimals }}
+    snooper-enabled={{ .snooperenabled }}
+    function-permission-level={{ .functionpermissionlevel }}
+    level-type={{ .leveltype }}
+    spawn-monsters={{ .spawnmonsters }}
+    enforce-whitelist={{ .enforcewhitelist }}
+    resource-pack-sha1={{ .resourcepacksha1 }}
+    spawn-protection={{ .spawnprotection }}
+    max-world-size={{ .maxworldsize }}
+  {{- end }}

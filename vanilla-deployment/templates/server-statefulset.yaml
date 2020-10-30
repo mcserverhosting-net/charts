@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  serviceName: {{ .Release.Name }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  {{- if .Values.online }}
+  replicas: 1
+  {{- else }}
+  replicas: 0
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.userID | default 1000  }} 
+        runAsGroup: {{ .Values.groupID | default 1001  }} 
+      terminationGracePeriodSeconds: 30
+      initContainers:
+      - name: eula-check
+        image: busybox:1.28
+        env:
+        - name: EULA
+          value: {{ .Values.eula | quote }}
+        command: ['sh', '-c', "echo eula=$EULA > /minecraft/eula.txt"]
+        volumeMounts:
+        - name: minecraft-volume
+          mountPath: /minecraft
+          subPath: servers/{{ .Release.Name }}  
+      containers:
+      - name: {{ .Release.Name }}
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          capabilities:
+            drop:
+            - ALL
+        workingDir: /minecraft
+        env:
+        - name: _JAVA_OPTIONS
+          value: {{ .Values.javaArgs }} -XX:ActiveProcessorCount=4 -Xms{{ include "chart.initmem" . }} -Xmx{{ include "chart.maxmem" . }} -Duser.dir=/minecraft -XX:+PrintFlagsFinal
+        startupProbe:
+          tcpSocket:
+            port: minecraft
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          tcpSocket:
+            port: minecraft
+          periodSeconds: 10
+          failureThreshold: 1
+        livenessProbe:
+          tcpSocket:
+            port: minecraft
+          periodSeconds: 10
+          failureThreshold: 1
+        image: docker.pkg.github.com/mcserverhosting-net/vanilla-base/vanilla-base:{{$.Chart.AppVersion }}
+        tty: true
+        stdin: true
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: {{ .Values.minecraft.memory.max }}i
+            {{- if .Values.pages }}
+            hugepages-2Mi: {{ .Values.minecraft.memory.hugePages }}i
+            {{- end }}
+            cpu: 4
+          requests:
+            memory: {{ .Values.minecraft.memory.initial }}i
+            cpu: 1
+        ports:
+        - containerPort: 5{{ include "chart.mcport" . | b64dec }}
+          name: minecraft
+          protocol: TCP
+        {{- range .Values.network.ports }}
+        - containerPort: {{ .port }}
+          name: {{ .name }}
+          protocol: TCP
+        {{- end }}
+        {{- if .Values.enablercon }}
+        - name: rcon
+          containerPort: 25575
+          protocol: TCP
+        {{- end }}
+        volumeMounts:
+        - name: minecraft-volume
+          mountPath: /minecraft
+          subPath: servers/{{ .Release.Name }}
+        - name: minecraft-volume
+          mountPath: /web
+          subPath: web
+        - name: mc-config
+          mountPath: /minecraft/server.properties
+          subPath: server.properties
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: mc-config
+        configMap:
+          name: mc-config
+      - name: minecraft-volume
+        persistentVolumeClaim:
+          claimName: ns-pvc
+          readOnly: false
+      {{- if .Values.pages }}
+      - name: hugepage-2mi
+        emptyDir:
+          medium: HugePages-2Mi
+      {{- end }}

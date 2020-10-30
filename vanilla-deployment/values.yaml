@@ -1,0 +1,76 @@
+# online -- server online value. If false, server will be shutoff and not count against any quota.
+online: true 
+eula: true
+
+minecraft:
+  memory:
+    # minecraft.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
+    initial: 1G
+    # minecraft.memory.max -- max memory for the minecraft server. memory must end in G or M. 
+    max: 4G
+    hugePages: 125M
+    buffer: 400
+
+network:
+  domainName: ""
+  #ports:
+  #- name: votifier
+  #  port: 8192
+  #  protocol: TCP
+  #- name: anotherone
+  #  port: 8193
+  #  protocol: TCP
+  
+javaArgs: -Dfml.queryResult:confirm -Duser.dir=/minecraft
+#Based on https://www.redhat.com/en/blog/optimizing-rhel-8-run-java-implementation-minecraft-server
+
+userID: 1000
+groupID: 1001
+
+
+properties:
+  levelseed: ""
+  gamemode: survival
+  enablecommandblock: false
+  enablequery: false
+  generatorsettings: 
+  levelname: world
+  motd: A Minecraft Server
+  pvp: true
+  generatestructures: true
+  difficulty: easy
+  networkcompressionthreshold: 64
+  maxticktime: 30000
+  maxplayers: 20
+  usenativetransport: true
+  onlinemode: true
+  enablestatus: true
+  allowflight: false
+  broadcastrcontoops: true
+  viewdistance: 10
+  maxbuildheight: 256
+  allownether: true
+  enablercon: false
+  syncchunkwrites: true
+  oppermissionlevel: 4
+  preventproxyconnections: false
+  resourcepack: ""
+  entitybroadcastrangepercentage: 100
+  rconpassword: ""
+  playeridletimeout: 0
+  forcegamemode: false
+  ratelimit: 0
+  hardcore: false
+  whitelist: false
+  broadcastconsoletoops: true
+  spawnnpcs: true
+  spawnanimals: true
+  snooperenabled: true
+  functionpermissionlevel: 2
+  leveltype: default
+  spawnmonsters: true
+  enforcewhitelist: false
+  resourcepacksha1: ""
+  spawnprotection: 16
+  maxworldsize: 29999984
+  

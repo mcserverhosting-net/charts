@@ -1,0 +1,23 @@
+{{- if .Values.network.ports }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-extra-ports
+  labels:
+    type: {{ .Release.Name }}-extra-ports
+spec:
+  type: NodePort
+  ports:
+  {{- range .Values.network.ports }}
+  - name: {{ .name }}
+    port: {{ .port }}
+    protocol: {{ .protocol }}
+  {{- end }}
+  {{- if .Values.enablercon }}
+  - name: rcon
+    port: 25575
+    protocol: TCP
+  {{- end }}
+  selector:
+    app:  {{ .Release.Name }}
+{{- end }}
