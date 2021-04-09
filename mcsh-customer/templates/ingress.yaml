@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webdav-ingress
+  namespace: {{.Release.Name}}
+  annotations:
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/limit-connections: "4"
+    nginx.ingress.kubernetes.io/limit-rpm: "240"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: webdav.{{.Release.Name}}.mcsh.red
+    http:
+      paths:
+      - backend:
+          service:
+            name: webdav
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - webdav.{{.Release.Name}}.mcsh.red
+    secretName: tls-w

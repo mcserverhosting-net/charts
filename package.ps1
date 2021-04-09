@@ -1,4 +1,5 @@
 helm package .\server-deployment\ -d .\releases
+helm package .\mcsh-customer\ -d .\releases
 helm package .\sftp-deployment\ -d .\releases
 helm package .\namespace-lock\ -d .\releases
 helm package .\bungee-deployment\ -d .\releases

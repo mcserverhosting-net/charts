@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ns-pvc
-  namespace: {{ .Values.namespace }}
+  namespace: {{.Release.Name}}
 spec:
   storageClassName: rook-cephfs
   accessModes:

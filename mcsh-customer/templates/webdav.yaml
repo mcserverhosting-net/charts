@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webdav
+  namespace: {{.Release.Name}}
+  labels:
+    app: webdav
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webdav
+  template:
+    metadata:
+      labels:
+        app: webdav
+    spec:
+      containers:
+      - name: webdav
+        env:
+        - name: ENV_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: webdav
+              key: password
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 100m
+          limits:
+            memory: 200Mi
+            cpu: 100m
+        image: hacdias/webdav:v4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: webdav
+          mountPath: /etc/webdav
+        - name: pvc
+          mountPath: /home/admin
+      volumes:
+      - name: webdav
+        configMap:
+          name: webdav
+      - name: pvc
+        persistentVolumeClaim:
+          claimName: ns-pvc
+          readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webdav
+  namespace: {{.Release.Name}}
+spec:
+  selector:
+    app: webdav
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      name: http
