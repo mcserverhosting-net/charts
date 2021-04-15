@@ -4,5 +4,4 @@ metadata:
   name: {{.Release.Name}}
   labels:
     paymentid: {{.Values.paymentid}}
-    customer: {{.Values.email}}
     plan: {{.Values.plan}}
