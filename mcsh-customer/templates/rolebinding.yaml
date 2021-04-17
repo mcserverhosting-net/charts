@@ -5,7 +5,7 @@ metadata:
   namespace: {{.Release.Name}}
 subjects:
 - kind: User
-  name: {{ .Values.email }}
+  name: {{ lower .Values.email }}
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole

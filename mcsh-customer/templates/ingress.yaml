@@ -5,8 +5,10 @@ metadata:
   namespace: {{.Release.Name}}
   annotations:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-    nginx.ingress.kubernetes.io/limit-connections: "4"
-    nginx.ingress.kubernetes.io/limit-rpm: "240"
+    nginx.ingress.kubernetes.io/limit-connections: "50"
+    nginx.ingress.kubernetes.io/limit-rpm: "5000"
+    nginx.ingress.kubernetes.io/proxy-body-size: 500m
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 500m
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
