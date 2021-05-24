@@ -4,7 +4,7 @@ metadata:
   name: ns-pvc
   namespace: {{.Release.Name}}
 spec:
-  storageClassName: rook-cephfs
+  storageClassName: longhorn-hhd
   accessModes:
   - ReadWriteMany
   resources:
