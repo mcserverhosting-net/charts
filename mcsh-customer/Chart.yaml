@@ -1,6 +1,6 @@
 apiVersion: v2
 name: customer
-version: 1.3.4
+version: 1.3.5
 kubeVersion: "> 1.15.0"
 description: An customer deployment deployment for MCSH.
 type: application
