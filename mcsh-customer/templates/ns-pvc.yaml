@@ -4,7 +4,7 @@ metadata:
   name: ns-pvc
   namespace: {{.Release.Name}}
 spec:
-  storageClassName: longhorn-hhd
+  storageClassName: gamefs
   accessModes:
   - ReadWriteMany
   resources:
