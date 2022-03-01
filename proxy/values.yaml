@@ -1,0 +1,13 @@
+online: true
+resources:
+  memory: 1
+  cpu: 1
+
+memory:
+  # minecraft.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
+  initial: 1G
+  # minecraft.memory.max -- max memory for the minecraft server. memory must end in G or M. 
+  max: 4G
+  buffer: 400
+
+javaArgs: 

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    proxy: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      proxy: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        proxy: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: proxy
+        image: registry.mcsh.red/mcsh/proxy
+        env:
+        - name: _JAVA_OPTIONS
+          value: {{ .Values.javaArgs }} -Xms{{ include "chart.initmem" . }} -Xmx{{ include "chart.maxmem" . }} -Duser.dir=/proxy
+        ports:
+        - containerPort: 25565
+        resources:
+          limits:
+            memory: {{ .Values.memory.max }}i
+            cpu: 1
+          requests:
+            memory: {{ .Values.memory.initial }}i
+            cpu: 100m
+      #TODO resource checks, security policies, mount target
