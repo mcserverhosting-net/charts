@@ -6,13 +6,14 @@ metadata:
   annotations:
     helm.sh/hook: post-install
 spec:
+  fixPerms: true
+  javaOverride: "17"
   java:
     argsdd: fml.queryResult:confirm
     argsxx: -XX:+UseLargePagesInMetaspace -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions
       -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50
       -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch
-      -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseLargePages
-      -XX:LargePageSizeInBytes=2m
+      -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap 
   minecraft:
     eula: true
     memory:
