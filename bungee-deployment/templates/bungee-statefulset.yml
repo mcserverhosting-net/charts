@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-bungee
+  name: {{ .Release.Name }}-proxy
 spec:
-  serviceName: {{ .Release.Name }}-bungee
+  serviceName: {{ .Release.Name }}-proxy
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-bungee
+      app: {{ .Release.Name }}-proxy
   {{- if .Values.online }}
   replicas: 1
   {{- else }}
@@ -15,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-bungee
+        app: {{ .Release.Name }}-proxy
     spec:
       {{- if .Values.runtime }}
       runtimeClassName: {{ .Values.admin.runtime }}
@@ -43,7 +43,9 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 10
           failureThreshold: 10
-        image: docker.io/itzg/bungeecord
+        {{- if .Values.javaOverride }}
+        image: docker.io/itzg/bungeecord:java{{.Values.javaOverride}}
+        {{- end }}
         env:
         {{- if .Values.jar }}
         - name: BUNGEE_JAR 
@@ -65,17 +67,22 @@ spec:
             cpu: 100m
         ports:
         - containerPort: 25565
-          name: bungee
+          name: proxy
+        {{- range .Values.config.network.ports }}
+        - containerPort: {{ .port }}
+          name: {{ .name }}
+          protocol: {{ .protocol }}
+        {{- end }}
         volumeMounts:
-        - name: bungee-volume
+        - name: proxy-volume
           mountPath: /server
-          subPath: bungee/{{ .Release.Name }}
+          subPath: proxy/{{ .Release.Name }}
       restartPolicy: Always
       volumes:
-      - name: bungee-config
+      - name: proxy-config
         configMap:
-          name: {{ .Release.Name }}-bungee-config
-      - name: bungee-volume
+          name: {{ .Release.Name }}-proxy-config
+      - name: proxy-volume
         persistentVolumeClaim:
           claimName: ns-pvc
           readOnly: false
