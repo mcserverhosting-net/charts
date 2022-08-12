@@ -24,6 +24,14 @@ config:
     domainName: bungee.mcserverhosting.red
     # config.network.routeName -- The DNS name that will route to your node's IP address.
     routeName: bungee.mcserverhosting.red
+    ports:
+    - name: vote
+      port: 1682
+      protocol: TCP
+    - name: vote2
+      port: 1982
+      protocol: TCP
+
   memory:
     # config.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
     initial: 500M
