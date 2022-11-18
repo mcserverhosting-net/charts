@@ -32,6 +32,25 @@ spec:
       containers:
       - name: panel
         image: ghcr.io/pterodactyl/panel:latest
+        env:
+        - name: DB_PASSWORD
+          value: {{ .Values.mariadb.auth.password }}
+        - name: APP_ENV
+          value: production
+        - name: APP_ENVIRONMENT_ONLY        
+          value: "false"
+        - name: CACHE_DRIVER
+          value: redis
+        - name: SESSION_DRIVER
+          value: redis
+        - name: QUEUE_DRIVER
+          value: redis
+        - name: REDIS_HOST
+          value: {{ .Release.Name }}-redis-headless
+        - name: DB_HOST
+          value: {{ .Release.Name }}-mariadb
+        - name: DB_PORT
+          value: "3306"
         ports:
         - containerPort: 80
           name: web
