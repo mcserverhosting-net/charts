@@ -1,0 +1,24 @@
+ingress:
+  class: nginx
+  host: foo.bar.com
+  clusterIssuer: #If empty no cert manager annotation is added
+
+#Dependencies below
+mariadb:
+  #citing https://github.com/kubectyl/panel/blob/develop/docker-compose.example.yml
+  auth:
+    database: panel
+    username: pterodactyl
+    password: CHANGE_ME
+    rootPassword: CHANGE_ME_TOO
+  secondary:
+    replicaCount: 0
+redis:
+  auth:
+    enabled: false
+  replica:
+    replicaCount: 0
+  sentinel:
+    enabled: false
+
+
