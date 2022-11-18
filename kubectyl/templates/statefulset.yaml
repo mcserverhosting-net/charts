@@ -51,7 +51,7 @@ spec:
     spec:
       accessModes:
       - "ReadWriteOnce"
-      storageClassName: "rook-ceph-block"
+      storageClassName: {{ .Values.panel.storageClassName }}
       resources:
         requests:
           storage: 20Gi

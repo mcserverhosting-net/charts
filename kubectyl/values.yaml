@@ -2,7 +2,8 @@ ingress:
   class: nginx
   host: foo.bar.com
   clusterIssuer: #If empty no cert manager annotation is added
-
+panel:
+  storageClassName: rook-ceph-block
 #Dependencies below
 mariadb:
   #citing https://github.com/kubectyl/panel/blob/develop/docker-compose.example.yml
