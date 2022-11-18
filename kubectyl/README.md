@@ -1,0 +1,1 @@
+Helm chart for up and coming dashboard for https://github.com/kubectyl/kuber 
