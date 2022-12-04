@@ -19,9 +19,12 @@ jobs:
       - name: Lint and test charts
         run: |
           for chart in $(ls $GITHUB_WORKSPACE/chart/*); do
-            helm lint $chart
-            helm test $chart
+            chart_name=$(basename $chart)
+            chart_dir=$(dirname $chart)
+            helm lint $chart_dir/$chart_name/Chart.yaml
+            helm test $chart_dir/$chart_name/Chart.yaml
           done
+
 
   package-and-publish:
     needs: [lint-and-test]
