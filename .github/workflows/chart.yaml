@@ -1,0 +1,55 @@
+name: Package and publish Helm charts
+
+on: [push]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Install helm
+      - name: Install helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      # Lint and test all charts in the repository
+      - name: Lint and test charts
+        run: |
+          for chart in $(ls chart/*); do
+            helm lint $chart
+            helm test $chart
+          done
+
+  package-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Install helm
+      - name: Install helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      # Log in to the Harbor registry
+      - name: Log in to Harbor registry
+        run: |
+          docker login --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.service.mcserverhosting.net
+
+      # Package all charts in the repository
+      - name: Package charts
+        run: |
+          for chart in $(ls chart/*); do
+            helm package $chart
+          done
+
+      # Push the packaged charts to the Harbor registry
+      - name: Push charts to Harbor registry
+        run: |
+          for chart in $(ls *.tgz); do
+            helm push $chart registry.service.mcserverhosting.net/library
+          done
