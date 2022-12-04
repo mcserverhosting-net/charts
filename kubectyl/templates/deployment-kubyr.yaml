@@ -1,0 +1,32 @@
+{{- define "kuber.fullname" -}}
+{{- printf "kuber-%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "kuber.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: kuber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kuber
+  template:
+    metadata:
+      labels:
+        app: kuber
+    spec:
+      serviceAccountName: kuber-service-account
+      containers:
+      - name: kuber
+        image: {{ .Values.kuber.image }}
+        resources:
+          requests:
+            cpu: {{ with .Values.kuber.resources.requests.cpu }}{{ . }}{{ else }}500m{{ end }}
+            memory: {{ with .Values.kuber.resources.requests.memory }}{{ . }}{{ else }}500Mi{{ end }}
+          limits:
+            cpu: {{ with .Values.kuber.resources.limits.cpu }}{{ . }}{{ else }}1{{ end }}
+            memory: {{ with .Values.kuber.resources.limits.memory }}{{ . }}{{ else }}1Gi{{ end }}

@@ -1,0 +1,42 @@
+ingress:
+  class: string
+  host: string
+  clusterIssuer: string
+panel:
+  image: string
+  storageClassName: string
+  resources:
+    requests:
+      cpu: string
+      memory: string
+    limits:
+      cpu: string
+      memory: string
+kuber:
+  image: string
+  resources:
+    requests:
+      cpu: string
+      memory: string
+    limits:
+      cpu: string
+      memory: string
+mariadb:
+  global:
+    storageClass: string
+  auth:
+    database: string
+    username: string
+    password: string
+    rootPassword: string
+  secondary:
+    replicaCount: integer
+redis:
+  global:
+    storageClass: string
+  auth:
+    enabled: boolean
+  replica:
+    replicaCount: integer
+  sentinel:
+    enabled: boolean

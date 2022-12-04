@@ -3,9 +3,28 @@ ingress:
   host: foo.bar.com
   clusterIssuer: #If empty no cert manager annotation is added
 panel:
-  storageClassName: nvme-ec
+  image: registry.service.mcserverhosting.net/library/panel:latest
+  storageClassName: nvme-replicated
+  resources:
+    requests:
+      cpu: 500m
+      memory: 500Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+kuber:
+  image: registry.service.mcserverhosting.net/library/kuber:latest
+  resources:
+    requests:
+      cpu: 500m
+      memory: 500Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
 #Dependencies below
 mariadb:
+  global:
+    storageClass: nvme-replicated
   #citing https://github.com/kubectyl/panel/blob/develop/docker-compose.example.yml
   auth:
     database: panel
@@ -15,6 +34,8 @@ mariadb:
   secondary:
     replicaCount: 0
 redis:
+  global:
+    storageClass: nvme-replicated
   auth:
     enabled: false
   replica:

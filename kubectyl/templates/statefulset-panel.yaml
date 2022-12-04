@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: panel
+  labels:
+    app: panel
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: panel
+---
+{{- define "panel.fullname" -}}
+{{- printf "panel-%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "panel.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      app: panel
+  serviceName: panel
+  replicas: 1
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: panel
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: panel
+        image: {{ .Values.panel.image }}
+        envFrom:
+        - configMapRef:
+            name: panel-config
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: panel
+          mountPath: /app/var/
+          subPath: var
+        - name: panel
+          mountPath: /etc/nginx/http.d/
+          subPath: nginx
+        - name: panel
+          mountPath: /app/storage/logs/
+          subPath: logs
+        resources:
+          requests:
+            cpu: {{ with .Values.panel.resources.requests.cpu }}{{ . }}{{ else }}500m{{ end }}
+            memory: {{ with .Values.panel.resources.requests.memory }}{{ . }}{{ else }}500Mi{{ end }}
+          limits:
+            cpu: {{ with .Values.panel.resources.limits.cpu }}{{ . }}{{ else }}1{{ end }}
+            memory: {{ with .Values.panel.resources.limits.memory }}{{ . }}{{ else }}1Gi{{ end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Release.Name }}
+    spec:
+      accessModes:
+      - "ReadWriteOnce"
+      storageClassName: {{ .Values.panel.storageClassName }}
+      resources:
+        requests:
+          storage: {{ with .Values.panel.resources.requests.storage }}{{ . }}{{ else }}20Gi{{ end }}

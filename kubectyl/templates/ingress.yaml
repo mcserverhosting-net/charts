@@ -6,6 +6,7 @@ metadata:
     {{- if .Values.ingress.clusterIssuer }}
     cert-manager.io/issuer: {{ .Values.ingress.clusterIssuer }}
     {{- end }}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: {{ .Values.ingress.class }}
   rules:
@@ -19,3 +20,7 @@ spec:
             name: {{ .Release.Name }}
             port:
               number: 80
+      tls:
+      - secretName: {{ .Release.Name }}-tls
+        hosts:
+        - {{ .Values.ingress.host }}

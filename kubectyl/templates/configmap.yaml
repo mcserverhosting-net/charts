@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: panel-config
+data:
+  DB_PASSWORD: {{ .Values.mariadb.auth.password }}
+  APP_ENV: production
+  APP_ENVIRONMENT_ONLY: "false"
+  CACHE_DRIVER: redis
+  SESSION_DRIVER: redis
+  QUEUE_DRIVER: redis
+  REDIS_HOST: {{ .Release.Name }}-redis-headless
+  DB_HOST: {{ .Release.Name }}-mariadb
+  DB_PORT: "3306"
