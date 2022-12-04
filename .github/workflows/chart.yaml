@@ -19,8 +19,8 @@ jobs:
       - name: Lint and test charts
         run: |
           for chart in $(ls chart/*); do
-            helm lint $chart
-            helm test $chart
+            helm lint $chart/Chart.yaml
+            helm test $chart/Chart.yaml
           done
 
   package-and-publish:
