@@ -18,9 +18,9 @@ jobs:
       # Lint and test all charts in the repository
       - name: Lint and test charts
         run: |
-          for chart in $(ls chart/*); do
-            helm lint $chart/Chart.yaml
-            helm test $chart/Chart.yaml
+          for chart in $(ls $GITHUB_WORKSPACE/chart/*); do
+            helm lint $chart
+            helm test $chart
           done
 
   package-and-publish:
