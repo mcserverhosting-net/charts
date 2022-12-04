@@ -20,6 +20,7 @@ jobs:
         run: |
           for chart in $(ls chart/*); do
             helm lint $chart
+            helm test $chart
           done
 
   package-and-publish:
