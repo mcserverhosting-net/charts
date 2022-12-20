@@ -3,12 +3,12 @@ online: true
 eula: true
 
 minecraft:
+  version: 1.19.3
   memory:
     # minecraft.memory.initial -- initial memory for the minecraft server. memory must end in G or M. 
-    initial: 1G
+    initial: 512
     # minecraft.memory.max -- max memory for the minecraft server. memory must end in G or M. 
-    max: 4G
-    hugePages: 125M
+    max: 2048
     buffer: 400
   properties:
     levelseed: ""
@@ -59,16 +59,12 @@ minecraft:
 
 network:
   domainName: ""
-  #ports:
-  #- name: votifier
-  #  port: 8192
-  #  protocol: TCP
-  #- name: anotherone
-  #  port: 8193
-  #  protocol: TCP
+#  ports:
+#  - name: votifier
+#    port: 8192
+#    protocol: TCP
+#  - name: anotherone
+#    port: 8193
+#    protocol: TCP
   
 javaArgs: -Dfml.queryResult:confirm -Duser.dir=/minecraft
-#Based on https://www.redhat.com/en/blog/optimizing-rhel-8-run-java-implementation-minecraft-server
-
-userID: 1000
-groupID: 1001

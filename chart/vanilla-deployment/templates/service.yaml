@@ -3,15 +3,26 @@ kind: Service
 metadata:
   name:  {{ .Release.Name }}
   annotations:
-    metallb.universe.tf/allow-shared-ip: mcsh-public
-    #metallb.universe.tf/address-pool: mcsh-public
+    {{- if .Values.network }}
+    {{- if .Values.network.domainName }}
+    #Integration option for external dns
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.network.domainName }}
+    #Integration option for mc-router
+    mc-router.itzg.me/externalServerName: {{ .Values.network.domainName }}
+    {{- else }}
+    #Integration option for external dns
+    external-dns.alpha.kubernetes.io/hostname: {{.Release.Name}}.{{.Release.Namespace}}.mcsh.red
+    #Integration option for mc-router
+    mc-router.itzg.me/externalServerName: {{.Release.Name}}.{{.Release.Namespace}}.mcsh.red
+    {{- end }}
+    {{- end }}
   labels:
     type:  {{ .Release.Name }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - name: minecraft
-    port: 5{{ include "chart.mcport" . | b64dec }}
+    port: 25565
     protocol: TCP
   selector:
     app:  {{ .Release.Name }}

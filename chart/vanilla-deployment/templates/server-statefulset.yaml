@@ -17,9 +17,6 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
-      securityContext:
-        runAsUser: {{ .Values.userID | default 1000  }} 
-        runAsGroup: {{ .Values.groupID | default 1001  }} 
       terminationGracePeriodSeconds: 30
       initContainers:
       - name: eula-check
@@ -59,22 +56,19 @@ spec:
             port: minecraft
           periodSeconds: 10
           failureThreshold: 1
-        image: docker.pkg.github.com/mcserverhosting-net/vanilla-base/vanilla-base:{{$.Chart.AppVersion }}
+        image: ghcr.io/mcserverhosting-net/vanilla-base/vanilla-base:{{$.Values.minecraft.version }}
         tty: true
         stdin: true
         imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: {{ .Values.minecraft.memory.max }}i
-            {{- if .Values.pages }}
-            hugepages-2Mi: {{ .Values.minecraft.memory.hugePages }}i
-            {{- end }}
+            memory: {{ .Values.minecraft.memory.max }}M
             cpu: 4
           requests:
-            memory: {{ .Values.minecraft.memory.initial }}i
-            cpu: 1
+            memory: {{ .Values.minecraft.memory.initial }}M
+            cpu: 250m
         ports:
-        - containerPort: 5{{ include "chart.mcport" . | b64dec }}
+        - containerPort: 25565
           name: minecraft
           protocol: TCP
         {{- range .Values.network.ports }}
@@ -107,8 +101,3 @@ spec:
         persistentVolumeClaim:
           claimName: ns-pvc
           readOnly: false
-      {{- if .Values.pages }}
-      - name: hugepage-2mi
-        emptyDir:
-          medium: HugePages-2Mi
-      {{- end }}
