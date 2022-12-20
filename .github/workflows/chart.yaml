@@ -20,10 +20,8 @@ jobs:
         run: |
           ls -lah $GITHUB_WORKSPACE
           for chart in $(ls $GITHUB_WORKSPACE/chart/*); do
-            chart_name=$(basename $chart)
-            chart_dir=$(dirname $chart)
-            helm lint $chart_dir/$chart_name/Chart.yaml
-            helm test $chart_dir/$chart_name/Chart.yaml
+            helm lint $chart
+            helm test $chart
           done
 
 
