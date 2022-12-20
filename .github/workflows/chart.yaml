@@ -19,7 +19,7 @@ jobs:
       - name: Lint and test charts
         run: |
           ls -lah $GITHUB_WORKSPACE
-          for chart in $(ls $GITHUB_WORKSPACE/chart/*); do
+          for chart in $(ls $GITHUB_WORKSPACE/chart); do
             echo "Testing " $chart
             helm lint $chart
             helm test $chart
