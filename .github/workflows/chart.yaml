@@ -21,8 +21,8 @@ jobs:
           ls -lah $GITHUB_WORKSPACE
           for chart in $(ls $GITHUB_WORKSPACE/chart); do
             echo "Testing " $chart
-            helm lint $chart
-            helm test $chart
+            helm lint $GITHUB_WORKSPACE/chart/$chart
+            helm test $GITHUB_WORKSPACE/chart/$chart
           done
 
 
