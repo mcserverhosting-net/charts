@@ -18,6 +18,7 @@ jobs:
       # Lint and test all charts in the repository
       - name: Lint and test charts
         run: |
+          ls -lah $GITHUB_WORKSPACE
           for chart in $(ls $GITHUB_WORKSPACE/chart/*); do
             chart_name=$(basename $chart)
             chart_dir=$(dirname $chart)
